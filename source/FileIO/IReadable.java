@@ -1,6 +1,6 @@
 package source.FileIO;
 /**
- * An interface that can be realized by subclasses to denote it as readable
+ * An interface that can be realized by readers to force them to have the read function
  *
  * @author  Isaac Chun
  * @version 1.0

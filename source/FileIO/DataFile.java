@@ -14,12 +14,17 @@ public abstract class DataFile {
      */
     protected String filePath;
 
+    /**
+     * ..
+     */
+    private boolean containsData;
 
     /**
      * A default constructor that initialises the attributes to a default value.
      */
     DataFile() {
         this.filePath = "Unknown File";
+        this.containsData = false;
     }
 
     /**
@@ -29,6 +34,7 @@ public abstract class DataFile {
     DataFile(String filePath)
     {
         this.filePath = filePath;
+        this.containsData = false;
     }
 
     /**

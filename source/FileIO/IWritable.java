@@ -1,6 +1,6 @@
 package source.FileIO;
 /**
- * An interface that can be realized by subclasses to denote it as writable
+ * An interface that can be realized by writers to force them to have write functions
  *
  * @author  Isaac Chun
  * @version 1.0

@@ -3,7 +3,7 @@ package source.FileIO.Serializer.Object;
 import java.util.List;
 
 /**
- * The IObjectSerializable interface gives a method signature for serializing a list of data into a database file.
+ * The IObjectSerializable interface provides a method signature for serializing a list of data into a database file.
  * The actual implementation is dependent on the classes that realize this interface.
  *
  * @author Isaac Chun

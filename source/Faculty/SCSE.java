@@ -1,10 +1,11 @@
 package source.Faculty;
 
-import java.io.Serializable;
-
-public class SCSE implements Faculty, Serializable {
-    public SCSE()
-    {
-
-    }
+/**
+ * A class that implements Faculty.
+ *
+ * @author Isaac Chun
+ * @version 1.0
+ * @since 11/4/2023
+ */
+public class SCSE implements Faculty {
 }

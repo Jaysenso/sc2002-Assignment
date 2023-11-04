@@ -10,5 +10,8 @@ import java.util.ArrayList;
  * @since 11/4/2023
  */
 public interface IReadable {
+    /**
+     * A read function meant to be implemented by classes that realize this interface.
+     */
     public ArrayList<String> read(String filePath);
 }

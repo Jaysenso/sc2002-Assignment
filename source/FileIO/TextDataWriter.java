@@ -6,7 +6,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 /**
- * The TextFormatReader class is a specific class that writes data into a file that is known to contain
+ * The TextDataWriter class is a specific class that writes data into a file that is known to contain
  * text (strings)
  *
  * @author Isaac Chun

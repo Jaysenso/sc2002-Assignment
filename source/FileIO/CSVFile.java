@@ -8,6 +8,7 @@ package source.FileIO;
  * @version 1.0
  * @see TextDataFile
  * @since 11/4/2023
+ * @deprecated may not use this later.
  */
 public class CSVFile extends TextDataFile {
     /**
@@ -30,7 +31,7 @@ public class CSVFile extends TextDataFile {
      * @param delimiter the delimiter/seperator of this file
      */
     public CSVFile(String filePath, char delimiter) {
-       // super(filePath);
+        // super(filePath);
         //this.delimiter = delimiter;
     }
 }

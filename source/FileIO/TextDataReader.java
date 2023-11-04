@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * The TextFormatReader class is a specific class that reads data from a file that is known to contain
+ * The TextDataReader class is a specific class that reads data from a file that is known to contain
  * texts (Strings).
  *
  * @author Isaac Chun

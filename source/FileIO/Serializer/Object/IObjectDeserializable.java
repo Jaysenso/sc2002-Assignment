@@ -3,7 +3,7 @@ package source.FileIO.Serializer.Object;
 import java.util.List;
 
 /**
- * The IObjectDeserializable interface gives a method signature for deserializing a database file into a list of serialized objects.
+ * The IObjectDeserializable interface provides a method signature for deserializing a database file into a list of serialized objects.
  * The actual implementation is dependent on the classes that realize this interface.
  *
  * @author Isaac Chun

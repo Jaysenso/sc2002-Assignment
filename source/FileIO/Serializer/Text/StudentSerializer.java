@@ -29,6 +29,7 @@ public class StudentSerializer implements TextDataSerializer {
      * Holds the headers of our csv files.
      */
     private final String[] headers = {"name", "userid", "password", "faculty"};
+
     /**
      * A default constructor.
      */
@@ -36,16 +37,20 @@ public class StudentSerializer implements TextDataSerializer {
         DELIMITER = ',';
         useHeader = true;
     }
+
     /**
      * An overloaded constructor that specifies the delimiter on how to seperate entries in our file
+     *
      * @param delimiter seperating character between entries
      */
     public StudentSerializer(char delimiter, boolean useHeader) {
         this.DELIMITER = delimiter;
         this.useHeader = useHeader;
     }
+
     /**
      * Serializes a list of objects into a string ready to be put into our other classes.
+     *
      * @param objects An arraylist of objects to serialize
      */
     @Override
@@ -54,14 +59,12 @@ public class StudentSerializer implements TextDataSerializer {
         //Make a new string builder
         StringBuilder sb = new StringBuilder();
         ArrayList<String> serializedData = new ArrayList<String>();
-        if(useHeader)
-        {
-            for(int i = 0; i < headers.length; i++)
-            {
+        if (useHeader) {
+            for (int i = 0; i < headers.length; i++) {
                 //Append the field name as a header
                 sb.append(headers[i]);
                 //Append delimiter up to the last element
-                if(i != headers.length - 1)
+                if (i != headers.length - 1)
                     sb.append(DELIMITER);
             }
             //Add the header line

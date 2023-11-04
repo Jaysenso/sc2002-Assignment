@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * The TextFormatFile class is a concrete class that is both readable and writable and is a subtype of DataFile.
+ * The TextDataFile class is a concrete class that is both readable and writable and is a subtype of DataFile.
  * Has properties such as the raw data read, and the parsed data.
  *
  * @author Isaac Chun
@@ -44,7 +44,7 @@ public class TextDataFile extends DataFile {
      *
      * @param filePath path to the file
      */
-    public TextDataFile(String filePath, ArrayList<String> rawData, HashMap<String,ArrayList<String>> data) {
+    public TextDataFile(String filePath, ArrayList<String> rawData, HashMap<String, ArrayList<String>> data) {
         super(filePath);
         this.rawData = rawData;
         this.data = data;

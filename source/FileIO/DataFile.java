@@ -13,8 +13,7 @@ public abstract class DataFile {
      * The path of the file in the project directory.
      */
     private String filePath;
-
-
+    
     /**
      * A default constructor that initialises the attributes to a default value.
      */

@@ -57,7 +57,7 @@ public class SerializeTest {
         for(Object s : obj)
         {
             s =(Student)s;
-            System.out.println(s);
+            //System.out.println(s);
         }
 
     }

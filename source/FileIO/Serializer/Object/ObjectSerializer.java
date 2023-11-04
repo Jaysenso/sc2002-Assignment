@@ -13,11 +13,9 @@ import java.util.List;
  *
  * @author Isaac Chun
  * @version 1.0
- * @see IObjectSerializable
  * @since 11/4/2023
  */
-public class ObjectSerializer implements IObjectSerializable {
-    @Override
+public class ObjectSerializer {
     public void serialize(String filePath, List data) {
         FileOutputStream fos = null;
         ObjectOutputStream out = null;

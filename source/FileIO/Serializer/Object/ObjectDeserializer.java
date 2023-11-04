@@ -15,11 +15,9 @@ import java.util.List;
  * @author Isaac Chun
  * @version 1.0
  * @see java.io.Serializable
- * @see IObjectSerializable
  * @since 11/4/2023
  */
-public class ObjectDeserializer implements IObjectDeserializable {
-    @Override
+public class ObjectDeserializer {
     public List deserialize(String filePath) {
         List data = null;
         FileInputStream fis = null;

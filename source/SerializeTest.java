@@ -11,7 +11,6 @@ import source.FileIO.Serializer.Text.TextDataSerializer;
 import source.FileIO.TextDataFile;
 import source.FileIO.TextDataReader;
 import source.FileIO.TextDataWriter;
-import source.Views.MainView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,11 +18,6 @@ import java.util.List;
 
 public class SerializeTest {
     public static void main(String[] args) {
-
-        //Temporary code, will be dealt with by the managers later
-        MainView view = new MainView();
-        view.display();
-
         String filePath = "data/student_list.csv";
         //instantiate a reader when you need it
         TextDataReader reader = new TextDataReader();

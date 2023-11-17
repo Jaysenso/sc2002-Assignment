@@ -2,19 +2,18 @@ package source.Entity;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class Camp {
     private CampInfo campInfo;
     private boolean visibility;
-    private ArrayList<Inquiry> inquiryList;
+    private ArrayList<Enquiry> enquiryList;
     private ArrayList<Student> attendees;
     private ArrayList<Student> campCommitteeMembers;
 
-    public Camp(CampInfo campInfo, boolean visibility, ArrayList<Inquiry> inquiryList, ArrayList<Student> attendees, ArrayList<Student> campCommitteeMembers) {
+    public Camp(CampInfo campInfo, boolean visibility, ArrayList<Enquiry> enquiryList, ArrayList<Student> attendees, ArrayList<Student> campCommitteeMembers) {
         this.campInfo = campInfo;
         this.visibility = visibility;
-        this.inquiryList = inquiryList;
+        this.enquiryList = enquiryList;
         this.attendees = attendees;
         this.campCommitteeMembers = campCommitteeMembers;
     }
@@ -27,8 +26,8 @@ public class Camp {
         this.campCommitteeMembers.add(attendee);
     }
 
-    public void addInquiry(Inquiry inquiry){
-        this.inquiryList.add(inquiry);
+    public void addInquiry(Enquiry enquiry){
+        this.enquiryList.add(enquiry);
     }
 
     //check if date is before reg losing date

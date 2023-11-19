@@ -1,8 +1,11 @@
-package source.Views;
+package source.Views.Application;
 
+import source.Utility.InputHandler;
 import source.Utility.Option;
+import source.Utility.PrettyPage;
+import source.Views.IView;
 
-public class StaffView implements IView{
+public class StaffView implements IView {
     @Override
     public void display() {
         Option[] options = {
@@ -13,5 +16,7 @@ public class StaffView implements IView{
                 new Option("5", "Delete Camp"),
                 new Option("6", "Logout"),
         };
+        PrettyPage.printTitle("Welcome back! (Staff)", 1);
+        PrettyPage.printLinesWithHeader(options, "Choose your option");
     }
 }

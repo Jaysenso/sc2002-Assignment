@@ -1,5 +1,7 @@
 package source.ViewModels;
 
+import java.util.Stack;
+
 /**
  * The ViewManager class handles the movement between view models like a state machine, ensuring easy transition
  * between viewmodels with error handling.
@@ -19,10 +21,16 @@ public class ViewManager {
     private IViewModel currentView;
 
     /**
+     * A stack to allow to go back to previous options without the need to store references
+     */
+    private Stack<IViewModel> viewModelStack;
+
+    /**
      * A default constructor that initialises the current view to be null.
      */
     public ViewManager() {
         currentView = null;
+        viewModelStack = new Stack<>();
     }
 
     /**
@@ -33,6 +41,8 @@ public class ViewManager {
      */
     public ViewManager(IViewModel viewModel) {
         this.currentView = viewModel;
+        //Initialize our stack
+        viewModelStack = new Stack<>();
     }
 
     /**
@@ -46,14 +56,31 @@ public class ViewManager {
 
         //Cleanup current view
         currentView.cleanup();
+        //Add current view into the stack
+        viewModelStack.push(currentView);
         //Update with new view
         currentView = newView;
         //Initialize the new view
         currentView.init(this);
     }
 
+    public void returnToPreviousView() {
+        //if view manager is not running, there is no previous view!
+        if (!isRunning)
+            return;
+        //If our view model stack is not empty
+        if (!viewModelStack.empty()) {
+            //Cleanup current view
+            currentView.cleanup();
+            //Pop out the previous view and update with new view
+            currentView = viewModelStack.pop();
+            //Initialize the new view
+            currentView.init(this);
+        }
+    }
+
     /**
-     * Runs the current view model stored in the instance ONLY if its not already running
+     * Runs the current view model stored in the instance ONLY if it's not already running
      */
     public void run() {
         //Prevent re-running view managers per instance

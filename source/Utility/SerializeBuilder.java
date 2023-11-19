@@ -3,7 +3,10 @@ package source.Utility;
 /**
  * A utility class that provides static function to build strings into serialized formats with ease
  *
+ * @author Isaac Chun
+ * @version 1.0
  * @see StringBuilder
+ * @since 11/12/2023
  */
 public class SerializeBuilder {
     /**

@@ -1,7 +1,9 @@
 package source.Database;
 
 import source.Entity.Student;
+import source.FileIO.Serializer.Text.StudentDeserializer;
 import source.FileIO.Serializer.Text.StudentSerializer;
+import source.FileIO.Serializer.Text.TextDataDeserializer;
 import source.FileIO.Serializer.Text.TextDataSerializer;
 import source.FileIO.TextDataWriter;
 
@@ -37,15 +39,18 @@ public class StudentDB extends BaseDB implements StudentDao {
     }
 
     @Override
-    protected ArrayList readFile(String filePath) {
-        ArrayList currStudentList = super.readFile(filePath);
-        for (Object o : currStudentList) {
+    protected void readFile(String filePath) {
+        super.readFile(filePath);
+        //Finally, we deserialize the data and return our array list
+        TextDataDeserializer deserializer = new StudentDeserializer();
+        ArrayList dataList = deserializer.deserialize(textDataFile.getData());
+
+        for (Object o : dataList) {
             //if o is actually an instance of student, then add it to our list
             if (o instanceof Student) {
                 studentList.add((Student) o);
             }
         }
-        return studentList;
     }
 
     @Override

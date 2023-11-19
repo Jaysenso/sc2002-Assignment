@@ -27,6 +27,11 @@ public abstract class BaseDB {
     protected String filePath;
 
     /**
+     * The text data file object that contains raw data and parsed data for use by subsequent classes.
+     */
+    protected TextDataFile textDataFile;
+
+    /**
      * A function to read some data from a file and return an array list of objects.
      *
      * @param filePath path to the file
@@ -36,7 +41,7 @@ public abstract class BaseDB {
      * @see TextDataFile
      * @see source.FileIO.Serializer.Text.TextDataSerializer
      */
-    protected ArrayList readFile(String filePath) {
+    protected void readFile(String filePath) {
         try {
             //Just some error checking
             if (filePath.isEmpty())
@@ -54,18 +59,12 @@ public abstract class BaseDB {
             //Set the data in our map given the parse results
             HashMap<String, ArrayList<String>> data = parser.parse(rawData);
             //Populate a text data file that is stored in this db
-            TextDataFile newFile = new TextDataFile(filePath, rawData, data);
-            //Finally, we deserialize the data and return our array list
-            TextDataDeserializer deserializer = new StudentDeserializer();
-            ArrayList dataList = deserializer.deserialize(newFile.getData());
-            return dataList;
+            this.textDataFile = new TextDataFile(filePath, rawData, data);
 
         } catch (Exception e) {
             //Placeholder
             e.printStackTrace();
         }
-        //Else just return an empty array list.
-        return new ArrayList<>();
     }
 
     /**

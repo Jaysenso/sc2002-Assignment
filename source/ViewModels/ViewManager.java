@@ -23,7 +23,7 @@ public class ViewManager {
     /**
      * A stack to allow to go back to previous options without the need to store references
      */
-    private Stack<IViewModel> viewModelStack;
+    private final Stack<IViewModel> viewModelStack;
 
     /**
      * A default constructor that initialises the current view to be null.

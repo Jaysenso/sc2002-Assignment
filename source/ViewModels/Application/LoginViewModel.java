@@ -52,7 +52,7 @@ public class LoginViewModel extends BaseViewModel implements IViewModel {
 
     @Override
     public void handleInputs() {
-        int choice = InputHandler.tryGetInt(1, 2, "Input choice: ", "Invalid choice!");
+        int choice = InputHandler.tryGetInt(1, 3, "Input choice: ", "Invalid choice!");
         switch (choice) {
             case 1: {
                 handleStudentLogin();

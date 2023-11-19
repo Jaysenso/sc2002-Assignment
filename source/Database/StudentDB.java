@@ -1,5 +1,6 @@
 package source.Database;
 
+import source.Database.Dao.StudentDao;
 import source.Entity.Student;
 import source.FileIO.Serializer.Text.StudentDeserializer;
 import source.FileIO.Serializer.Text.StudentSerializer;
@@ -12,7 +13,7 @@ import java.util.List;
 
 /**
  * The StudentDB extends on the base functionalities of BaseDB and realizes the CRUD operations for
- * persistent data storage.
+ * persistent data storage on Students
  *
  * @author Isaac Chun
  * @version 1.0
@@ -38,6 +39,12 @@ public class StudentDB extends BaseDB implements StudentDao {
         readFile(filePath);
     }
 
+    /**
+     * Reads a file and deserializes it using the student deserializer. Updates the staff list stored in this class.
+     *
+     * @param filePath the path to the file for reading
+     * @see StudentDeserializer
+     */
     @Override
     protected void readFile(String filePath) {
         super.readFile(filePath);
@@ -53,6 +60,11 @@ public class StudentDB extends BaseDB implements StudentDao {
         }
     }
 
+    /**
+     * Serializes the data stored in this file and writes it to the last known file location.
+     *
+     * @see StudentDeserializer
+     */
     @Override
     void saveToFile() {
         TextDataSerializer serializer = new StudentSerializer();
@@ -61,12 +73,22 @@ public class StudentDB extends BaseDB implements StudentDao {
         writer.write(filePath, serializedStudents);
     }
 
+    /**
+     * Creates a student in this database by appending the staff into the student list.
+     *
+     * @return true always.
+     */
     @Override
     public boolean createStudent(Student student) {
         studentList.add(student);
         return true;
     }
 
+    /**
+     * Searches the database to see if the student name exists (it is assumed that student names are unique according to the FAQ).
+     *
+     * @return the student object associated with that student name, null if there is no found entry.
+     */
     @Override
     public Student readStudent(String studentName) {
         for (Student s : studentList) {
@@ -76,6 +98,11 @@ public class StudentDB extends BaseDB implements StudentDao {
         return null;
     }
 
+    /**
+     * Updates the student in this database by searching the database and replacing that entry.
+     *
+     * @return true if there was a successful update, false if object was not found in database.
+     */
     @Override
     public boolean updateStudent(Student student) {
         int pos = studentList.indexOf(student);
@@ -88,11 +115,21 @@ public class StudentDB extends BaseDB implements StudentDao {
         return false;
     }
 
+    /**
+     * Deletes the student in this database by searching the database and replacing that entry.
+     *
+     * @return true if there was a successful deletion, else false.
+     */
     @Override
     public boolean deleteStudent(Student student) {
         return studentList.remove(student);
     }
 
+    /**
+     * Acquires the entire list of student objects in the database.
+     *
+     * @return list of student stored in this database.
+     */
     @Override
     public List<Student> getStudents() {
         return this.studentList;

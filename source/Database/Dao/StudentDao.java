@@ -1,4 +1,4 @@
-package source.Database;
+package source.Database.Dao;
 
 import source.Entity.Student;
 

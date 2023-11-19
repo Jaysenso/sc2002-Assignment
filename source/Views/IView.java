@@ -11,5 +11,5 @@ public interface IView {
     /**
      * Typical display method to be called when a particular view wants to be rendered.
      */
-    public void display();
+     void display();
 }

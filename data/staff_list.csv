@@ -1,6 +1,6 @@
-name,userid,password,faculty
-Madhukumar,HUKUMAR,password,SCSE
-Alexei,OURIN,password,ADM
-Chattopadhyay,UPAM,password,EEE
-Datta,ANWIT,password,SCSE
-Arvind,ARVIND,password,NBS
+name,userid,email,password,faculty
+Madhukumar,HUKUMAR,HUKUMAR@ntu.edu.sg,password,SCSE
+Alexei,OURIN,OURIN@ntu.edu.sg,password,ADM
+Chattopadhyay,UPAM,UPAM@ntu.edu.sg,password,EEE
+Datta,ANWIT,ANWIT@ntu.edu.sg,password,SCSE
+Arvind,ARVIND,ARVIND@ntu.edu.sg,password,NBS

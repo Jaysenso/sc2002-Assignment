@@ -5,32 +5,25 @@ import source.Utility.PrettyPage;
 import source.ViewModels.BaseViewModel;
 import source.ViewModels.IViewModel;
 import source.ViewModels.ViewManager;
-import source.Views.Application.StaffView;
-import source.Views.Application.StartView;
-import source.Views.Application.StudentView;
+import source.Views.Application.HomeView;
 
-/**
- * The StudentViewModel holds all the logic and necessary UI elements for student.
- *
- * @author Isaac Chun
- * @version 1.0
- * @since 11/12/2023
- */
-public class StudentViewModel extends BaseViewModel implements IViewModel {
+public class HomeViewModel extends BaseViewModel implements IViewModel {
     /**
      * The student view object shows the UI when the user is logged in as a Student, presenting the user with options a student can take.
      *
-     * @see StudentView
+     * @see HomeView
      */
-    StudentView studentView;
+    HomeView homeView;
+    private boolean isStaff;
 
     /**
      * A default constructor.
      *
-     * @see StudentView
+     * @see HomeView
      */
-    public StudentViewModel() {
-        studentView = new StudentView();
+    public HomeViewModel(boolean userGroup) {
+        this.isStaff = userGroup;
+        homeView = new HomeView();
     }
 
     /**
@@ -43,8 +36,8 @@ public class StudentViewModel extends BaseViewModel implements IViewModel {
     @Override
     public void init(ViewManager viewManager) {
         super.init(viewManager);
-        campDetails(selectedCamp);
-        studentView.display();
+        PrettyPage.printTitle("Welcome back! (User)", 1);
+        homeView.display();
         handleInputs();
     }
 
@@ -58,28 +51,20 @@ public class StudentViewModel extends BaseViewModel implements IViewModel {
             choice = InputHandler.tryGetInt(1, 3, "Input choice: ", "Invalid choice!");
             switch (choice) {
                 case 1: {
-                    viewManager.returnToPreviousView();
+                    if(isStaff){
+                        viewManager.changeView(new StaffCampViewModel());
+                    }
+                    else{
+                        viewManager.changeView(new StudentCampViewModel());
+                    }
                     break;
                 }
-                //view Enquiries
                 case 2: {
                     System.out.println("case 2");
                     break;
                 }
-                //Register Camp
-                case 3: {
-                    break;
-                }
-                //Apply As Camp Committee
-                case 4: {
-                    break;
-                }
-                //Make Enquiry
-                case 5: {
-                    break;
-                }
             }
-        } while (choice != 1);
+        } while (choice != 3);
     }
 
     /**
@@ -89,8 +74,5 @@ public class StudentViewModel extends BaseViewModel implements IViewModel {
     @Override
     public void cleanup() {
         System.out.flush(); //NOTE: Does not work in IntelliJ IDEA as it is not a real terminal.
-    }
-    public void campDetails(Camp camp){
-        System.out.println(selectedCamp);
     }
 }

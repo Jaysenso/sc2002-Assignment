@@ -14,8 +14,8 @@ public class Student extends User {
 	private boolean visibility = false;
 	private boolean isCampCommittee = false;
 
-	public Student(){
-
+	public Student() {
+		super();
 	}
 
 	public Student(String name, String userID, String password, Faculty facultyInfo) {

@@ -31,9 +31,11 @@ public class CampDeserializer implements TextDataDeserializer {
         for (int i = 0; i < len; i++) {
             //Get all the individual attributes
             String campName = parsedData.get("camp_name").get(i);
+            String location = parsedData.get("location").get(i);
             int currentSlots = Integer.parseInt(parsedData.get("current_slot").get(i));
             int maxSlots = Integer.parseInt(parsedData.get("max_slots").get(i));
             int committeeSlots = Integer.parseInt(parsedData.get("committee_slots").get(i));
+            int maxCommitteeSlots = Integer.parseInt(parsedData.get("max_committee_slots").get(i));
             String description = parsedData.get("description").get(i);
             String staffID = parsedData.get("staff_in_charge").get(i);
 
@@ -52,9 +54,11 @@ public class CampDeserializer implements TextDataDeserializer {
             }
             campList.add(new Camp(new CampInfo(
                     campName,
+                    location,
                     currentSlots,
                     maxSlots,
                     committeeSlots,
+                    maxCommitteeSlots,
                     description,
                     staffID,
                     startDate,

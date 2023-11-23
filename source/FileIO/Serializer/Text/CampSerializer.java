@@ -24,6 +24,7 @@ public class CampSerializer extends BaseSerializer implements TextDataSerializer
      */
     private final String[] campHeader = {
             "camp_name",
+            "location",
             "current_slot",
             "max_slots",
             "committee_slots",
@@ -81,6 +82,7 @@ public class CampSerializer extends BaseSerializer implements TextDataSerializer
                 String campData = SerializeBuilder.buildSerializedString(
                         new String[]{
                                 campInfo.getName(),
+                                campInfo.getLocation(),
                                 String.valueOf(campInfo.getCurrentSlots()),
                                 String.valueOf(campInfo.getMaxSlots()),
                                 String.valueOf(campInfo.getCampCommitteeSlots()),

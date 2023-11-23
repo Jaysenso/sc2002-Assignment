@@ -1,36 +1,36 @@
 package source.ViewModels.Application;
 
+import source.Database.CampDaoImpl;
+import source.Database.Dao.CampDao;
+import source.Entity.Camp;
+import source.Utility.DirectoryUtility;
 import source.Utility.InputHandler;
 import source.Utility.PrettyPage;
 import source.ViewModels.BaseViewModel;
 import source.ViewModels.IViewModel;
 import source.ViewModels.ViewManager;
-import source.Views.Application.StaffView;
-import source.Views.Application.StartView;
-import source.Views.Application.StudentView;
+import source.Views.Application.StaffCampView;
+import source.Views.Application.StudentCampView;
 
-/**
- * The StudentViewModel holds all the logic and necessary UI elements for student.
- *
- * @author Isaac Chun
- * @version 1.0
- * @since 11/12/2023
- */
-public class StudentViewModel extends BaseViewModel implements IViewModel {
+import java.util.List;
+
+public class StudentCampViewModel extends BaseViewModel implements IViewModel {
     /**
      * The student view object shows the UI when the user is logged in as a Student, presenting the user with options a student can take.
      *
-     * @see StudentView
+     * @see StaffCampView
      */
-    StudentView studentView;
+    StudentCampView studentCampView;
+    CampDao dao;
 
     /**
      * A default constructor.
      *
-     * @see StudentView
+     * @see StaffCampView
      */
-    public StudentViewModel() {
-        studentView = new StudentView();
+    public StudentCampViewModel () {
+        dao = new CampDaoImpl(DirectoryUtility.CAMP_LIST_PATH);
+        studentCampView = new StudentCampView();
     }
 
     /**
@@ -43,8 +43,9 @@ public class StudentViewModel extends BaseViewModel implements IViewModel {
     @Override
     public void init(ViewManager viewManager) {
         super.init(viewManager);
-        campDetails(selectedCamp);
-        studentView.display();
+        PrettyPage.printTitle("CampList : ", 1);
+        viewAll();
+        studentCampView.display();
         handleInputs();
     }
 
@@ -58,28 +59,21 @@ public class StudentViewModel extends BaseViewModel implements IViewModel {
             choice = InputHandler.tryGetInt(1, 3, "Input choice: ", "Invalid choice!");
             switch (choice) {
                 case 1: {
+                    List<Camp> campList = dao.getCamps();
+                    int index = InputHandler.tryGetInt(1, campList.size(), "Input camp choice : ", "Invalid Camp");
+                    viewManager.changeView(new StudentViewModel(campList.get(index-1)));
+                    break;
+                }
+                case 2: {
+                    System.out.println("FILTER CAMP LIST");
+                    break;
+                }
+                case 3: {
                     viewManager.returnToPreviousView();
                     break;
                 }
-                //view Enquiries
-                case 2: {
-                    System.out.println("case 2");
-                    break;
-                }
-                //Register Camp
-                case 3: {
-                    break;
-                }
-                //Apply As Camp Committee
-                case 4: {
-                    break;
-                }
-                //Make Enquiry
-                case 5: {
-                    break;
-                }
             }
-        } while (choice != 1);
+        } while (choice != 3);
     }
 
     /**
@@ -90,7 +84,10 @@ public class StudentViewModel extends BaseViewModel implements IViewModel {
     public void cleanup() {
         System.out.flush(); //NOTE: Does not work in IntelliJ IDEA as it is not a real terminal.
     }
-    public void campDetails(Camp camp){
-        System.out.println(selectedCamp);
+
+    public void viewAll(){
+        for(int i = 0; i < dao.getCamps().size(); i++){
+            System.out.println(dao.getCamps().get(i).getCampInfo().getName());
+        }
     }
 }

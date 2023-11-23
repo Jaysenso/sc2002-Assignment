@@ -3,6 +3,7 @@ package source.Controllers;
 import source.Entity.Camp;
 import source.Entity.Staff;
 import source.Entity.User;
+import source.Utility.InputHandler;
 
 import java.util.ArrayList;
 
@@ -10,8 +11,9 @@ public final class CampManager{
 
     private final ArrayList<Camp> campList = new ArrayList<>();
 
-    public void addCamp(Camp camp){
-        this.campList.add(camp);
+    public void createCamp(){
+        String name = InputHandler.getString();
+        String description = InputHandler.getString();
     }
 
     public void deleteCamp(Camp camp) {

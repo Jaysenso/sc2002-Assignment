@@ -6,6 +6,7 @@ import java.time.LocalDate;
 
 public class CampInfo {
     private String name;
+    private String location;
     private int currentSlots;
     private int maxSlots;
     private int campCommitteeSlots;
@@ -18,6 +19,7 @@ public class CampInfo {
 
     //basic constructor all fields must be present
     public CampInfo(String name,
+                    String location,
                     int currentSlots,
                     int maxSlots,
                     int campCommitteeSlots,
@@ -31,6 +33,7 @@ public class CampInfo {
         this.currentSlots = currentSlots;
         this.maxSlots = maxSlots;
         this.campCommitteeSlots = campCommitteeSlots;
+        this.maxCampCommitteeSlots = maxCampCommitteeSlots;
         this.description = description;
         this.staffInCharge = staffInCharge;
         this.startDate = startDate;
@@ -78,6 +81,14 @@ public class CampInfo {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public String getStaffInCharge() {

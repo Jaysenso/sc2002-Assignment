@@ -1,11 +1,11 @@
 package source.ViewModels.Application;
 
+import source.Entity.Camp;
 import source.Utility.InputHandler;
 import source.ViewModels.BaseViewModel;
 import source.ViewModels.IViewModel;
 import source.ViewModels.ViewManager;
 import source.Views.Application.StaffView;
-import source.Views.Application.StartView;
 
 /**
  * The StaffViewModel holds all the logic and necessary UI elements for staff.
@@ -21,14 +21,16 @@ public class StaffViewModel extends BaseViewModel implements IViewModel {
      * @see StaffView
      */
     StaffView staffView;
+    Camp camp;
 
     /**
      * A default constructor.
      *
      * @see StaffView
      */
-    public StaffViewModel() {
+    public StaffViewModel(Camp camp) {
         staffView = new StaffView();
+        this.camp = camp;
     }
 
     /**
@@ -41,6 +43,7 @@ public class StaffViewModel extends BaseViewModel implements IViewModel {
     @Override
     public void init(ViewManager viewManager) {
         super.init(viewManager);
+        campDetails(camp);
         staffView.display();
         handleInputs();
     }
@@ -51,7 +54,20 @@ public class StaffViewModel extends BaseViewModel implements IViewModel {
     @Override
     public void handleInputs() {
         int choice = InputHandler.tryGetInt(1, 6, "Input choice: ", "Invalid choice!");
-        
+        switch (choice) {
+            case 1: {
+                viewManager.returnToPreviousView();
+                break;
+            }
+            case 2: {
+                System.out.println("create camp");
+                break;
+            }
+            case 3: {
+                System.out.println("filter");
+                break;
+            }
+        }
     }
 
     /**
@@ -63,4 +79,7 @@ public class StaffViewModel extends BaseViewModel implements IViewModel {
         System.out.flush(); //NOTE: Does not work in IntelliJ IDEA as it is not a real terminal.
     }
 
+    public void campDetails(Camp camp){
+        System.out.println(camp);
+    }
 }

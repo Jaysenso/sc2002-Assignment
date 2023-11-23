@@ -113,7 +113,7 @@ public class LoginViewModel extends BaseViewModel implements IViewModel {
                 //Update application context
                 ApplicationContext.user = student;
                 //Transition to view models
-                viewManager.changeView(new StudentViewModel());
+                viewManager.changeView(new HomeViewModel(false));
                 break;
             }
         }
@@ -146,8 +146,7 @@ public class LoginViewModel extends BaseViewModel implements IViewModel {
             } else {
                 //Update application context
                 ApplicationContext.user = staff;
-                //Transition to view models
-                viewManager.changeView(new StudentViewModel());
+                viewManager.changeView(new HomeViewModel(true));
                 break;
             }
         }

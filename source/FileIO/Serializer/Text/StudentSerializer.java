@@ -61,7 +61,7 @@ public class StudentSerializer extends BaseSerializer implements TextDataSeriali
                     new String[]{
                             user.getName(),
                             user.getUserID(),
-                            user.getUserID() + "ntu.edu.sg",
+                            user.getUserID() + "@e.ntu.edu.sg",
                             user.getPassword(),
                             user.getFacultyInfo().getClass().getSimpleName()
                     },

@@ -20,7 +20,6 @@ public class StudentDeserializer implements TextDataDeserializer {
     public ArrayList deserialize(HashMap<String, ArrayList<String>> parsedData) {
         ArrayList studentList = new ArrayList();
         int len = parsedData.get("name").size();
-        System.out.println(len);
         for (int i = 0; i < len; i++) {
             String name = parsedData.get("name").get(i);
             String userid = parsedData.get("userid").get(i);

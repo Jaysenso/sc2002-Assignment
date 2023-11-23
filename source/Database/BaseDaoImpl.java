@@ -9,14 +9,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * The BaseDB class provides the basic functionalities for reading and saving to a file, while providing
+ * The BaseDaoImpl abstract class provides the basic functionalities for reading and saving to a file, while providing
  * abstract methods that subclasses can implement to do their own saving and reading.
  *
  * @author Isaac Chun
  * @version 1.0
  * @since 11/12/2023
  */
-public abstract class BaseDB {
+public abstract class BaseDaoImpl {
     /**
      * The file path where the database object got its data from.
      */
@@ -26,6 +26,13 @@ public abstract class BaseDB {
      * The text data file object that contains raw data and parsed data for use by subsequent classes.
      */
     protected TextDataFile textDataFile;
+
+    /**
+     * The text data file object that contains raw data and parsed data for use by subsequent classes.
+     */
+    public BaseDaoImpl(String filePath) {
+        this.filePath = filePath;
+    }
 
     /**
      * A function to read some data from a file and return an array list of objects.
@@ -67,4 +74,9 @@ public abstract class BaseDB {
      * An abstract method to force subsequent databases to implement their own logic in saving to their respective files.
      */
     abstract void saveToFile();
+
+    /**
+     * An abstract method for subsequent methods to implement the refreshing of persistent data.
+     */
+    public abstract void refresh();
 }

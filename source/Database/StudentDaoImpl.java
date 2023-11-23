@@ -8,20 +8,21 @@ import source.FileIO.Serializer.Text.TextDataDeserializer;
 import source.FileIO.Serializer.Text.TextDataSerializer;
 import source.FileIO.TextDataWriter;
 
+import java.security.KeyException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
- * The StudentDB extends on the base functionalities of BaseDB and realizes the CRUD operations for
- * persistent data storage on Students
+ * The StudentDaoImpl implements the functions of StudentDao using the DAO Design Pattern.
  *
  * @author Isaac Chun
  * @version 1.0
- * @see BaseDB
+ * @see BaseDaoImpl
  * @see StudentDao
  * @since 11/4/2023
  */
-public class StudentDB extends BaseDB implements StudentDao {
+public class StudentDaoImpl extends BaseDaoImpl implements StudentDao {
     /**
      * An array list of our data
      */
@@ -32,9 +33,12 @@ public class StudentDB extends BaseDB implements StudentDao {
      *
      * @param filePath the filePath to read from
      */
-    public StudentDB(String filePath) {
+    public StudentDaoImpl(String filePath) {
+        super(filePath);
         //Initialize our student list
         studentList = new ArrayList<>();
+        //Store our file path
+        this.filePath = filePath;
         //Populate our entries using the filePath
         readFile(filePath);
     }
@@ -48,6 +52,8 @@ public class StudentDB extends BaseDB implements StudentDao {
     @Override
     protected void readFile(String filePath) {
         super.readFile(filePath);
+        //Reinitialize the student list
+        studentList.clear();
         //Finally, we deserialize the data and return our array list
         TextDataDeserializer deserializer = new StudentDeserializer();
         ArrayList dataList = deserializer.deserialize(textDataFile.getData());
@@ -74,13 +80,14 @@ public class StudentDB extends BaseDB implements StudentDao {
     }
 
     /**
-     * Creates a student in this database by appending the staff into the student list.
+     * Creates a student in this database by appending the student into the student list.
      *
      * @return true always.
      */
     @Override
     public boolean createStudent(Student student) {
         studentList.add(student);
+        refresh();
         return true;
     }
 
@@ -90,10 +97,23 @@ public class StudentDB extends BaseDB implements StudentDao {
      * @return the student object associated with that student name, null if there is no found entry.
      */
     @Override
-    public Student readStudent(String studentName) {
-        for (Student s : studentList) {
-            if (s.getName().equals(studentName))
-                return s;
+    public Student readStudent(String query, String from) {
+        //Look through our text data file entries and get see if it exists
+        HashMap<String, ArrayList<String>> mp = textDataFile.getData();
+        //Check if the key exists, can throw exception here to be dealt with later
+        try {
+            //If the map does not contain our table, then query fails
+            if (!mp.containsKey(from))
+                throw new KeyException();
+
+            ArrayList<String> stringData = mp.get(from);
+            //Iterate and try to find
+            for (int i = 0; i < stringData.size(); i++) {
+                if (query.equals(stringData.get(i)))
+                    return studentList.get(i);
+            }
+        } catch (KeyException e) {
+            System.out.println("The " + from + " table does not exist!");
         }
         return null;
     }
@@ -110,6 +130,7 @@ public class StudentDB extends BaseDB implements StudentDao {
         if (pos != -1) {
             //Then just copy it in for saving
             studentList.set(pos, student);
+            refresh();
             return true;
         }
         return false;
@@ -121,9 +142,29 @@ public class StudentDB extends BaseDB implements StudentDao {
      * @return true if there was a successful deletion, else false.
      */
     @Override
-    public boolean deleteStudent(Student student) {
-        return studentList.remove(student);
+    public boolean deleteStudent(String query, String from) {
+        Student student = readStudent(query, from);
+        if (student != null) {
+            return deleteStudent(student);
+        }
+        return false;
     }
+
+    /**
+     * Deletes the student in this database by removing the student and saving to the file instantly.
+     *
+     * @return true if there was a successful deletion, else false.
+     */
+    @Override
+    public boolean deleteStudent(Student student) {
+        boolean removed = studentList.remove(student);
+        if (removed) {
+            refresh();
+            return true;
+        }
+        return false;
+    }
+
 
     /**
      * Acquires the entire list of student objects in the database.
@@ -133,5 +174,11 @@ public class StudentDB extends BaseDB implements StudentDao {
     @Override
     public List<Student> getStudents() {
         return this.studentList;
+    }
+
+    @Override
+    public void refresh() {
+        saveToFile();
+        readFile(filePath);
     }
 }

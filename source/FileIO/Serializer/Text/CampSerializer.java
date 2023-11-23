@@ -15,7 +15,7 @@ import java.util.List;
  * @see Staff
  * @since 11/4/2023
  */
-public class StaffSerializer extends BaseSerializer implements TextDataSerializer {
+public class CampSerializer extends BaseSerializer implements TextDataSerializer {
 
     /**
      * Holds the headers of our csv files.
@@ -25,7 +25,7 @@ public class StaffSerializer extends BaseSerializer implements TextDataSerialize
     /**
      * A default constructor.
      */
-    public StaffSerializer() {
+    public CampSerializer() {
         super();
     }
 
@@ -34,7 +34,7 @@ public class StaffSerializer extends BaseSerializer implements TextDataSerialize
      *
      * @param delimiter seperating character between entries
      */
-    public StaffSerializer(char delimiter, boolean useHeader) {
+    public CampSerializer(char delimiter, boolean useHeader) {
         super(delimiter, useHeader);
     }
 
@@ -60,7 +60,7 @@ public class StaffSerializer extends BaseSerializer implements TextDataSerialize
                     new String[]{
                             user.getName(),
                             user.getUserID(),
-                            user.getUserID() + "@e.ntu.edu.sg",
+                            user.getUserID() + "ntu.edu.sg",
                             user.getPassword(),
                             user.getFacultyInfo().getClass().getSimpleName()
                     },

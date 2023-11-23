@@ -1,6 +1,13 @@
 package source.ViewModels.Application;
 
 import source.Controllers.AuthenticationController;
+import source.Database.Dao.StaffDao;
+import source.Database.Dao.StudentDao;
+import source.Database.StaffDaoImpl;
+import source.Database.StudentDaoImpl;
+import source.Entity.Staff;
+import source.Entity.Student;
+import source.Utility.DirectoryUtility;
 import source.Utility.InputHandler;
 import source.Utility.PrettyPage;
 import source.ViewModels.BaseViewModel;
@@ -77,16 +84,22 @@ public class LoginViewModel extends BaseViewModel implements IViewModel {
 
     }
 
-    //TODO: IMPROVE STUDENT AND STAFF LOGIN, SO MESSY
     public void handleStudentLogin() {
-        //Simple login system for now...
         while (true) {
             //Get the email input
-            String email = InputHandler.tryGetEmail("Input your student NTU email: ", "Invalid NTU email entered!");
-            Scanner scanner = new Scanner(System.in);
+            String email = InputHandler.tryGetEmail("Input your Student NTU email: ", "Invalid NTU email entered!");
+            //Access our database through our dao
+            StudentDao dao = new StudentDaoImpl(DirectoryUtility.STUDENT_DATA_PATH);
+            Student student = dao.readStudent(email, "email");
+            //Check if the entry exists
+            if (student == null) {
+                PrettyPage.printError("The student email you entered does not exist in our system.");
+                continue;
+            }
             System.out.print("Enter password: ");
-            String password = scanner.nextLine();
-            boolean success = authenticationController.authenticateAsStudent(email, password);
+            String password = InputHandler.getString();
+            //Then attempt to authenticate the user
+            boolean success = authenticationController.authenticate(student, password);
             if (!success) {
                 if (authenticationController.getTriesLeft() != 0) {
                     PrettyPage.printError("You have " + authenticationController.getTriesLeft() + " tries left.");
@@ -106,11 +119,19 @@ public class LoginViewModel extends BaseViewModel implements IViewModel {
     public void handleStaffLogin() {
         while (true) {
             //Get the email input
-            String email = InputHandler.tryGetEmail("Input your staff NTU email: ", "Invalid NTU email entered!");
-            Scanner scanner = new Scanner(System.in);
+            String email = InputHandler.tryGetEmail("Input your Staff NTU email: ", "Invalid NTU email entered!");
+            //Access our database through our dao
+            StaffDao dao = new StaffDaoImpl(DirectoryUtility.STAFF_DATA_PATH);
+            Staff staff = dao.readStaff(email, "email");
+            //Check if the entry exists
+            if (staff == null) {
+                PrettyPage.printError("The staff email you entered does not exist in our system.");
+                continue;
+            }
             System.out.print("Enter password: ");
-            String password = scanner.nextLine();
-            boolean success = authenticationController.authenticateAsStaff(email, password);
+            String password = InputHandler.getString();
+            //Then attempt to authenticate the user
+            boolean success = authenticationController.authenticate(staff, password);
             if (!success) {
                 if (authenticationController.getTriesLeft() != 0) {
                     PrettyPage.printError("You have " + authenticationController.getTriesLeft() + " tries left.");
@@ -120,10 +141,10 @@ public class LoginViewModel extends BaseViewModel implements IViewModel {
                     break;
                 }
             } else {
-                viewManager.changeView(new StaffViewModel());
+                //Transition to view models
+                viewManager.changeView(new StudentViewModel());
                 break;
             }
         }
-
     }
 }

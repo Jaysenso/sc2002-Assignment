@@ -15,8 +15,18 @@ import java.util.regex.Pattern;
  */
 
 public class InputHandler {
+    /**
+     * A static scanner that lasts throughout the lifetime of the application.
+     *
+     * @return int user input
+     */
     private static Scanner scanner = new Scanner(System.in);
 
+    /**
+     * Encapsulates the logic of asking for an integer with the constraint that the input MUST be an integer.
+     *
+     * @return int user input
+     */
     public static int getInt() {
         try {
             int i = scanner.nextInt();
@@ -25,6 +35,21 @@ public class InputHandler {
             PrettyPage.printError("You did not input an integer!");
         }
         return -1;
+    }
+
+    /**
+     * Encapsulates the logic of asking for input
+     *
+     * @return string user input
+     */
+    public static String getString() {
+        try {
+            String s = scanner.nextLine();
+            return s;
+        } catch (Exception e) {
+            PrettyPage.printError("Error in getting string!");
+        }
+        return "";
     }
 
     /**
@@ -86,4 +111,6 @@ public class InputHandler {
         }
         return "";
     }
+
+
 }

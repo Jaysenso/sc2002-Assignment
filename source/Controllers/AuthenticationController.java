@@ -1,5 +1,12 @@
 package source.Controllers;
 
+import source.Database.Dao.StaffDao;
+import source.Database.Dao.StudentDao;
+import source.Database.StaffDaoImpl;
+import source.Database.StudentDaoImpl;
+import source.Entity.Staff;
+import source.Entity.Student;
+import source.Entity.User;
 import source.FileIO.Parser.Parser;
 import source.FileIO.TextDataReader;
 import source.Utility.DirectoryUtility;
@@ -27,56 +34,21 @@ public class AuthenticationController {
      */
     private static int attemptsLeft = MAX_ATTEMPTS;
 
-    public boolean authenticateAsStudent(String email, String password) {
-        return authenticate(email, password, DirectoryUtility.STUDENT_DATA_PATH);
-    }
-
-    public boolean authenticateAsStaff(String email, String password) {
-        return authenticate(email, password, DirectoryUtility.STUDENT_DATA_PATH);
-    }
-
-
-    private boolean authenticate(String email, String password, String path) {
-        //If no more tries left.
-        if (!haveTriesLeft())
-            return false;
-
-        //Instantiate our text data reader
-        TextDataReader reader = new TextDataReader();
-        //Return a string of data given from the reader
-        ArrayList<String> rawData = reader.read(path);
-
-        //We then create a parser to parse our data
-        Parser parser = new Parser();
-        //Set the data in our map given the parse results
-        HashMap<String, ArrayList<String>> data = parser.parse(rawData);
-
-        //if the csv has been corrupted, let us return out and throw some error
-        if (!data.containsKey("email") || !data.containsKey("password")) {
-            //Throw some exception maybe
-            return false;
-        }
-        int idx = 0;
-        ArrayList<String> emails = data.get("email");
-        //Loop through the emails list and finds the email
-        int pos = emails.indexOf(email);
-        if (pos == -1) {
-            //Else if it was invalid email
-            attemptsLeft--;
-            PrettyPage.printError("Either your email or your password was incorrect.");
-            return false;
-        }
-
-        //Now we have the iterator, so we can acquire the password at that line
-        //Else, we safely proceed on
-        String pw = data.get("password").get(idx);
-        //Then we must check the password to see if it matches
-        if (pw.equals(password)) {
-            //Reset our attempts left
+    /**
+     * An authentication function that checks if the stored password was the same as a given password.
+     * Works through the user abstract class.
+     *
+     * @see User
+     */
+    public boolean authenticate(User user, String password) {
+        //TODO : Hashing
+        //Else, we can query the password of this student
+        if (user.getPassword().equals(password)) {
+            //Reset attempts
             attemptsLeft = MAX_ATTEMPTS;
             return true;
         }
-        PrettyPage.printError("Either your email or your password was incorrect.");
+        PrettyPage.printError("Incorrect password given!");
         //Else if it was invalid password
         attemptsLeft--;
         return false;

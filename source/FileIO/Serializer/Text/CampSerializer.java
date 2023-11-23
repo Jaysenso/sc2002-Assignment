@@ -28,6 +28,7 @@ public class CampSerializer extends BaseSerializer implements TextDataSerializer
             "current_slot",
             "max_slots",
             "committee_slots",
+            "max_committee_slots",
             "description",
             "staff_in_charge",
             "start_date",
@@ -37,11 +38,6 @@ public class CampSerializer extends BaseSerializer implements TextDataSerializer
             "visibility"
 
     };
-    private final String[] campAttendeesHeader = {
-            "campid",
-            "userid",
-            "committee_members"};
-
     /**
      * A default constructor.
      */
@@ -50,9 +46,9 @@ public class CampSerializer extends BaseSerializer implements TextDataSerializer
     }
 
     /**
-     * An overloaded constructor that specifies the delimiter on how to seperate entries in our file
+     * An overloaded constructor that specifies the delimiter on how to separate entries in our file
      *
-     * @param delimiter seperating character between entries
+     * @param delimiter separating character between entries
      */
     public CampSerializer(char delimiter, boolean useHeader) {
         super(delimiter, useHeader);
@@ -86,6 +82,7 @@ public class CampSerializer extends BaseSerializer implements TextDataSerializer
                                 String.valueOf(campInfo.getCurrentSlots()),
                                 String.valueOf(campInfo.getMaxSlots()),
                                 String.valueOf(campInfo.getCampCommitteeSlots()),
+                                String.valueOf(campInfo.getMaxCampCommitteeSlots()),
                                 campInfo.getDescription(),
                                 campInfo.getStaffInCharge(),
                                 campInfo.getStartDate().toString(),

@@ -27,7 +27,6 @@ public class EnquiryDeserializer implements TextDataDeserializer {
         int len = parsedData.get("camp_name").size();
         if (len == 0)
             return new ArrayList();
-        System.out.println(len);
         for (int i = 0; i < len; i++) {
             String campName = parsedData.get("camp_name").get(i);
             String createdBy = parsedData.get("created_by").get(i);

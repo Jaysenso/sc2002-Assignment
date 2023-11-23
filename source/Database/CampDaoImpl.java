@@ -207,7 +207,7 @@ public class CampDaoImpl extends BaseDaoImpl implements CampDao {
      * @return list of Camp stored in this database.
      */
     @Override
-    public List<Camp> getCamps() {
+    public ArrayList<Camp> getCamps() {
         return this.campList;
     }
 

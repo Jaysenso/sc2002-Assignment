@@ -204,7 +204,7 @@ public class StudentDaoImpl extends BaseDaoImpl implements StudentDao {
      * @return list of student stored in this database.
      */
     @Override
-    public List<Student> getStudents() {
+    public ArrayList<Student> getStudents() {
         return this.studentList;
     }
 

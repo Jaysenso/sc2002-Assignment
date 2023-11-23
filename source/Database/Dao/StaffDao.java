@@ -66,5 +66,5 @@ public interface StaffDao {
      *
      * @return the list of staff stored in the database
      */
-    List<Staff> getStaffs();
+    ArrayList<Staff> getStaffs();
 }

@@ -3,7 +3,6 @@ package source.Database.Dao;
 import source.Entity.Camp;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * The CampDao interface provides operations that follow the CRUD operations for persistent data storage.
@@ -66,5 +65,5 @@ public interface CampDao {
      *
      * @return the list of Camp stored in the database
      */
-    List<Camp> getCamps();
+    ArrayList<Camp> getCamps();
 }

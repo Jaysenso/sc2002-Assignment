@@ -204,7 +204,7 @@ public class StaffDaoImpl extends BaseDaoImpl implements StaffDao {
      * @return list of staff stored in this database.
      */
     @Override
-    public List<Staff> getStaffs() {
+    public ArrayList<Staff> getStaffs() {
         return this.staffList;
     }
 

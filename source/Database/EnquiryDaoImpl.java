@@ -204,7 +204,7 @@ public class EnquiryDaoImpl extends BaseDaoImpl implements EnquiryDao {
      * @return list of Enquiry stored in this database.
      */
     @Override
-    public List<Enquiry> getEnquiries() {
+    public ArrayList<Enquiry> getEnquiries() {
         return this.enquiryList;
     }
 

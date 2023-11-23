@@ -40,8 +40,8 @@ public class CampDeserializer implements TextDataDeserializer {
             String staffID = parsedData.get("staff_in_charge").get(i);
 
             LocalDate startDate = LocalDate.parse(parsedData.get("start_date").get(i));
-            LocalDate endDate = LocalDate.parse(parsedData.get("start_date").get(i));
-            LocalDate closingDate = LocalDate.parse(parsedData.get("start_date").get(i));
+            LocalDate endDate = LocalDate.parse(parsedData.get("end_date").get(i));
+            LocalDate closingDate = LocalDate.parse(parsedData.get("closing_date").get(i));
             boolean visibility = Boolean.valueOf(parsedData.get("visibility").get(i));
             String faculty = "source.Faculty." + parsedData.get("faculty").get(i);
             Faculty f = null;

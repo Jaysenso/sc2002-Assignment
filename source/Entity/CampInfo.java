@@ -10,6 +10,7 @@ public class CampInfo {
     private int currentSlots;
     private int maxSlots;
     private int campCommitteeSlots;
+    private int maxCampCommitteeSlots;
     private String description;
     private String staffInCharge;
     private LocalDate startDate;
@@ -23,6 +24,7 @@ public class CampInfo {
                     int currentSlots,
                     int maxSlots,
                     int campCommitteeSlots,
+                    int maxCampCommitteeSlots,
                     String description,
                     String staffInCharge,
                     LocalDate startDate,
@@ -131,4 +133,11 @@ public class CampInfo {
         this.faculty = faculty;
     }
 
+    public int getMaxCampCommitteeSlots() {
+        return maxCampCommitteeSlots;
+    }
+
+    public void setMaxCampCommitteeSlots(int maxCampCommitteeSlots) {
+        this.maxCampCommitteeSlots = maxCampCommitteeSlots;
+    }
 }

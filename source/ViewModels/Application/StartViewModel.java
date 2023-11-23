@@ -1,6 +1,7 @@
 package source.ViewModels.Application;
 
 import source.Controllers.AuthenticationController;
+import source.Database.ApplicationContext;
 import source.Utility.InputHandler;
 import source.ViewModels.BaseViewModel;
 import source.ViewModels.IViewModel;
@@ -42,6 +43,8 @@ public class StartViewModel extends BaseViewModel implements IViewModel {
     public void init(ViewManager viewManager) {
         super.init(viewManager);
         startView.display();
+        //Reset the application context to be null
+        ApplicationContext.user = null;
         handleInputs();
     }
 

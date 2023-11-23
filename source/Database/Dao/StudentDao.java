@@ -65,5 +65,5 @@ public interface StudentDao {
      *
      * @return the list of student stored in the database
      */
-    List<Student> getStudents();
+    ArrayList<Student> getStudents();
 }

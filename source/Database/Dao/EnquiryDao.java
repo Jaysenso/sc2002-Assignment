@@ -66,5 +66,5 @@ public interface EnquiryDao {
      *
      * @return the list of Enquiry stored in the database
      */
-    List<Enquiry> getEnquiries();
+    ArrayList<Enquiry> getEnquiries();
 }

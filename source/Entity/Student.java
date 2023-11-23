@@ -1,8 +1,6 @@
 package source.Entity;
 
-import source.Camp.Camp;
 import source.Camp.CampService;
-import source.Enquiry.Enquiry;
 import source.Faculty.Faculty;
 import source.Registration.Registration;
 
@@ -15,6 +13,10 @@ public class Student extends User {
 	private CampService campService;
 	private boolean visibility = false;
 	private boolean isCampCommittee = false;
+
+	public Student(){
+
+	}
 
 	public Student(String name, String userID, String password, Faculty facultyInfo) {
 		super(name, userID, password, facultyInfo);
@@ -35,8 +37,8 @@ public class Student extends User {
 
     public void createEnquiry(Camp camp, String content, String title) {
 
-        Enquiry enquiry = new Enquiry(this, camp, content, title);
-        enquiries.add(enquiry);
+        //Enquiry enquiry = new Enquiry(this, camp, content, title);
+        //enquiries.add(enquiry);
     }
 
 	/**

@@ -3,6 +3,7 @@ package source.FileIO.Serializer.Text;
 import source.Entity.Student;
 import source.Faculty.Faculty;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -16,23 +17,26 @@ import java.util.HashMap;
  * @since 11/4/2023
  */
 public class StudentDeserializer implements TextDataDeserializer {
+    /**
+     * Deserializes the data to and creates student objects based on a hash map of values.
+     */
     @Override
     public ArrayList deserialize(HashMap<String, ArrayList<String>> parsedData) {
         ArrayList studentList = new ArrayList();
         int len = parsedData.get("name").size();
+        if (len == 0)
+            return new ArrayList();
         for (int i = 0; i < len; i++) {
             String name = parsedData.get("name").get(i);
             String userid = parsedData.get("userid").get(i);
             String faculty = "source.Faculty." + parsedData.get("faculty").get(i);
             Faculty f = null;
             try {
-                f = (Faculty) Class.forName(faculty).newInstance();
-            } catch (ClassNotFoundException e) {
+                f = (Faculty) Class.forName(faculty).getDeclaredConstructor().newInstance();
+            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
+            } catch (InvocationTargetException | NoSuchMethodException e) {
+                throw new RuntimeException(e);
             }
             String password = parsedData.get("password").get(i);
             studentList.add(new Student(name, userid, password, f));

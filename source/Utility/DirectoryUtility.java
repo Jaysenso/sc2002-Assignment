@@ -22,7 +22,7 @@ public final class DirectoryUtility {
      */
     public final static String CAMP_LIST_PATH = "data/camp_list.csv";
     /**
-     * The path to our camp attendees data file
+     * The path to our enquiry data file
      */
-    public final static String CAMP_ATTENDEES_PATH = "data/camp_attendees.csv";
+    public final static String ENQUIRY_LIST_PATH = "data/enquiries.csv";
 }

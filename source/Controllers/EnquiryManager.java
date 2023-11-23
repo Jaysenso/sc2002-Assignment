@@ -1,6 +1,5 @@
 package source.Controllers;
 
-import source.Entity.Camp;
 import source.Entity.Enquiry;
 import source.Entity.Staff;
 import source.Entity.User;
@@ -31,9 +30,9 @@ public class EnquiryManager {
 
     public void editEnquiry(User user, Enquiry enquiry, String content){
         //If user is Staff, will edit his reply
-        if (user instanceof Staff){enquiry.setReply(content);}
+        //if (user instanceof Staff){enquiry.setReply(content);}
         //If user is Student, will edit his enquiry
-        else{enquiry.setContent(content);}
+        //else{enquiry.setContent(content);}
     }
 
     public void viewEnquiries(){

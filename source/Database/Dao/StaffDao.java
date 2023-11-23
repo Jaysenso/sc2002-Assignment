@@ -2,6 +2,7 @@ package source.Database.Dao;
 
 import source.Entity.Staff;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,6 +30,16 @@ public interface StaffDao {
      * @param from  the header to query in
      */
     Staff readStaff(String query, String from);
+
+    /**
+     * Reads all staffs that satisfies a particular property.
+     * NOTE: List can be empty if no results are found
+     *
+     * @param query query to check in our header
+     * @param from  the header to query in
+     * @return an arraylist of staff if found, an empty list if not.
+     */
+    ArrayList<Staff> readStaffs(String query, String from);
 
     /**
      * Updates a staff in the subsequent database. Directly updates the file straight away.

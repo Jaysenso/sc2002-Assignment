@@ -58,6 +58,9 @@ public class CampDaoImpl extends BaseDaoImpl implements CampDao {
         TextDataDeserializer deserializer = new CampDeserializer();
         ArrayList dataList = deserializer.deserialize(textDataFile.getData());
 
+        //Additional steps on getting our enquiry and attendees
+
+
         for (Object o : dataList) {
             //if o is actually an instance of Camp, then add it to our list
             if (o instanceof Camp) {
@@ -116,6 +119,38 @@ public class CampDaoImpl extends BaseDaoImpl implements CampDao {
             System.out.println("The " + from + " table does not exist!");
         }
         return null;
+    }
+
+    /**
+     * Reads all camps that satisfies a particular property.
+     * NOTE: List can be empty if no results are found
+     *
+     * @param query query to check in our header
+     * @param from  the header to query in
+     * @return an arraylist of camps if found, an empty list if not.
+     */
+    @Override
+    public ArrayList<Camp> readCamps(String query, String from) {
+        ArrayList<Camp> camps = new ArrayList<>();
+        //Look through our text data file entries and get see if it exists
+        HashMap<String, ArrayList<String>> mp = textDataFile.getData();
+        //Check if the key exists, can throw exception here to be dealt with later
+        try {
+            //If the map does not contain our table, then query fails
+            if (!mp.containsKey(from))
+                throw new KeyException();
+
+            ArrayList<String> stringData = mp.get(from);
+            //Iterate and try to find
+            for (int i = 0; i < stringData.size(); i++) {
+                if (query.equals(stringData.get(i)))
+                    camps.add(campList.get(i));
+            }
+            return camps;
+        } catch (KeyException e) {
+            System.out.println("The " + from + " table does not exist!");
+        }
+        return camps;
     }
 
     /**

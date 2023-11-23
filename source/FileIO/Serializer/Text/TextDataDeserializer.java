@@ -14,5 +14,8 @@ import java.util.HashMap;
  * @since 11/4/2023
  */
 public interface TextDataDeserializer {
+    /**
+     * Deserializes the data to and creates objects based on a hash map of values.
+     */
     public ArrayList deserialize(HashMap<String, ArrayList<String>> parsedData);
 }

@@ -19,11 +19,14 @@ import java.util.HashMap;
  * @since 11/4/2023
  */
 public class CampDeserializer implements TextDataDeserializer {
+    /**
+     * Deserializes the data to and creates camp objects based on a hash map of values.
+     */
     @Override
     public ArrayList deserialize(HashMap<String, ArrayList<String>> parsedData) {
         ArrayList campList = new ArrayList();
         int len = parsedData.get("camp_name").size();
-        if(len <= 0)
+        if (len == 0)
             return new ArrayList();
         for (int i = 0; i < len; i++) {
             //Get all the individual attributes

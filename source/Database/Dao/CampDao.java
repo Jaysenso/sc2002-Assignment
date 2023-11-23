@@ -2,6 +2,7 @@ package source.Database.Dao;
 
 import source.Entity.Camp;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,6 +30,16 @@ public interface CampDao {
      * @param from  the header to query in
      */
     Camp readCamp(String query, String from);
+
+    /**
+     * Reads all camps that satisfies a particular property.
+     * NOTE: List can be empty if no results are found
+     *
+     * @param query query to check in our header
+     * @param from  the header to query in
+     * @return an arraylist of camps if found, an empty list if not.
+     */
+    ArrayList<Camp> readCamps(String query, String from);
 
     /**
      * Updates a camp in the subsequent database. Directly updates the file straight away.

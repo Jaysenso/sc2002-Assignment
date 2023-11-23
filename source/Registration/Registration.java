@@ -1,5 +1,5 @@
 package source.Registration;
-import source.Camp.Camp;
+import source.Entity.Camp;
 import source.Entity.Student;
 
 public class Registration {

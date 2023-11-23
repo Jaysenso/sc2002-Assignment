@@ -1,9 +1,9 @@
 package source.Database;
 
-import source.Database.Dao.StudentDao;
-import source.Entity.Student;
-import source.FileIO.Serializer.Text.StudentDeserializer;
-import source.FileIO.Serializer.Text.StudentSerializer;
+import source.Database.Dao.EnquiryDao;
+import source.Entity.Enquiry;
+import source.FileIO.Serializer.Text.EnquiryDeserializer;
+import source.FileIO.Serializer.Text.EnquirySerializer;
 import source.FileIO.Serializer.Text.TextDataDeserializer;
 import source.FileIO.Serializer.Text.TextDataSerializer;
 import source.FileIO.TextDataWriter;
@@ -14,29 +14,29 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * The StudentDaoImpl implements the functions of StudentDao using the DAO Design Pattern.
+ * The EnquiryDaoImpl implements the functions of EnquiryDao using the DAO Design Pattern.
  *
  * @author Isaac Chun
  * @version 1.0
  * @see BaseDaoImpl
- * @see StudentDao
+ * @see EnquiryDao
  * @since 11/4/2023
  */
-public class StudentDaoImpl extends BaseDaoImpl implements StudentDao {
+public class EnquiryDaoImpl extends BaseDaoImpl implements EnquiryDao {
     /**
      * An array list of our data
      */
-    private ArrayList<Student> studentList;
+    private ArrayList<Enquiry> enquiryList;
 
     /**
      * An overloaded constructor that takes in a filePath to populate the DB's files.
      *
      * @param filePath the filePath to read from
      */
-    public StudentDaoImpl(String filePath) {
+    public EnquiryDaoImpl(String filePath) {
         super(filePath);
-        //Initialize our student list
-        studentList = new ArrayList<>();
+        //Initialize our Enquiry list
+        enquiryList = new ArrayList<>();
         //Store our file path
         this.filePath = filePath;
         //Populate our entries using the filePath
@@ -44,24 +44,24 @@ public class StudentDaoImpl extends BaseDaoImpl implements StudentDao {
     }
 
     /**
-     * Reads a file and deserializes it using the student deserializer. Updates the staff list stored in this class.
+     * Reads a file and deserializes it using the Enquiry deserializer. Updates the staff list stored in this class.
      *
      * @param filePath the path to the file for reading
-     * @see StudentDeserializer
+     * @see EnquiryDeserializer
      */
     @Override
     protected void readFile(String filePath) {
         super.readFile(filePath);
-        //Reinitialize the student list
-        studentList.clear();
+        //Reinitialize the Enquiry list
+        enquiryList.clear();
         //Finally, we deserialize the data and return our array list
-        TextDataDeserializer deserializer = new StudentDeserializer();
+        TextDataDeserializer deserializer = new EnquiryDeserializer();
         ArrayList dataList = deserializer.deserialize(textDataFile.getData());
 
         for (Object o : dataList) {
-            //if o is actually an instance of student, then add it to our list
-            if (o instanceof Student) {
-                studentList.add((Student) o);
+            //if o is actually an instance of Enquiry, then add it to our list
+            if (o instanceof Enquiry) {
+                enquiryList.add((Enquiry) o);
             }
         }
     }
@@ -69,35 +69,35 @@ public class StudentDaoImpl extends BaseDaoImpl implements StudentDao {
     /**
      * Serializes the data stored in this file and writes it to the last known file location.
      *
-     * @see StudentDeserializer
+     * @see EnquiryDeserializer
      */
     @Override
     void saveToFile() {
-        TextDataSerializer serializer = new StudentSerializer();
-        ArrayList<String> serializedStudents = serializer.serialize(studentList);
+        TextDataSerializer serializer = new EnquirySerializer();
+        ArrayList<String> serializedEnquiries = serializer.serialize(enquiryList);
         TextDataWriter writer = new TextDataWriter();
-        writer.write(filePath, serializedStudents);
+        writer.write(filePath, serializedEnquiries);
     }
 
     /**
-     * Creates a student in this database by appending the student into the student list.
+     * Creates an enquiry in this database by appending the Enquiry into the Enquiry list.
      *
      * @return true always.
      */
     @Override
-    public boolean createStudent(Student student) {
-        studentList.add(student);
+    public boolean createEnquiry(Enquiry Enquiry) {
+        enquiryList.add(Enquiry);
         refresh();
         return true;
     }
 
     /**
-     * Searches the database to see if the student name exists (it is assumed that student names are unique according to the FAQ).
+     * Searches the database to see if the Enquiry name exists (it is assumed that Enquiry names are unique according to the FAQ).
      *
-     * @return the student object associated with that student name, null if there is no found entry.
+     * @return the Enquiry object associated with that Enquiry name, null if there is no found entry.
      */
     @Override
-    public Student readStudent(String query, String from) {
+    public Enquiry readEnquiry(String query, String from) {
         //Look through our text data file entries and get see if it exists
         HashMap<String, ArrayList<String>> mp = textDataFile.getData();
         //Check if the key exists, can throw exception here to be dealt with later
@@ -110,7 +110,7 @@ public class StudentDaoImpl extends BaseDaoImpl implements StudentDao {
             //Iterate and try to find
             for (int i = 0; i < stringData.size(); i++) {
                 if (query.equals(stringData.get(i)))
-                    return studentList.get(i);
+                    return enquiryList.get(i);
             }
         } catch (KeyException e) {
             System.out.println("The " + from + " table does not exist!");
@@ -119,16 +119,16 @@ public class StudentDaoImpl extends BaseDaoImpl implements StudentDao {
     }
 
     /**
-     * Reads all students that satisfies a particular property.
+     * Reads all enquirie that satisfies a particular property.
      * NOTE: List can be empty if no results are found
      *
      * @param query query to check in our header
      * @param from  the header to query in
-     * @return an arraylist of students if found, an empty list if not.
+     * @return an arraylist of enquirie if found, an empty list if not.
      */
     @Override
-    public ArrayList<Student> readStudents(String query, String from) {
-        ArrayList<Student> students = new ArrayList<>();
+    public ArrayList<Enquiry> readEnquiries(String query, String from) {
+        ArrayList<Enquiry> enquirie = new ArrayList<>();
         //Look through our text data file entries and get see if it exists
         HashMap<String, ArrayList<String>> mp = textDataFile.getData();
         //Check if the key exists, can throw exception here to be dealt with later
@@ -141,27 +141,27 @@ public class StudentDaoImpl extends BaseDaoImpl implements StudentDao {
             //Iterate and try to find
             for (int i = 0; i < stringData.size(); i++) {
                 if (query.equals(stringData.get(i)))
-                    students.add(studentList.get(i));
+                    enquirie.add(enquiryList.get(i));
             }
-            return students;
+            return enquirie;
         } catch (KeyException e) {
             System.out.println("The " + from + " table does not exist!");
         }
-        return students;
+        return enquirie;
     }
 
     /**
-     * Updates the student in this database by searching the database and replacing that entry.
+     * Updates the Enquiry in this database by searching the database and replacing that entry.
      *
      * @return true if there was a successful update, false if object was not found in database.
      */
     @Override
-    public boolean updateStudent(Student student) {
-        int pos = studentList.indexOf(student);
-        //if the student list contains this student
+    public boolean updateEnquiry(Enquiry Enquiry) {
+        int pos = enquiryList.indexOf(Enquiry);
+        //if the Enquiry list contains this Enquiry
         if (pos != -1) {
             //Then just copy it in for saving
-            studentList.set(pos, student);
+            enquiryList.set(pos, Enquiry);
             refresh();
             return true;
         }
@@ -169,27 +169,27 @@ public class StudentDaoImpl extends BaseDaoImpl implements StudentDao {
     }
 
     /**
-     * Deletes the student in this database by searching the database and replacing that entry.
+     * Deletes the Enquiry in this database by searching the database and replacing that entry.
      *
      * @return true if there was a successful deletion, else false.
      */
     @Override
-    public boolean deleteStudent(String query, String from) {
-        Student student = readStudent(query, from);
-        if (student != null) {
-            return deleteStudent(student);
+    public boolean deleteEnquiry(String query, String from) {
+        Enquiry Enquiry = readEnquiry(query, from);
+        if (Enquiry != null) {
+            return deleteEnquiry(Enquiry);
         }
         return false;
     }
 
     /**
-     * Deletes the student in this database by removing the student and saving to the file instantly.
+     * Deletes the Enquiry in this database by removing the Enquiry and saving to the file instantly.
      *
      * @return true if there was a successful deletion, else false.
      */
     @Override
-    public boolean deleteStudent(Student student) {
-        boolean removed = studentList.remove(student);
+    public boolean deleteEnquiry(Enquiry Enquiry) {
+        boolean removed = enquiryList.remove(Enquiry);
         if (removed) {
             refresh();
             return true;
@@ -199,13 +199,13 @@ public class StudentDaoImpl extends BaseDaoImpl implements StudentDao {
 
 
     /**
-     * Acquires the entire list of student objects in the database.
+     * Acquires the entire list of Enquiry objects in the database.
      *
-     * @return list of student stored in this database.
+     * @return list of Enquiry stored in this database.
      */
     @Override
-    public List<Student> getStudents() {
-        return this.studentList;
+    public List<Enquiry> getEnquiries() {
+        return this.enquiryList;
     }
 
     @Override

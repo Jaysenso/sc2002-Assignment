@@ -119,6 +119,38 @@ public class StaffDaoImpl extends BaseDaoImpl implements StaffDao {
     }
 
     /**
+     * Reads all staffs that satisfies a particular property.
+     * NOTE: List can be empty if no results are found
+     *
+     * @param query query to check in our header
+     * @param from  the header to query in
+     * @return an arraylist of staff if found, an empty list if not.
+     */
+    @Override
+    public ArrayList<Staff> readStaffs(String query, String from) {
+        ArrayList<Staff> staffs = new ArrayList<>();
+        //Look through our text data file entries and get see if it exists
+        HashMap<String, ArrayList<String>> mp = textDataFile.getData();
+        //Check if the key exists, can throw exception here to be dealt with later
+        try {
+            //If the map does not contain our table, then query fails
+            if (!mp.containsKey(from))
+                throw new KeyException();
+
+            ArrayList<String> stringData = mp.get(from);
+            //Iterate and try to find
+            for (int i = 0; i < stringData.size(); i++) {
+                if (query.equals(stringData.get(i)))
+                    staffs.add(staffList.get(i));
+            }
+            return staffs;
+        } catch (KeyException e) {
+            System.out.println("The " + from + " table does not exist!");
+        }
+        return staffs;
+    }
+
+    /**
      * Updates the staff in this database by searching the database and replacing that entry.
      *
      * @return true if there was a successful update, false if object was not found in database.

@@ -2,6 +2,7 @@ package source.Database.Dao;
 
 import source.Entity.Student;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,8 +26,19 @@ public interface StudentDao {
      *
      * @param query query to check in our header
      * @param from  the header to query in
+     * @return a student object if found, null if not.
      */
     Student readStudent(String query, String from);
+
+    /**
+     * Reads all students that satisfies a particular property.
+     * NOTE: List can be empty if no results are found
+     *
+     * @param query query to check in our header
+     * @param from  the header to query in
+     * @return an arraylist of students if found, an empty list if not.
+     */
+    ArrayList<Student> readStudents(String query, String from);
 
     /**
      * Updates a student in the subsequent database
@@ -39,13 +51,12 @@ public interface StudentDao {
      * Deletes a student in the subsequent database
      *
      * @param query query to check in our header
-     * @param from the header to query in
+     * @param from  the header to query in
      */
     boolean deleteStudent(String query, String from);
 
     /**
      * Deletes a student in the subsequent database
-     *
      */
     boolean deleteStudent(Student student);
 

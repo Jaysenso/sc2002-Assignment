@@ -5,6 +5,12 @@ public class Enquiry {
     private String reply;
     private boolean processed;
 
+    public Enquiry(String content, String reply, boolean processed) {
+        this.content = content;
+        this.reply = reply;
+        this.processed = processed;
+    }
+
     public String getContent() {
         return content;
     }

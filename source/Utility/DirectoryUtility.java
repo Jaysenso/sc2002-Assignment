@@ -17,5 +17,12 @@ public final class DirectoryUtility {
      * The path to our staff data file
      */
     public final static String STAFF_DATA_PATH = "data/staff_list.csv";
-
+    /**
+     * The path to our camp list data file
+     */
+    public final static String CAMP_LIST_PATH = "data/camp_list.csv";
+    /**
+     * The path to our camp attendees data file
+     */
+    public final static String CAMP_ATTENDEES_PATH = "data/camp_attendees.csv";
 }

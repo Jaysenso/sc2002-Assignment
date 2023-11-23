@@ -18,25 +18,37 @@ public class Camp {
         this.campCommitteeMembers = campCommitteeMembers;
     }
 
-    public void addAttendees(Student attendee){
+    public void addAttendees(Student attendee) {
         this.attendees.add(attendee);
     }
 
-    public void addCommittee(Student attendee){
+    public void addCommittee(Student attendee) {
         this.campCommitteeMembers.add(attendee);
     }
 
-    public void addInquiry(Enquiry enquiry){
+    public void addInquiry(Enquiry enquiry) {
         this.enquiryList.add(enquiry);
     }
 
     //check if date is before reg losing date
-    public boolean isAvailable(LocalDate date){
+    public boolean isAvailable(LocalDate date) {
         return !date.isBefore(campInfo.getClosingDate());
     }
 
     //toggle visibility
-    public void toggleVisibility(){
+    public void toggleVisibility() {
         this.visibility = (!this.visibility);
+    }
+
+    public CampInfo getCampInfo() {
+        return this.campInfo;
+    }
+
+    public boolean getVisibility() {
+        return this.visibility;
+    }
+
+    public void setVisibility(boolean visibility) {
+        this.visibility = visibility;
     }
 }

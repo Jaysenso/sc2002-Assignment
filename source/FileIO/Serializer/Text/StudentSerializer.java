@@ -55,19 +55,20 @@ public class StudentSerializer extends BaseSerializer implements TextDataSeriali
         }
         //Loop through the objects
         for (int i = 0; i < objects.size(); i++) {
-            //Build our string
-            Student user = (Student) objects.get(i);
-            String studentData = SerializeBuilder.buildSerializedString(
-                    new String[]{
-                            user.getName(),
-                            user.getUserID(),
-                            user.getUserID() + "@e.ntu.edu.sg",
-                            user.getPassword(),
-                            user.getFacultyInfo().getClass().getSimpleName()
-                    },
-                    delimiter
-            );
-            serializedData.add(studentData);
+            if (objects.get(i) instanceof Student user) {
+                //Build our string
+                String studentData = SerializeBuilder.buildSerializedString(
+                        new String[]{
+                                user.getName(),
+                                user.getUserID(),
+                                user.getUserID() + "@e.ntu.edu.sg",
+                                user.getPassword(),
+                                user.getFacultyInfo().getClass().getSimpleName()
+                        },
+                        delimiter
+                );
+                serializedData.add(studentData);
+            }
         }
         return serializedData;
     }

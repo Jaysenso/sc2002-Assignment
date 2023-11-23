@@ -8,4 +8,7 @@ package source.Faculty;
  * @since 11/4/2023
  */
 public class NBS implements Faculty {
+    public NBS() {
+
+    }
 }

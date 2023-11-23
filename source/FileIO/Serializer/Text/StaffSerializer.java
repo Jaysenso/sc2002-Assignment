@@ -55,18 +55,19 @@ public class StaffSerializer extends BaseSerializer implements TextDataSerialize
         //Loop through the objects
         for (int i = 0; i < objects.size(); i++) {
             //Build our string
-            Staff user = (Staff) objects.get(i);
-            String studentData = SerializeBuilder.buildSerializedString(
-                    new String[]{
-                            user.getName(),
-                            user.getUserID(),
-                            user.getUserID() + "@e.ntu.edu.sg",
-                            user.getPassword(),
-                            user.getFacultyInfo().getClass().getSimpleName()
-                    },
-                    delimiter
-            );
-            serializedData.add(studentData);
+            if (objects.get(i) instanceof Staff user) {
+                String studentData = SerializeBuilder.buildSerializedString(
+                        new String[]{
+                                user.getName(),
+                                user.getUserID(),
+                                user.getUserID() + "@e.ntu.edu.sg",
+                                user.getPassword(),
+                                user.getFacultyInfo().getClass().getSimpleName()
+                        },
+                        delimiter
+                );
+                serializedData.add(studentData);
+            }
         }
         return serializedData;
     }

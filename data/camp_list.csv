@@ -1,1 +1,3 @@
-camp_id,camp_name,current_slot,max_slots,committee_slots,description,staff_in_charge,start_date,end_date,closing_date,faculty,visibility
+camp_name,current_slot,max_slots,committee_slots,description,staff_in_charge,start_date,end_date,closing_date,faculty,visibility
+cb camp,30,30,3,camp for cb,CAI WEN TONG,2024-02-18,2024-02-18,2024-02-18,NBS,false
+tt camp,30,30,3,camp for tt,ARVIND,2024-03-18,2024-03-18,2024-03-18,ADM,true

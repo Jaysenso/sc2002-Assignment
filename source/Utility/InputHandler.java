@@ -43,6 +43,8 @@ public class InputHandler {
      * @return string user input
      */
     public static String getString() {
+        //Lazily clear the buffer
+        scanner = new Scanner(System.in);
         try {
             String s = scanner.nextLine();
             return s;

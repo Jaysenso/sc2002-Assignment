@@ -1,6 +1,7 @@
 package source.ViewModels.Application;
 
 import source.Controllers.AuthenticationController;
+import source.Database.ApplicationContext;
 import source.Database.Dao.StaffDao;
 import source.Database.Dao.StudentDao;
 import source.Database.StaffDaoImpl;
@@ -109,6 +110,8 @@ public class LoginViewModel extends BaseViewModel implements IViewModel {
                     break;
                 }
             } else {
+                //Update application context
+                ApplicationContext.user = student;
                 //Transition to view models
                 viewManager.changeView(new StudentViewModel());
                 break;
@@ -141,6 +144,8 @@ public class LoginViewModel extends BaseViewModel implements IViewModel {
                     break;
                 }
             } else {
+                //Update application context
+                ApplicationContext.user = staff;
                 //Transition to view models
                 viewManager.changeView(new StudentViewModel());
                 break;

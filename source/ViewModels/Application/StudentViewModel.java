@@ -5,9 +5,8 @@ import source.Utility.PrettyPage;
 import source.ViewModels.BaseViewModel;
 import source.ViewModels.IViewModel;
 import source.ViewModels.ViewManager;
-import source.Views.Application.StaffView;
-import source.Views.Application.StartView;
 import source.Views.Application.StudentView;
+import source.Entity.Camp;
 
 /**
  * The StudentViewModel holds all the logic and necessary UI elements for student.
@@ -24,13 +23,15 @@ public class StudentViewModel extends BaseViewModel implements IViewModel {
      */
     StudentView studentView;
 
+    private Camp selectedCamp;
     /**
      * A default constructor.
      *
      * @see StudentView
      */
-    public StudentViewModel() {
+    public StudentViewModel(Camp selectedCamp) {
         studentView = new StudentView();
+        this.selectedCamp = selectedCamp;
     }
 
     /**

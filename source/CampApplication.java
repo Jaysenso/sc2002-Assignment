@@ -9,7 +9,7 @@ import source.ViewModels.ViewManager;
 public class CampApplication {
     public static void main(String[] args) {
 //        ViewManager manager = new ViewManager(new StartViewModel());
-        ApplicationContext.setCampManager(new CampManager());
+        ApplicationContext.initialize();
         ViewManager manager = new ViewManager(new StartViewModel());
         manager.run();
     }

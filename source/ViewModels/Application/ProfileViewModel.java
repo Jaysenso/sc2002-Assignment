@@ -8,13 +8,12 @@ import source.Entity.Staff;
 import source.Entity.User;
 import source.Faculty.Faculty;
 import source.Utility.*;
+import source.ViewModels.Application.Apps.LoginViewModel;
 import source.ViewModels.BaseViewModel;
 import source.ViewModels.IViewModel;
 import source.ViewModels.ViewManager;
 import source.Views.Application.ChangePasswordView;
-import source.Views.Application.EditCampDetailsView;
 import source.Views.Application.ProfileView;
-import source.Views.Application.StaffCampView;
 
 import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
@@ -38,7 +37,7 @@ public class ProfileViewModel extends BaseViewModel implements IViewModel {
     /**
      * A default constructor.
      *
-     * @see StaffCampView
+     *
      */
     public ProfileViewModel() {
         super();

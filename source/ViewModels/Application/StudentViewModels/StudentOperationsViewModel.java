@@ -88,7 +88,7 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
                     break;
                 }
             }
-        } while (choice != 1);
+        } while (true);
     }
 
     /**

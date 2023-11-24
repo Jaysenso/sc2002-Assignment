@@ -8,6 +8,7 @@ import source.Utility.DateTimeFormatter;
 import source.Utility.InputHandler;
 import source.Utility.Option;
 import source.Utility.PrettyPage;
+import source.ViewModels.Application.ProfileViewModel;
 import source.ViewModels.Application.StaffViewModels.StaffCampViewModel;
 import source.ViewModels.Application.StudentViewModels.StudentCampViewModel;
 import source.ViewModels.BaseViewModel;

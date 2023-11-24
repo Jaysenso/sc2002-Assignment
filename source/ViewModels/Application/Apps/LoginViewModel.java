@@ -19,8 +19,6 @@ import source.ViewModels.ViewManager;
 import source.Views.Application.AppViews.LoginView;
 import source.Views.Application.AppViews.StartView;
 import source.Views.Application.ChangePasswordView;
-import source.Views.Application.LoginView;
-import source.Views.Application.StartView;
 
 import java.util.Scanner;
 

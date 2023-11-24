@@ -32,6 +32,7 @@ public class CampInfo {
                     LocalDate closingDate,
                     Faculty faculty) {
         this.name = name;
+        this.location = location;
         this.currentSlots = currentSlots;
         this.maxSlots = maxSlots;
         this.campCommitteeSlots = campCommitteeSlots;
@@ -72,6 +73,8 @@ public class CampInfo {
     public int getCampCommitteeSlots() {
         return campCommitteeSlots;
     }
+
+    public int getMaxCampCommitteeSlots() {return maxCampCommitteeSlots; }
 
     public void setCampCommitteeSlots(int campCommitteeSlots) {
         this.campCommitteeSlots = campCommitteeSlots;

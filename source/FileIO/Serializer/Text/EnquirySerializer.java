@@ -4,6 +4,7 @@ import source.Entity.Enquiry;
 import source.Entity.Staff;
 import source.Utility.SerializeBuilder;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,7 +66,11 @@ public class EnquirySerializer extends BaseSerializer implements TextDataSeriali
         //Loop through the objects
         for (int i = 0; i < objects.size(); i++) {
             //Build our string
+
             if (objects.get(i) instanceof Enquiry enquiry) {
+                LocalDate repliedDate = enquiry.getRepliedDate();
+                String rDate = (repliedDate ==null) ? "N/A" : repliedDate.toString();
+                String rBy = (enquiry.getRepliedBy().isEmpty()) ? "N/A" : enquiry.getRepliedBy();
                 String studentData = SerializeBuilder.buildSerializedString(
                         new String[]{
                                 enquiry.getCampName(),
@@ -73,8 +78,8 @@ public class EnquirySerializer extends BaseSerializer implements TextDataSeriali
                                 enquiry.getTitle(),
                                 enquiry.getContent(),
                                 enquiry.getCreatedDate().toString(),
-                                enquiry.getRepliedBy(),
-                                enquiry.getRepliedDate().toString(),
+                                rBy,
+                                rDate,
                                 String.valueOf(enquiry.getProcessed())
                         },
                         delimiter

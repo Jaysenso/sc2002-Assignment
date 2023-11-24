@@ -47,27 +47,72 @@ public class Camp {
         return this.campCommitteeMembers;
     }
 
+    public boolean registerAttendees(Student attendee){
+        DateRangeValidator checker = new DateRangeValidator(this.campInfo.getStartDate(), this.campInfo.getEndDate());
+        for (Camp camp : attendee.getRegisteredCamps()) {
+            if (checker.isWithinRange(camp.getCampInfo().getStartDate()) || checker.isWithinRange(camp.getCampInfo().getEndDate())) {
+                PrettyPage.printError("Error : You are already registered for a camp on the same date.");
+                return false;
+            }
+        }
 
+        if (this.getCampInfo().getCurrentSlots() >= this.getCampInfo().getMaxSlots()) {
+            PrettyPage.printError("Error : Camp is already full.");
+            return false;
+        }
 
-    public void addAttendees(Student attendee) {
+        if (LocalDate.now().isAfter(this.campInfo.getClosingDate())) {
+            PrettyPage.printError("Error : Registration period has closed.");
+            return false;
+        }
+
         this.attendees.add(attendee);
     }
 
-    public void addCommittee(Student attendee) {
+    public boolean registerCommittees(Student committee){
+        DateRangeValidator checker = new DateRangeValidator(this.campInfo.getStartDate(), this.campInfo.getEndDate());
+        for (Camp camp : committee.getRegisteredCamps()) {
+            if (checker.isWithinRange(camp.getCampInfo().getStartDate()) || checker.isWithinRange(camp.getCampInfo().getEndDate())) {
+                PrettyPage.printError("Error : You are already registered for a camp on the same date.");
+                return false;
+            }
+        }
+
+        if (this.getCampInfo().getCampCommitteeSlots() >= this.getCampInfo().getMaxCampCommitteeSlots()) {
+            PrettyPage.printError("Error : Camp Committee slots are full.");
+            return false;
+        }
+
+        if (committee.getIsCampCommittee() != null) {
+            PrettyPage.printError("Error : You are already a camp committee.");
+            return false;
+        }
+
+        if (LocalDate.now().isAfter(this.campInfo.getClosingDate())) {
+            PrettyPage.printError("Error : Registration period has closed.");
+            return false;
+        }
+
+        this.campCommitteeMembers.add(committee);
+        PrettyPage.printError("Registered Successfully.");
+        return true;
+    }
+
+    public void addCommittee(Student attendee){
         this.campCommitteeMembers.add(attendee);
     }
 
-    public void addInquiry(Enquiry enquiry) {
+    public void addInquiry(Enquiry enquiry){
         this.enquiryList.add(enquiry);
     }
 
     //check if date is before reg losing date
-    public boolean isAvailable(LocalDate date) {
+    public boolean isAvailable(LocalDate date){
         return !date.isBefore(campInfo.getClosingDate());
     }
 
     //toggle visibility
-    public void toggleVisibility() {
+    public void toggleVisibility(){
         this.visibility = (!this.visibility);
     }
 
@@ -103,7 +148,7 @@ public class Camp {
         return campInfo.getName().equals(c.campInfo.getName());
     }
 
-    public void shallowCopy(Camp camp) {
+    public void shallowCopy(Camp camp){
         this.campInfo = camp.campInfo;
         this.visibility = camp.visibility;
         this.attendees = camp.attendees;

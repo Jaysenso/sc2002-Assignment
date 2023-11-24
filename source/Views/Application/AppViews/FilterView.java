@@ -1,4 +1,4 @@
-package source.Views.Application;
+package source.Views.Application.AppViews;
 
 import source.Utility.Option;
 import source.Utility.PrettyPage;

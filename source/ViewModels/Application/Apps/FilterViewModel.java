@@ -1,18 +1,14 @@
-package source.ViewModels.Application;
+package source.ViewModels.Application.Apps;
 
 import source.Controllers.CampManager;
 import source.Controllers.FilterManager;
 import source.Database.ApplicationContext;
-import source.Entity.Camp;
 import source.Utility.InputHandler;
 import source.Utility.PrettyPage;
 import source.ViewModels.BaseViewModel;
 import source.ViewModels.IViewModel;
 import source.ViewModels.ViewManager;
-import source.Views.Application.FilterView;
-import source.Views.Application.HomeView;
-
-import java.util.ArrayList;
+import source.Views.Application.AppViews.FilterView;
 
 public class FilterViewModel extends BaseViewModel implements IViewModel {
     /**

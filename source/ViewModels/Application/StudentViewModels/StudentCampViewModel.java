@@ -1,37 +1,35 @@
-package source.ViewModels.Application;
+package source.ViewModels.Application.StudentViewModels;
 
+import source.Controllers.CampManager;
+import source.Controllers.FilterManager;
+import source.Database.ApplicationContext;
+import source.Entity.Camp;
 import source.Utility.InputHandler;
-import source.Utility.PrettyPage;
+import source.ViewModels.Application.Apps.FilterViewModel;
 import source.ViewModels.BaseViewModel;
 import source.ViewModels.IViewModel;
 import source.ViewModels.ViewManager;
-import source.Views.Application.StudentOperationsView;
-import source.Entity.Camp;
+import source.Views.Application.StaffView.StaffCampView;
+import source.Views.Application.StudentView.StudentCampView;
 
-/**
- * The StudentOperationsViewModel holds all the logic and necessary UI elements for student.
- *
- * @author Isaac Chun
- * @version 1.0
- * @since 11/12/2023
- */
-public class StudentOperationsViewModel extends BaseViewModel implements IViewModel {
+public class StudentCampViewModel extends BaseViewModel implements IViewModel {
     /**
      * The student view object shows the UI when the user is logged in as a Student, presenting the user with options a student can take.
      *
-     * @see StudentOperationsView
+     * @see StaffCampView
      */
-    StudentOperationsView studentOperationsView;
+    StudentCampView studentCampView;
+    private FilterManager filterManager = new FilterManager();
+    private CampManager campManager;
 
-    private Camp selectedCamp;
     /**
      * A default constructor.
      *
-     * @see StudentOperationsView
+     * @see StaffCampView
      */
-    public StudentOperationsViewModel(Camp selectedCamp) {
-        studentOperationsView = new StudentOperationsView();
-        this.selectedCamp = selectedCamp;
+    public StudentCampViewModel () {
+        studentCampView = new StudentCampView();
+        campManager = ApplicationContext.getCampManager();
     }
 
     /**
@@ -44,8 +42,8 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
     @Override
     public void init(ViewManager viewManager) {
         super.init(viewManager);
-        PrettyPage.printCampDetails(selectedCamp);
-        studentOperationsView.display();
+        filterManager.viewAll(campManager.getFiltertype());
+        studentCampView.display();
         handleInputs();
     }
 
@@ -59,28 +57,25 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
             choice = InputHandler.tryGetInt(1, 3, "Input choice: ", "Invalid choice!");
             switch (choice) {
                 case 1: {
+                    int index = InputHandler.tryGetInt(1, campManager.getCamps().size(), "Input camp choice : ", "Invalid Camp");
+                    Camp selectedCamp = campManager.getCamps().get(index - 1);
+                    viewManager.changeView(new StudentOperationsViewModel(selectedCamp));
+                    break;
+                }
+                case 2: {
+                    viewManager.changeView(new FilterViewModel());
+                    break;
+                }
+                case 3: {
+
+                    break;
+                }
+                case 4: {
                     viewManager.returnToPreviousView();
                     break;
                 }
-                //view Enquiries
-                case 2: {
-                    System.out.println("case 2");
-                    break;
-                }
-                //Register Camp
-                case 3: {
-                    break;
-                }
-                //Apply As Camp Committee
-                case 4: {
-                    break;
-                }
-                //Make Enquiry
-                case 5: {
-                    break;
-                }
             }
-        } while (choice != 1);
+        } while (choice != 3);
     }
 
     /**
@@ -91,4 +86,5 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
     public void cleanup() {
         System.out.flush(); //NOTE: Does not work in IntelliJ IDEA as it is not a real terminal.
     }
+
 }

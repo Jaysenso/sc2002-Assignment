@@ -1,8 +1,7 @@
-package source.ViewModels.Application;
+package source.ViewModels.Application.StaffViewModels;
 
 import source.Controllers.CampManager;
 import source.Database.ApplicationContext;
-import source.Database.Dao.CampDao;
 import source.Entity.Camp;
 import source.Faculty.Faculty;
 import source.Utility.InputHandler;
@@ -10,12 +9,12 @@ import source.Utility.PrettyPage;
 import source.ViewModels.BaseViewModel;
 import source.ViewModels.IViewModel;
 import source.ViewModels.ViewManager;
-import source.Views.Application.EditCampDetailsView;
-import source.Views.Application.StaffCampView;
+import source.Views.Application.StaffView.EditCampDetailsView;
+import source.Views.Application.StaffView.StaffCampView;
 
 import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
-import java.util.ArrayList;
+
 /**
  * The EditCampDetailsViewModel class handles the EditCampDetailsView 's logics and present the relevant operations for Staff to edit the camp details.
  *

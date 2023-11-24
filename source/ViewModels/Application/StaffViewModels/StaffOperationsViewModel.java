@@ -1,4 +1,4 @@
-package source.ViewModels.Application;
+package source.ViewModels.Application.StaffViewModels;
 
 import source.Controllers.CampManager;
 import source.Database.ApplicationContext;
@@ -8,7 +8,7 @@ import source.Utility.PrettyPage;
 import source.ViewModels.BaseViewModel;
 import source.ViewModels.IViewModel;
 import source.ViewModels.ViewManager;
-import source.Views.Application.StaffOperationsView;
+import source.Views.Application.StaffView.StaffOperationsView;
 
 /**
  * The StaffOperationsViewModel holds all the logic and necessary UI elements for staff.

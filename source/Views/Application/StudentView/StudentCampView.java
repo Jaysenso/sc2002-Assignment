@@ -1,4 +1,4 @@
-package source.Views.Application;
+package source.Views.Application.StudentView;
 
 import source.Utility.Option;
 import source.Utility.PrettyPage;
@@ -10,7 +10,8 @@ public class StudentCampView implements IView {
         Option[] options = {
                 new Option("1", "Select Camp"),
                 new Option("2", "Filter Camp List"),
-                new Option("3", "Back"),
+                new Option("3", "View My Enquiries"),
+                new Option("4", "Back"),
         };
         PrettyPage.printLinesWithHeader(options, "Choose your option");
     }

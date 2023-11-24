@@ -1,7 +1,6 @@
-package source.ViewModels.Application;
+package source.ViewModels.Application.Apps;
 
 import source.Controllers.AuthenticationController;
-import source.Controllers.CampManager;
 import source.Database.ApplicationContext;
 import source.Database.Dao.StaffDao;
 import source.Database.Dao.StudentDao;
@@ -15,10 +14,8 @@ import source.Utility.PrettyPage;
 import source.ViewModels.BaseViewModel;
 import source.ViewModels.IViewModel;
 import source.ViewModels.ViewManager;
-import source.Views.Application.LoginView;
-import source.Views.Application.StartView;
-
-import java.util.Scanner;
+import source.Views.Application.AppViews.LoginView;
+import source.Views.Application.AppViews.StartView;
 
 /**
  * The LoginViewModel holds all the logic and necessary Ui elements for a successful login.

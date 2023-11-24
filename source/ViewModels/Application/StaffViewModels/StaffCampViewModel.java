@@ -1,4 +1,4 @@
-package source.ViewModels.Application;
+package source.ViewModels.Application.StaffViewModels;
 
 import source.Controllers.CampManager;
 import source.Controllers.FilterManager;
@@ -6,10 +6,11 @@ import source.Database.ApplicationContext;
 import source.Entity.Camp;
 import source.Utility.InputHandler;
 import source.Utility.PrettyPage;
+import source.ViewModels.Application.Apps.FilterViewModel;
 import source.ViewModels.BaseViewModel;
 import source.ViewModels.IViewModel;
 import source.ViewModels.ViewManager;
-import source.Views.Application.StaffCampView;
+import source.Views.Application.StaffView.StaffCampView;
 
 public class StaffCampViewModel extends BaseViewModel implements IViewModel {
     /**

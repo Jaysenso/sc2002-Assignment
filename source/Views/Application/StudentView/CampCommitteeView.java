@@ -1,19 +1,18 @@
-package source.Views.Application;
+package source.Views.Application.StudentView;
 
 import source.Utility.Option;
 import source.Utility.PrettyPage;
 import source.Views.IView;
 
-public class StaffOperationsView implements IView {
+
+public class CampCommitteeView implements IView {
     @Override
     public void display() {
         Option[] options = {
-
                 new Option("1", "View Enquiries"),
                 new Option("2", "View Suggestions"),
-                new Option("3", "Edit Camp"),
-                new Option("4", "Delete Camp"),
-                new Option("5", "Back"),
+                new Option("3", "Generate Camp Report"),
+                new Option("4", "Back"),
         };
         PrettyPage.printLinesWithHeader(options, "Choose your option");
     }

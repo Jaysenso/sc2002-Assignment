@@ -1,29 +1,34 @@
-package source.ViewModels.Application;
+package source.ViewModels.Application.StudentViewModels;
 
+import source.Database.ApplicationContext;
+import source.Entity.Camp;
+import source.Entity.Student;
 import source.Utility.InputHandler;
 import source.Utility.PrettyPage;
 import source.ViewModels.BaseViewModel;
 import source.ViewModels.IViewModel;
 import source.ViewModels.ViewManager;
-import source.Views.Application.HomeView;
+import source.Views.Application.StudentView.CampCommitteeView;
+import source.Views.Application.StudentView.StudentOperationsView;
 
-public class HomeViewModel extends BaseViewModel implements IViewModel {
+public class CampCommitteeViewModel extends BaseViewModel implements IViewModel {
+
     /**
      * The student view object shows the UI when the user is logged in as a Student, presenting the user with options a student can take.
      *
-     * @see HomeView
+     * @see StudentOperationsView
      */
-    HomeView homeView;
-    private boolean isStaff;
-
+    CampCommitteeView campCommitteeView;
+    private Student student = (Student) ApplicationContext.user;
+    private Camp selectedCamp;
     /**
      * A default constructor.
-     *
-     * @see HomeView
+     * *
+     * @see source.Views.Application.StudentView.StudentOperationsView
      */
-    public HomeViewModel(boolean userGroup) {
-        this.isStaff = userGroup;
-        homeView = new HomeView();
+    public CampCommitteeViewModel(Camp selectedCamp) {
+        campCommitteeView = new CampCommitteeView();
+        this.selectedCamp = selectedCamp;
     }
 
     /**
@@ -31,13 +36,13 @@ public class HomeViewModel extends BaseViewModel implements IViewModel {
      * of the view model.
      *
      * @param viewManager the view manager reference.
-     * @see ViewManager
+     * @see source.ViewModels.ViewManager
      */
     @Override
     public void init(ViewManager viewManager) {
         super.init(viewManager);
-        PrettyPage.printTitle("Welcome back! (User)", 1);
-        homeView.display();
+        PrettyPage.printCampDetails(selectedCamp);
+        campCommitteeView.display();
         handleInputs();
     }
 
@@ -50,21 +55,25 @@ public class HomeViewModel extends BaseViewModel implements IViewModel {
         do {
             choice = InputHandler.tryGetInt(1, 3, "Input choice: ", "Invalid choice!");
             switch (choice) {
+                //Register Camp
                 case 1: {
-                    if(isStaff){
-                        viewManager.changeView(new StaffCampViewModel());
-                    }
-                    else{
-                        viewManager.changeView(new StudentCampViewModel());
-                    }
                     break;
                 }
+                //Make Enquiries
                 case 2: {
-                    System.out.println("case 2");
+                    break;
+                }
+                //Apply Camp Committee
+                case 3: {
+                    break;
+                }
+                //Back
+                case 4: {
+                    viewManager.returnToPreviousView();
                     break;
                 }
             }
-        } while (choice != 3);
+        } while (choice != 1);
     }
 
     /**

@@ -14,21 +14,21 @@ public class CreateStudentRegistration implements StudentRegistrationOperations{
 
     @Override
     public void execute() {
-        Registration registration = new Registration(registrationManager.getStudent(), registrationManager.getCamp());
-        registrationManager.getStudent().addRegistration(registration);
-
-        Scanner createRegistrationScanner = new Scanner(System.in);
-        System.out.println("Choose 0 for Student Committee | Choose 1 for Student Attendee");
-        int roleType = createRegistrationScanner.nextInt();
-
-        if (roleType == 1) {
-            registration.setCampRole(new CampAttendee());
-        } else if (roleType == 0 && !registration.getStudent().getIsCampCommittee()) {
-            registration.setCampRole(new CampCommittee());
-            registration.getStudent().setIsCampCommittee(true);
-        } else {
-            throw new IllegalArgumentException("Invalid role type: " + roleType);
-        }
+//        Registration registration = new Registration(registrationManager.getStudent(), registrationManager.getCamp());
+//        registrationManager.getStudent().addRegistration(registration);
+//
+//        Scanner createRegistrationScanner = new Scanner(System.in);
+//        System.out.println("Choose 0 for Student Committee | Choose 1 for Student Attendee");
+//        int roleType = createRegistrationScanner.nextInt();
+//
+//        if (roleType == 1) {
+//            registration.setCampRole(new CampAttendee());
+//        } else if (roleType == 0 && !registration.getStudent().getIsCampCommittee()) {
+//            registration.setCampRole(new CampCommittee());
+//            registration.getStudent().setIsCampCommittee(true);
+//        } else {
+//            throw new IllegalArgumentException("Invalid role type: " + roleType);
+//        }
 
     }
 

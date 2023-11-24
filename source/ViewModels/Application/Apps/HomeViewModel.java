@@ -1,6 +1,12 @@
 package source.ViewModels.Application.Apps;
 
+import source.Database.ApplicationContext;
+import source.Entity.CampInfo;
+import source.Entity.Staff;
+import source.Entity.User;
+import source.Utility.DateTimeFormatter;
 import source.Utility.InputHandler;
+import source.Utility.Option;
 import source.Utility.PrettyPage;
 import source.ViewModels.Application.StaffViewModels.StaffCampViewModel;
 import source.ViewModels.Application.StudentViewModels.StudentCampViewModel;
@@ -16,7 +22,6 @@ public class HomeViewModel extends BaseViewModel implements IViewModel {
      * @see HomeView
      */
     HomeView homeView;
-    private boolean isStaff;
 
     /**
      * A default constructor.
@@ -24,7 +29,6 @@ public class HomeViewModel extends BaseViewModel implements IViewModel {
      * @see HomeView
      */
     public HomeViewModel(boolean userGroup) {
-        this.isStaff = userGroup;
         homeView = new HomeView();
     }
 
@@ -38,7 +42,7 @@ public class HomeViewModel extends BaseViewModel implements IViewModel {
     @Override
     public void init(ViewManager viewManager) {
         super.init(viewManager);
-        PrettyPage.printTitle("Welcome back! (User)", 1);
+        PrettyPage.printTitle("Welcome back " + ApplicationContext.user.getUserID(), 1);
         homeView.display();
         handleInputs();
     }
@@ -49,24 +53,25 @@ public class HomeViewModel extends BaseViewModel implements IViewModel {
     @Override
     public void handleInputs() {
         int choice;
-        do {
-            choice = InputHandler.tryGetInt(1, 3, "Input choice: ", "Invalid choice!");
-            switch (choice) {
-                case 1: {
-                    if(isStaff){
-                        viewManager.changeView(new StaffCampViewModel());
-                    }
-                    else{
-                        viewManager.changeView(new StudentCampViewModel());
-                    }
-                    break;
+        choice = InputHandler.tryGetInt(1, 3, "Input choice: ", "Invalid choice!");
+        switch (choice) {
+            case 1: {
+                if (ApplicationContext.user instanceof Staff) {
+                    viewManager.changeView(new StaffCampViewModel());
+                } else {
+                    viewManager.changeView(new StudentCampViewModel());
                 }
-                case 2: {
-                    System.out.println("case 2");
-                    break;
-                }
+                break;
             }
-        } while (choice != 3);
+            case 2: {
+                viewManager.changeView(new ProfileViewModel());
+                break;
+            }
+            case 3: {
+                viewManager.returnToPreviousView();
+                break;
+            }
+        }
     }
 
     /**
@@ -77,4 +82,6 @@ public class HomeViewModel extends BaseViewModel implements IViewModel {
     public void cleanup() {
         System.out.flush(); //NOTE: Does not work in IntelliJ IDEA as it is not a real terminal.
     }
+
+
 }

@@ -8,7 +8,7 @@ import source.ViewModels.ViewManager;
 import source.Views.Application.AppViews.StartView;
 
 /**
- * The LoginViewModel holds all the logic and necessary Ui elements for a successful login.
+ * The StartViewModel holds all the logic and necessary Ui elements for a successful login.
  *
  * @author Isaac Chun
  * @version 1.0

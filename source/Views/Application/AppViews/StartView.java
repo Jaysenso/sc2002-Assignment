@@ -1,6 +1,5 @@
 package source.Views.Application.AppViews;
 
-import source.Entity.Staff;
 import source.Utility.Option;
 import source.Utility.PrettyPage;
 import source.Views.IView;

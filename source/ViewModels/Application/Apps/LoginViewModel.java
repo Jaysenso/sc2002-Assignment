@@ -8,14 +8,21 @@ import source.Database.StaffDaoImpl;
 import source.Database.StudentDaoImpl;
 import source.Entity.Staff;
 import source.Entity.Student;
+import source.Entity.User;
 import source.Utility.DirectoryUtility;
 import source.Utility.InputHandler;
 import source.Utility.PrettyPage;
+import source.Utility.StringsUtility;
 import source.ViewModels.BaseViewModel;
 import source.ViewModels.IViewModel;
 import source.ViewModels.ViewManager;
 import source.Views.Application.AppViews.LoginView;
 import source.Views.Application.AppViews.StartView;
+import source.Views.Application.ChangePasswordView;
+import source.Views.Application.LoginView;
+import source.Views.Application.StartView;
+
+import java.util.Scanner;
 
 /**
  * The LoginViewModel holds all the logic and necessary Ui elements for a successful login.
@@ -30,7 +37,9 @@ public class LoginViewModel extends BaseViewModel implements IViewModel {
      *
      * @see StartView
      */
-    LoginView loginView;
+    private LoginView loginView;
+
+    private ChangePasswordView changePasswordView;
 
     /**
      * The authentication controller object that handles checking if the user has valid passwords and users
@@ -47,6 +56,7 @@ public class LoginViewModel extends BaseViewModel implements IViewModel {
         super();
         authenticationController = new AuthenticationController();
         loginView = new LoginView();
+        changePasswordView = new ChangePasswordView();
     }
 
     @Override
@@ -84,11 +94,11 @@ public class LoginViewModel extends BaseViewModel implements IViewModel {
     }
 
     public void handleStudentLogin() {
+        //Access our database through our dao
+        StudentDao dao = new StudentDaoImpl(DirectoryUtility.STUDENT_DATA_PATH);
         while (true) {
             //Get the email input
             String email = InputHandler.tryGetEmail("Input your Student NTU email: ", "Invalid NTU email entered!");
-            //Access our database through our dao
-            StudentDao dao = new StudentDaoImpl(DirectoryUtility.STUDENT_DATA_PATH);
             Student student = dao.readStudent(email, "email");
             //Check if the entry exists
             if (student == null) {
@@ -108,6 +118,11 @@ public class LoginViewModel extends BaseViewModel implements IViewModel {
                     break;
                 }
             } else {
+                //If it is required to change the password then update
+                if (checkIfChangePassword(student)) {
+                    //If we had to change password, update the dao
+                    dao.updateStudent(student);
+                }
                 //Update application context
                 ApplicationContext.user = student;
                 //Transition to view models
@@ -118,11 +133,11 @@ public class LoginViewModel extends BaseViewModel implements IViewModel {
     }
 
     public void handleStaffLogin() {
+        //Access our database through our dao
+        StaffDao dao = new StaffDaoImpl(DirectoryUtility.STAFF_DATA_PATH);
         while (true) {
             //Get the email input
             String email = InputHandler.tryGetEmail("Input your Staff NTU email: ", "Invalid NTU email entered!");
-            //Access our database through our dao
-            StaffDao dao = new StaffDaoImpl(DirectoryUtility.STAFF_DATA_PATH);
             Staff staff = dao.readStaff(email, "email");
             //Check if the entry exists
             if (staff == null) {
@@ -143,10 +158,36 @@ public class LoginViewModel extends BaseViewModel implements IViewModel {
                 }
             } else {
                 //Update application context
+                if (checkIfChangePassword(staff)) {
+                    //If we had to change password, update the dao
+                    dao.updateStaff(staff);
+                }
                 ApplicationContext.user = staff;
                 viewManager.changeView(new HomeViewModel(true));
                 break;
             }
         }
+    }
+
+    public boolean checkIfChangePassword(User user) {
+        if (user.getPassword().equals("password")) {
+            //need to reset the password
+            //Display the UI for changing password
+            changePasswordView.display();
+            while (true) {
+                String newPassword = InputHandler.tryGetPassword("Input your new password: ",
+                        StringsUtility.PASSWORD_MISMATCH);
+                //If the input password is the same as the old user password
+                if (newPassword.equals(user.getPassword())) {
+                    PrettyPage.printError("You can not use your old password!");
+                } else {
+                    //Else set password and update the dao
+                    user.setPassword(newPassword);
+                    break;
+                }
+            }
+            return true;
+        }
+        return false;
     }
 }

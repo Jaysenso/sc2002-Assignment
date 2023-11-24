@@ -1,6 +1,6 @@
 package source.Controllers;
 
-import source.Database.ApplicationContext;
+import source.Database.App;
 import source.Entity.Camp;
 import source.Utility.PrettyPage;
 
@@ -10,7 +10,7 @@ import java.util.Comparator;
 
 public class FilterManager {
 
-    private CampManager campManager = ApplicationContext.getCampManager();
+    private CampManager campManager = App.getCampManager();
     public void ascendAlphabetical(ArrayList<Camp> campList){
         campList.sort(Comparator.comparing(camp -> camp.getCampInfo().getName()));
     }

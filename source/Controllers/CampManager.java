@@ -1,6 +1,5 @@
 package source.Controllers;
 
-import source.Database.ApplicationContext;
 import source.Database.CampDaoImpl;
 import source.Database.Dao.CampDao;
 import source.Entity.Camp;
@@ -10,7 +9,6 @@ import source.Utility.DirectoryUtility;
 import source.Utility.InputHandler;
 import source.Utility.PrettyPage;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
 import java.util.ArrayList;

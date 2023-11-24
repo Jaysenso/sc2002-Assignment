@@ -1,12 +1,7 @@
 package source.ViewModels.Application;
 
-import source.Controllers.CampManager;
-import source.Database.ApplicationContext;
-import source.Database.StaffDaoImpl;
-import source.Entity.Camp;
-import source.Entity.Staff;
+import source.Database.App;
 import source.Entity.User;
-import source.Faculty.Faculty;
 import source.Utility.*;
 import source.ViewModels.Application.Apps.LoginViewModel;
 import source.ViewModels.BaseViewModel;
@@ -14,9 +9,6 @@ import source.ViewModels.IViewModel;
 import source.ViewModels.ViewManager;
 import source.Views.Application.ChangePasswordView;
 import source.Views.Application.ProfileView;
-
-import java.lang.reflect.InvocationTargetException;
-import java.time.LocalDate;
 
 /**
  * The ProfileViewModel holds all the logic and necessary UI for displaying the profile
@@ -68,7 +60,7 @@ public class ProfileViewModel extends BaseViewModel implements IViewModel {
         int choice = InputHandler.tryGetInt(1, 2, "Input choice: ", "Invalid choice!");
         switch (choice) {
             case 1: {
-                changePassword(ApplicationContext.user);
+                changePassword(App.getUser());
                 break;
             }
             case 2: {
@@ -95,7 +87,7 @@ public class ProfileViewModel extends BaseViewModel implements IViewModel {
      */
     public void printProfile() {
         PrettyPage.printTitle("Your Profile", 1);
-        User user = ApplicationContext.user;
+        User user = App.getUser();
         Option[] options = {
                 new Option("Name", user.getName()),
                 new Option("Faculty", user.getFacultyInfo().getClass().getSimpleName()),
@@ -111,6 +103,7 @@ public class ProfileViewModel extends BaseViewModel implements IViewModel {
     public void changePassword(User user) {
         //Display the UI for changing password
         changePasswordView.display();
+        System.out.println("You will be logged out after you have changed your password.");
         while (true) {
             String newPassword = InputHandler.tryGetPassword("Input your new password: ",
                     StringsUtility.PASSWORD_MISMATCH);
@@ -120,6 +113,8 @@ public class ProfileViewModel extends BaseViewModel implements IViewModel {
             } else {
                 //Else set password and update the dao
                 user.setPassword(newPassword);
+                //Call save on our context
+                App.getUserManager().update();
                 //Go back to the login view model
                 viewManager.changeView(new LoginViewModel());
                 break;

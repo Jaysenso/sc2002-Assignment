@@ -1,15 +1,14 @@
 package source.ViewModels.Application.Apps;
 
 import source.Controllers.AuthenticationController;
-import source.Database.ApplicationContext;
-import source.Database.Dao.StaffDao;
-import source.Database.Dao.StudentDao;
-import source.Database.StaffDaoImpl;
-import source.Database.StudentDaoImpl;
+import source.Controllers.StaffManager;
+import source.Controllers.StudentManager;
+import source.Controllers.UserManagement.StaffManagement;
+import source.Controllers.UserManagement.StudentManagement;
+import source.Database.App;
 import source.Entity.Staff;
 import source.Entity.Student;
 import source.Entity.User;
-import source.Utility.DirectoryUtility;
 import source.Utility.InputHandler;
 import source.Utility.PrettyPage;
 import source.Utility.StringsUtility;
@@ -19,8 +18,6 @@ import source.ViewModels.ViewManager;
 import source.Views.Application.AppViews.LoginView;
 import source.Views.Application.AppViews.StartView;
 import source.Views.Application.ChangePasswordView;
-
-import java.util.Scanner;
 
 /**
  * The LoginViewModel holds all the logic and necessary Ui elements for a successful login.
@@ -47,12 +44,17 @@ public class LoginViewModel extends BaseViewModel implements IViewModel {
      */
     AuthenticationController authenticationController;
 
+    StudentManager studentManager;
+    StaffManager staffManager;
+
     /**
      * A default constructor
      */
     public LoginViewModel() {
         super();
         authenticationController = new AuthenticationController();
+        studentManager = App.getStudentManager();
+        staffManager = App.getStaffManager();
         loginView = new LoginView();
         changePasswordView = new ChangePasswordView();
     }
@@ -92,12 +94,10 @@ public class LoginViewModel extends BaseViewModel implements IViewModel {
     }
 
     public void handleStudentLogin() {
-        //Access our database through our dao
-        StudentDao dao = new StudentDaoImpl(DirectoryUtility.STUDENT_DATA_PATH);
         while (true) {
             //Get the email input
             String email = InputHandler.tryGetEmail("Input your Student NTU email: ", "Invalid NTU email entered!");
-            Student student = dao.readStudent(email, "email");
+            Student student = App.getStudentManager().readStudent(email, "email");
             //Check if the entry exists
             if (student == null) {
                 PrettyPage.printError("The student email you entered does not exist in our system.");
@@ -119,10 +119,12 @@ public class LoginViewModel extends BaseViewModel implements IViewModel {
                 //If it is required to change the password then update
                 if (checkIfChangePassword(student)) {
                     //If we had to change password, update the dao
-                    dao.updateStudent(student);
+                    App.getStudentManager().updateStudent(student);
                 }
                 //Update application context
-                ApplicationContext.user = student;
+                App.setUser(student);
+                App.getUserManager().setManagement(new StudentManagement(student));
+                System.out.println(App.getUser());
                 //Transition to view models
                 viewManager.changeView(new HomeViewModel(false));
                 break;
@@ -132,11 +134,11 @@ public class LoginViewModel extends BaseViewModel implements IViewModel {
 
     public void handleStaffLogin() {
         //Access our database through our dao
-        StaffDao dao = new StaffDaoImpl(DirectoryUtility.STAFF_DATA_PATH);
+
         while (true) {
             //Get the email input
             String email = InputHandler.tryGetEmail("Input your Staff NTU email: ", "Invalid NTU email entered!");
-            Staff staff = dao.readStaff(email, "email");
+            Staff staff = App.getStaffManager().readStaff(email, "email");
             //Check if the entry exists
             if (staff == null) {
                 PrettyPage.printError("The staff email you entered does not exist in our system.");
@@ -158,9 +160,12 @@ public class LoginViewModel extends BaseViewModel implements IViewModel {
                 //Update application context
                 if (checkIfChangePassword(staff)) {
                     //If we had to change password, update the dao
-                    dao.updateStaff(staff);
+                    App.getStaffManager().updateStaff(staff);
                 }
-                ApplicationContext.user = staff;
+                //Set the user of this application context
+                App.setUser(staff);
+                App.getUserManager().setManagement(new StaffManagement(staff));
+
                 viewManager.changeView(new HomeViewModel(true));
                 break;
             }
@@ -188,4 +193,5 @@ public class LoginViewModel extends BaseViewModel implements IViewModel {
         }
         return false;
     }
+
 }

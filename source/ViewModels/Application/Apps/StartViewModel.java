@@ -1,6 +1,6 @@
 package source.ViewModels.Application.Apps;
 
-import source.Database.ApplicationContext;
+import source.Database.App;
 import source.Utility.InputHandler;
 import source.ViewModels.BaseViewModel;
 import source.ViewModels.IViewModel;
@@ -43,7 +43,7 @@ public class StartViewModel extends BaseViewModel implements IViewModel {
         super.init(viewManager);
         startView.display();
         //Reset the application context to be null
-        ApplicationContext.user = null;
+        App.setUser(null);
         handleInputs();
     }
 

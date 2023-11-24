@@ -1,7 +1,7 @@
 package source.ViewModels.Application.StaffViewModels;
 
 import source.Controllers.CampManager;
-import source.Database.ApplicationContext;
+import source.Database.App;
 import source.Entity.Camp;
 import source.Faculty.Faculty;
 import source.Utility.InputHandler;
@@ -38,7 +38,7 @@ public class EditCampDetailsViewModel extends BaseViewModel implements IViewMode
      * @see StaffCampView
      */
     public EditCampDetailsViewModel(Camp selectedCamp) {
-        campManager = ApplicationContext.getCampManager();
+        campManager = App.getCampManager();
         this.selectedCamp = selectedCamp;
         editCampDetailsView = new EditCampDetailsView();
     }

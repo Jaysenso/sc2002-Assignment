@@ -2,7 +2,7 @@ package source.ViewModels.Application.StudentViewModels;
 
 import source.Controllers.CampManager;
 import source.Controllers.FilterManager;
-import source.Database.ApplicationContext;
+import source.Database.App;
 import source.Entity.Camp;
 import source.Utility.InputHandler;
 import source.ViewModels.Application.Apps.FilterViewModel;
@@ -29,7 +29,7 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
      */
     public StudentCampViewModel () {
         studentCampView = new StudentCampView();
-        campManager = ApplicationContext.getCampManager();
+        campManager = App.getCampManager();
     }
 
     /**

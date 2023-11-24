@@ -208,6 +208,9 @@ public class StudentDaoImpl extends BaseDaoImpl implements StudentDao {
         return this.studentList;
     }
 
+    /**
+     * Refreshes this dao by saving the contents and re-reading the contents.
+     */
     @Override
     public void refresh() {
         saveToFile();

@@ -2,10 +2,9 @@ package source.ViewModels.Application.StudentViewModels;
 
 import source.Controllers.CampManager;
 import source.Controllers.EnquiryManager;
-import source.Database.ApplicationContext;
+import source.Database.App;
 import source.Entity.Enquiry;
 import source.Entity.Student;
-import source.Registration.CampAttendee;
 import source.Utility.InputHandler;
 import source.Utility.PrettyPage;
 import source.ViewModels.BaseViewModel;
@@ -28,8 +27,8 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
      * @see StudentOperationsView
      */
     StudentOperationsView studentOperationsView;
-    Student student = (Student) ApplicationContext.user;
-    CampManager campManager = ApplicationContext.getCampManager();
+    Student student = (Student) App.getUser();
+    CampManager campManager = App.getCampManager();
     EnquiryManager enquiryManager = new EnquiryManager();
     private Camp selectedCamp;
     /**

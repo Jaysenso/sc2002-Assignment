@@ -1,6 +1,6 @@
 package source.Entity;
 
-import source.Controllers.DateRangeValidator;
+import source.Utility.DateRangeValidator;
 import source.Utility.PrettyPage;
 
 import java.time.LocalDate;

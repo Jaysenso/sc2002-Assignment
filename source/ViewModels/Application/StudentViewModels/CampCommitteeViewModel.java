@@ -1,6 +1,6 @@
 package source.ViewModels.Application.StudentViewModels;
 
-import source.Database.ApplicationContext;
+import source.Database.App;
 import source.Entity.Camp;
 import source.Entity.Student;
 import source.Utility.InputHandler;
@@ -19,7 +19,7 @@ public class CampCommitteeViewModel extends BaseViewModel implements IViewModel 
      * @see StudentOperationsView
      */
     CampCommitteeView campCommitteeView;
-    private Student student = (Student) ApplicationContext.user;
+    private Student student = (Student) App.getUser();
     private Camp selectedCamp;
     /**
      * A default constructor.

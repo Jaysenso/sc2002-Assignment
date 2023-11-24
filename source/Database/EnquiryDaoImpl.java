@@ -208,6 +208,9 @@ public class EnquiryDaoImpl extends BaseDaoImpl implements EnquiryDao {
         return this.enquiryList;
     }
 
+    /**
+     * Refreshes this dao by saving the contents and re-reading the contents.
+     */
     @Override
     public void refresh() {
         saveToFile();

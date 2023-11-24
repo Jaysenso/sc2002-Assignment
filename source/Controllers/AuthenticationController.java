@@ -1,26 +1,14 @@
 package source.Controllers;
 
-import source.Database.Dao.StaffDao;
-import source.Database.Dao.StudentDao;
-import source.Database.StaffDaoImpl;
-import source.Database.StudentDaoImpl;
-import source.Entity.Staff;
-import source.Entity.Student;
 import source.Entity.User;
-import source.FileIO.Parser.Parser;
-import source.FileIO.TextDataReader;
-import source.Utility.DirectoryUtility;
 import source.Utility.PrettyPage;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * The AuthenticationController provides functionalities to authenticate whether the user's input details are valid
  * and authenticated.
  *
  * @author Isaac Chun
- * @version 1.0
+ * @version 1.1
  * @since 11/12/2023
  */
 public class AuthenticationController {
@@ -38,6 +26,8 @@ public class AuthenticationController {
      * An authentication function that checks if the stored password was the same as a given password.
      * Works through the user abstract class.
      *
+     * @param user     the user
+     * @param password the password
      * @see User
      */
     public boolean authenticate(User user, String password) {
@@ -54,10 +44,20 @@ public class AuthenticationController {
         return false;
     }
 
+    /**
+     * Returns if the user still can log in
+     *
+     * @return true if the user still has tries remaining, false if not.
+     */
     public boolean haveTriesLeft() {
         return attemptsLeft > 0;
     }
 
+    /**
+     * Returns the number of tries the user has left
+     *
+     * @return attempts left for the user
+     */
     public int getTriesLeft() {
         return attemptsLeft;
     }

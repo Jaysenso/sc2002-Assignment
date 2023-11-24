@@ -393,7 +393,7 @@ public class PrettyPage {
      * @param camps the list of camps
      */
     public static void printCamps(ArrayList<Camp> camps) {
-        printTitle("All camps", 1);
+        printTitle("All Camps", 1);
         printLineDivided(new Option("N", "test"),
                 new SubOptions[] {
                         new SubOptions("Name", 0.3f),

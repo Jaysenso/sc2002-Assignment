@@ -2,7 +2,7 @@ package source.ViewModels.Application.Apps;
 
 import source.Controllers.CampManager;
 import source.Controllers.FilterManager;
-import source.Database.ApplicationContext;
+import source.Database.App;
 import source.Utility.InputHandler;
 import source.Utility.PrettyPage;
 import source.ViewModels.BaseViewModel;
@@ -26,7 +26,7 @@ public class FilterViewModel extends BaseViewModel implements IViewModel {
      */
     public FilterViewModel() {
         filterManager = new FilterManager();
-        campManager = ApplicationContext.getCampManager();
+        campManager = App.getCampManager();
         filterView = new FilterView();
     }
 

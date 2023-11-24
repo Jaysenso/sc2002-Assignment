@@ -222,12 +222,18 @@ public class CampDaoImpl extends BaseDaoImpl implements CampDao {
         return this.campList;
     }
 
+    /**
+     * Refreshes this dao by saving the contents and re-reading the contents.
+     */
     @Override
     public void refresh() {
         saveToFile();
         readFile(filePath);
     }
 
+    /**
+     * Loads the context from the file.
+     */
     @Override
     public void loadContext() {
         readFile(filePath);

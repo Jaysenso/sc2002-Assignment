@@ -208,6 +208,9 @@ public class StaffDaoImpl extends BaseDaoImpl implements StaffDao {
         return this.staffList;
     }
 
+    /**
+     * Refreshes this dao by saving the contents and re-reading the contents.
+     */
     @Override
     public void refresh() {
         saveToFile();

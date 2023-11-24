@@ -1,5 +1,6 @@
 package source.FileIO.Serializer.Text;
 
+import source.Database.App;
 import source.Database.Dao.StudentDao;
 import source.Database.StudentDaoImpl;
 import source.Entity.Camp;
@@ -29,10 +30,6 @@ public class CampDeserializer implements TextDataDeserializer {
      */
     @Override
     public ArrayList deserialize(HashMap<String, ArrayList<String>> parsedData) {
-
-        //TEMP SOLUTION
-        StudentDao dao = new StudentDaoImpl(DirectoryUtility.STUDENT_DATA_PATH);
-
         ArrayList campList = new ArrayList();
         int len = parsedData.get("camp_name").size();
         if (len == 0)
@@ -76,7 +73,7 @@ public class CampDeserializer implements TextDataDeserializer {
             for(String s : attendees)
             {
                 //Use the dao to get our student object
-                Student student = dao.readStudent(s, "name");
+                Student student = App.getStudentManager().readStudent(s, "name");
                 if(student != null)
                 {
                     attendeeList.add(student);
@@ -87,7 +84,7 @@ public class CampDeserializer implements TextDataDeserializer {
             for(String s : commiteeMembers)
             {
                 //Use the dao to get our student object
-                Student student = dao.readStudent(s, "name");
+                Student student = App.getStudentManager().readStudent(s, "name");
                 if(student != null)
                 {
                     committeeList.add(student);

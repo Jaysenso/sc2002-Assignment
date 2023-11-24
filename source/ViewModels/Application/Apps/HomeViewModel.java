@@ -1,12 +1,8 @@
 package source.ViewModels.Application.Apps;
 
-import source.Database.ApplicationContext;
-import source.Entity.CampInfo;
+import source.Database.App;
 import source.Entity.Staff;
-import source.Entity.User;
-import source.Utility.DateTimeFormatter;
 import source.Utility.InputHandler;
-import source.Utility.Option;
 import source.Utility.PrettyPage;
 import source.ViewModels.Application.ProfileViewModel;
 import source.ViewModels.Application.StaffViewModels.StaffCampViewModel;
@@ -43,7 +39,7 @@ public class HomeViewModel extends BaseViewModel implements IViewModel {
     @Override
     public void init(ViewManager viewManager) {
         super.init(viewManager);
-        PrettyPage.printTitle("Welcome back " + ApplicationContext.user.getUserID(), 1);
+        PrettyPage.printTitle("Welcome back " + App.getUser().getUserID(), 1);
         homeView.display();
         handleInputs();
     }
@@ -57,7 +53,7 @@ public class HomeViewModel extends BaseViewModel implements IViewModel {
         choice = InputHandler.tryGetInt(1, 3, "Input choice: ", "Invalid choice!");
         switch (choice) {
             case 1: {
-                if (ApplicationContext.user instanceof Staff) {
+                if (App.getUser() instanceof Staff) {
                     viewManager.changeView(new StaffCampViewModel());
                 } else {
                     viewManager.changeView(new StudentCampViewModel());

@@ -2,9 +2,8 @@ package source.ViewModels.Application.StaffViewModels;
 
 import source.Controllers.CampManager;
 import source.Controllers.FilterManager;
-import source.Database.ApplicationContext;
+import source.Database.App;
 import source.Entity.Camp;
-import source.Entity.Staff;
 import source.Utility.InputHandler;
 import source.Utility.PrettyPage;
 import source.ViewModels.Application.Apps.FilterViewModel;
@@ -29,7 +28,7 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
      */
     public StaffCampViewModel() {
         staffCampView = new StaffCampView();
-        campManager = ApplicationContext.getCampManager();
+        campManager = App.getCampManager();
     }
 
     /**

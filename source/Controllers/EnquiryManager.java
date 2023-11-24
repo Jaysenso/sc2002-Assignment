@@ -1,42 +1,40 @@
 package source.Controllers;
-
+import source.Enquiry.StudentEnquiryOperations;
+import source.Entity.Student;
 import source.Entity.Enquiry;
-import source.Entity.Staff;
-import source.Entity.User;
-
-import java.util.ArrayList;
+import source.Entity.Camp;
 
 public class EnquiryManager {
-    public void addEnquiry(Enquiry enquiry, ArrayList<Enquiry> enquiryList){
-        enquiryList.add(enquiry);
+    private Student student;
+    private Camp camp;
+    private Enquiry enquiry;
+    public EnquiryManager(Student student, Camp camp){
+        this.student = student;
+        this.camp = camp;
     }
 
-    public void deleteEnquiry(Enquiry enquiry, ArrayList<Enquiry> enquiryList){
-        try {
-            // Check if the campList contains the specified camp
-            if (enquiryList.contains(enquiry)) {
-                // If the camp is found, remove it from the list
-                enquiryList.remove(enquiry);
-                System.out.println("Camp deleted successfully");
-            } else {
-                // If the camp is not found, throw an exception
-                throw new IllegalArgumentException("Camp not found in the list");
-            }
-        } catch (Exception e) {
-            // Handle the exception (e.g., print an error message)
-            System.err.println("Error deleting camp: " + e.getMessage());
-        }
+    public void useStudentEnquiryOperation(StudentEnquiryOperations studentEnquiryOperations){
+        studentEnquiryOperations.execute();
     }
 
-    public void editEnquiry(User user, Enquiry enquiry, String content){
-        //If user is Staff, will edit his reply
-        //if (user instanceof Staff){enquiry.setReply(content);}
-        //If user is Student, will edit his enquiry
-        //else{enquiry.setContent(content);}
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+    public Student getStudent() {
+        return student;
     }
 
-    public void viewEnquiries(){
-
+    public void setEnquiry(Enquiry enquiry) {
+        this.enquiry = enquiry;
+    }
+    public Enquiry getEnquiry() {
+        return enquiry;
     }
 
+    public void setCamp(Camp camp) {
+        this.camp = camp;
+    }
+    public Camp getCamp() {
+        return camp;
+    }
 }

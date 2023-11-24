@@ -8,7 +8,7 @@ package source.Utility;
  * @see StringBuilder
  * @since 11/12/2023
  */
-public class SerializeBuilder {
+public abstract class SerializeBuilder {
     /**
      * A utility class that provides static function to build strings into serialized formats with ease
      *

@@ -4,6 +4,7 @@ import source.Controllers.CampManager;
 import source.Controllers.FilterManager;
 import source.Database.ApplicationContext;
 import source.Entity.Camp;
+import source.Entity.Staff;
 import source.Utility.InputHandler;
 import source.Utility.PrettyPage;
 import source.ViewModels.BaseViewModel;
@@ -43,6 +44,7 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
         filterManager.viewAll(campManager.getFiltertype());
         staffCampView.display();
         handleInputs();
+
     }
 
     /**

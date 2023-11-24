@@ -22,6 +22,9 @@ public class InputHandler {
      */
     private static Scanner scanner = new Scanner(System.in);
 
+    private final static String EMAIL_REGEX = "\\w+@[e.]*ntu.edu.sg";
+    private final static String PASSWORD_REGEX = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$";
+
     /**
      * Encapsulates the logic of asking for an integer with the constraint that the input MUST be an integer.
      *
@@ -93,7 +96,7 @@ public class InputHandler {
         try {
             scanner = new Scanner(System.in);
             //Create pattern
-            Pattern pattern = Pattern.compile("\\w+@[e.]*ntu.edu.sg");
+            Pattern pattern = Pattern.compile(EMAIL_REGEX);
             while (true) {
                 System.out.print(choiceText);
                 String email = scanner.next();
@@ -114,5 +117,36 @@ public class InputHandler {
         return "";
     }
 
+    /**
+     * Asks for the user's input and try gets a password until a positive case is recorded.
+     *
+     * @see <a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Matcher.html">Regex matcher</a>
+     */
+    public static String tryGetPassword(String choiceText, String errorMessage) {
+        try {
+            scanner = new Scanner(System.in);
+            //Create pattern
+            Pattern pattern = Pattern.compile(PASSWORD_REGEX);
+            while (true) {
+                System.out.print(choiceText);
+                String password = scanner.next();
+                //Trim any unnecessary white spaces
+                password = password.trim();
+                Matcher matcher = pattern.matcher(password);
+                //if the matcher could not find the pattern required
+                if (password.isEmpty()) {
+                    PrettyPage.printError("Password cannot be empty!");
+                } else if (!matcher.find()) {
+                    PrettyPage.printError(errorMessage);
+                    continue;
+                }
+                return password;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            //return tryGetEmail(choiceText, errorMessage);
+        }
+        return "";
+    }
 
 }

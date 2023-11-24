@@ -1,6 +1,8 @@
 package source.Entity;
 
 import source.Camp.CampService;
+import source.Controllers.CampManager;
+import source.Database.ApplicationContext;
 import source.Faculty.Faculty;
 
 import java.util.ArrayList;
@@ -12,6 +14,7 @@ public class Student extends User {
 	private CampService campService;
 	private boolean visibility = false;
 	private Camp isCampCommittee;
+
 
 	public Student() {
 		super();

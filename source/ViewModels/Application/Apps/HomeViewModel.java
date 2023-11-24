@@ -12,9 +12,17 @@ import source.ViewModels.IViewModel;
 import source.ViewModels.ViewManager;
 import source.Views.Application.AppViews.HomeView;
 
+/**
+ * The HomeViewModel holds all the logic and necessary Ui elements for the application home page.
+ *
+ * @author Ho Jian Feng
+ * @version 1.0
+ * @since 11/12/2023
+ */
 public class HomeViewModel extends BaseViewModel implements IViewModel {
+
     /**
-     * The student view object shows the UI when the user is logged in as a Student, presenting the user with options a student can take.
+     * The home view object shows the UI when the user is logged in and presenting the user with options he/she can take.
      *
      * @see HomeView
      */

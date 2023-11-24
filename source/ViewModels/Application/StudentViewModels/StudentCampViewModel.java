@@ -65,7 +65,7 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
                     if(student.getIsCampCommittee() != null && student.getIsCampCommittee().equals(selectedCamp)) {
                         viewManager.changeView(new CampCommitteeViewModel(selectedCamp));
                     }
-                    else if(student.getIsCampCommittee() == null){
+                    else {
                         viewManager.changeView(new StudentOperationsViewModel(selectedCamp));
                     }
                     break;

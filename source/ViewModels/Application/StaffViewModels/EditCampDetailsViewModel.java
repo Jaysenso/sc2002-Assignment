@@ -24,9 +24,9 @@ import java.time.LocalDate;
  */
 public class EditCampDetailsViewModel extends BaseViewModel implements IViewModel {
     /**
-     * The student view object shows the UI when the user is logged in as a Student, presenting the user with options a student can take.
+     * The EditCampDetailsView object shows the UI that contains the relevant options for staff to edit the camp details.
      *
-     * @see StaffCampView
+     * @see EditCampDetailsView
      */
     EditCampDetailsView editCampDetailsView;
     CampManager campManager;
@@ -35,7 +35,7 @@ public class EditCampDetailsViewModel extends BaseViewModel implements IViewMode
     /**
      * A default constructor.
      *
-     * @see StaffCampView
+     * @see EditCampDetailsView
      */
     public EditCampDetailsViewModel(Camp selectedCamp) {
         campManager = App.getCampManager();

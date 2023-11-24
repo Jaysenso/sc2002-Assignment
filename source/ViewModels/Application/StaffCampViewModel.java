@@ -1,6 +1,7 @@
 package source.ViewModels.Application;
 
 import source.Controllers.CampManager;
+import source.Controllers.FilterManager;
 import source.Database.ApplicationContext;
 import source.Entity.Camp;
 import source.Utility.InputHandler;
@@ -17,6 +18,7 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
      * @see StaffCampView
      */
     private StaffCampView staffCampView;
+    private FilterManager filterManager = new FilterManager();
     private CampManager campManager;
     /**
      * A default constructor.
@@ -38,7 +40,7 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
     @Override
     public void init(ViewManager viewManager) {
         super.init(viewManager);
-        PrettyPage.printCamps(campManager.getCamps());
+        filterManager.viewAll(campManager.getFiltertype());
         staffCampView.display();
         handleInputs();
     }
@@ -65,7 +67,7 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
                     break;
                 }
                 case 3: {
-                    System.out.println("filter");
+                    viewManager.changeView(new FilterViewModel());
                     break;
                 }
                 case 4: {
@@ -83,4 +85,5 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
     public void cleanup() {
         System.out.flush(); //NOTE: Does not work in IntelliJ IDEA as it is not a real terminal.
     }
+
 }

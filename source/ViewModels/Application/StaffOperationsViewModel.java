@@ -66,25 +66,26 @@ public class StaffOperationsViewModel extends BaseViewModel implements IViewMode
     public void handleInputs() {
         int choice = InputHandler.tryGetInt(1, 6, "Input choice: ", "Invalid choice!");
         switch (choice) {
+
             case 1: {
-                viewManager.returnToPreviousView();
-                break;
-            }
-            case 2: {
                 System.out.println("View Enquiries");
                 break;
             }
-            case 3: {
+            case 2: {
                 System.out.println("View Suggestions");
                 break;
             }
-            case 4: {
+            case 3: {
                 viewManager.changeView(new EditCampDetailsViewModel(selectedCamp));
                 break;
             }
-            case 5: {
+            case 4: {
                 if(campManager.deleteCamp(selectedCamp))
                     System.out.println("Camp Deleted");
+                viewManager.returnToPreviousView();
+                break;
+            }
+            case 5: {
                 viewManager.returnToPreviousView();
                 break;
             }

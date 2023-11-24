@@ -1,5 +1,6 @@
 package source.Database;
 
+import source.Controllers.FilterManager;
 import source.Database.Dao.CampDao;
 import source.Entity.Camp;
 import source.FileIO.Serializer.Text.CampDeserializer;

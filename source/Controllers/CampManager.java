@@ -1,23 +1,24 @@
 package source.Controllers;
 
+import source.Database.ApplicationContext;
 import source.Database.CampDaoImpl;
 import source.Database.Dao.CampDao;
 import source.Entity.Camp;
 import source.Entity.CampInfo;
-import source.Entity.Staff;
-import source.Entity.User;
-import source.Faculty.EEE;
 import source.Faculty.Faculty;
 import source.Utility.DirectoryUtility;
 import source.Utility.InputHandler;
 import source.Utility.PrettyPage;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 public final class CampManager {
     private CampDao campDao;
+    private ArrayList<Camp> campList;
+    private int filtertype = 1;
 
     //    public void createCamp(){
 //        String name = InputHandler.getString();
@@ -25,6 +26,7 @@ public final class CampManager {
 //    }
     public CampManager() {
         this.campDao = new CampDaoImpl(DirectoryUtility.CAMP_LIST_PATH);
+        this.campList = campDao.getCamps();
     }
 
     public void createCamp() {
@@ -131,10 +133,24 @@ public final class CampManager {
     }
 
     public ArrayList<Camp> getCamps() {
-        return campDao.getCamps();
+        return campList;
     }
 
     public void loadContext() {
         campDao.loadContext();
+    }
+
+//    public ArrayList<Camp> filterCamps() {
+//        ArrayList<Camp> filteredCampList = new ArrayList<>();
+//        filteredCampList.addAll(campList);
+//        return fil
+//    }
+
+    public int getFiltertype() {
+        return filtertype;
+    }
+
+    public void setFiltertype(int filtertype) {
+        this.filtertype = filtertype;
     }
 }

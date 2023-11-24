@@ -140,10 +140,10 @@ public class EditCampDetailsViewModel extends BaseViewModel implements IViewMode
                     }while(!input.equals("y") && !input.equals("n"));
 
                     if(input.equals("y")){
-
+                        selectedCamp.setVisibility(true);
                     }
                     else{
-
+                        selectedCamp.setVisibility(false);
                     }
                     break;
                 }

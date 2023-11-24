@@ -92,4 +92,12 @@ public class Camp {
         // Compare the data members and return accordingly
         return campInfo.getName().equals(c.campInfo.getName());
     }
+
+    public void shallowCopy(Camp camp){
+        this.campInfo = camp.campInfo;
+        this.visibility = camp.visibility;
+        this.attendees = camp.attendees;
+        this.campCommitteeMembers = camp.campCommitteeMembers;
+        this.enquiryList = camp.enquiryList;
+    }
 }

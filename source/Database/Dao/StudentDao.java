@@ -66,4 +66,9 @@ public interface StudentDao {
      * @return the list of student stored in the database
      */
     ArrayList<Student> getStudents();
+    /**
+     * Function to refresh the database by saving this context and then reading it again.
+     *
+     */
+    void refresh();
 }

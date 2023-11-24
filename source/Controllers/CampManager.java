@@ -14,18 +14,17 @@ import source.Utility.PrettyPage;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public final class CampManager{
-
-    private final ArrayList<Camp> campList = new ArrayList<>();
-    CampDao dao;
+public final class CampManager {
+    private CampDao campDao;
 
 //    public void createCamp(){
 //        String name = InputHandler.getString();
 //        String description = InputHandler.getString();
 //    }
     public CampManager() {
-        this.dao = new CampDaoImpl(DirectoryUtility.CAMP_LIST_PATH);
-        }
+        this.campDao = new CampDaoImpl(DirectoryUtility.CAMP_LIST_PATH);
+    }
+
     public void createCamp() {
         String name;
         LocalDate startDate, endDate, regDate;
@@ -62,7 +61,7 @@ public final class CampManager{
                 regDate,
                 new EEE()
         );
-        dao.createCamp(new Camp(info, true, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
+        campDao.createCamp(new Camp(info, true, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
     }
 
     public boolean deleteCamp(Camp camp) {
@@ -79,8 +78,15 @@ public final class CampManager{
         return campDao.deleteCamp(camp);
     }
 
-    public CampDao getDao() {
-        return dao;
+    public void refresh() {
+        campDao.refresh();
     }
 
+    public ArrayList<Camp> getCamps() {
+        return campDao.getCamps();
+    }
+
+    public void loadContext() {
+        campDao.loadContext();
+    }
 }

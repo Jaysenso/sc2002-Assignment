@@ -67,4 +67,9 @@ public interface EnquiryDao {
      * @return the list of Enquiry stored in the database
      */
     ArrayList<Enquiry> getEnquiries();
+    /**
+     * Function to refresh the database by saving this context and then reading it again.
+     *
+     */
+    void refresh();
 }

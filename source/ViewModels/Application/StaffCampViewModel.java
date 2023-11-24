@@ -37,7 +37,6 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
      */
     public StaffCampViewModel() {
         cManager = new CampManager();
-        campList = cManager.getDao().getCamps();
         staffCampView = new StaffCampView();
     }
 
@@ -51,7 +50,9 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
     @Override
     public void init(ViewManager viewManager) {
         super.init(viewManager);
-        PrettyPage.printCamps(campList);
+        //Refresh context of cManager on init
+        cManager.refresh();
+        PrettyPage.printCamps(cManager.getCamps());
         staffCampView.display();
         handleInputs();
     }
@@ -66,13 +67,14 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
             choice = InputHandler.tryGetInt(1, 4, "Input choice: ", "Invalid choice!");
             switch (choice) {
                 case 1: {
-                    int index = InputHandler.tryGetInt(1, campList.size(), "Input camp choice : ", "Invalid Camp");
-                    viewManager.changeView(new StaffViewModel(campList.get(index - 1)));
+                    int index = InputHandler.tryGetInt(1, cManager.getCamps().size(), "Input camp choice : ", "Invalid Camp");
+                    Camp selectedCamp = cManager.getCamps().get(index - 1);
+                    viewManager.changeView(new StaffViewModel(selectedCamp));
                     break;
                 }
                 case 2: {
                     cManager.createCamp();
-                    PrettyPage.printCamps(campList);
+                    PrettyPage.printCamps(cManager.getCamps());
                     staffCampView.display();
                     break;
                 }

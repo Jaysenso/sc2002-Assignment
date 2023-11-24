@@ -66,4 +66,16 @@ public interface CampDao {
      * @return the list of Camp stored in the database
      */
     ArrayList<Camp> getCamps();
+
+    /**
+     * Function to refresh the database by saving this context and then reading it again.
+     *
+     */
+    void refresh();
+
+    /**
+     * Function to reset the database by loading the context form the data files.
+     *
+     */
+    void loadContext();
 }

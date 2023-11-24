@@ -192,7 +192,17 @@ public class CampDaoImpl extends BaseDaoImpl implements CampDao {
      */
     @Override
     public boolean deleteCamp(Camp camp) {
-        boolean removed = campList.remove(camp);
+        int idx = 0;
+        boolean removed = false;
+        for (Camp c : campList) {
+            if (c.equals(camp)) {
+                removed = true;
+                break;
+            }
+            idx++;
+        }
+        //Remove at idx
+        campList.remove(idx);
         if (removed) {
             refresh();
             return true;
@@ -214,6 +224,11 @@ public class CampDaoImpl extends BaseDaoImpl implements CampDao {
     @Override
     public void refresh() {
         saveToFile();
+        readFile(filePath);
+    }
+
+    @Override
+    public void loadContext() {
         readFile(filePath);
     }
 }

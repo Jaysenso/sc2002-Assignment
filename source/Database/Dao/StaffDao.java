@@ -67,4 +67,9 @@ public interface StaffDao {
      * @return the list of staff stored in the database
      */
     ArrayList<Staff> getStaffs();
+    /**
+     * Function to refresh the database by saving this context and then reading it again.
+     *
+     */
+    void refresh();
 }

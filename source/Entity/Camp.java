@@ -72,4 +72,24 @@ public class Camp {
     public void setVisibility(boolean visibility) {
         this.visibility = visibility;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        // If the object is compared with itself then return true
+        if (obj == this) {
+            return true;
+        }
+
+        /* Check if o is an instance of Camp or not
+          "null instanceof [type]" also returns false */
+        if (!(obj instanceof Camp)) {
+            return false;
+        }
+
+        // typecast o to Camp so that we can compare data members
+        Camp c = (Camp) obj;
+
+        // Compare the data members and return accordingly
+        return campInfo.getName().equals(c.campInfo.getName());
+    }
 }

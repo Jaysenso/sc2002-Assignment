@@ -74,9 +74,4 @@ public abstract class BaseDaoImpl {
      * An abstract method to force subsequent databases to implement their own logic in saving to their respective files.
      */
     abstract void saveToFile();
-
-    /**
-     * An abstract method for subsequent methods to implement the refreshing of persistent data.
-     */
-    public abstract void refresh();
 }

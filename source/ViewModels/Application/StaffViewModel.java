@@ -27,11 +27,15 @@ public class StaffViewModel extends BaseViewModel implements IViewModel {
     CampManager cManager;
 
     /**
-     * A default constructor.
+     * An overloaded constructor that initializes a selected camp and a manager
+     * NOTE: This view model should only be accessed by the StaffCampViewModel
+     * @param selectedCamp the selected camp
+     * ..@param campManager the camp manager reference.
      *
+     * @see StaffCampViewModel
      * @see StaffView
      */
-    public StaffViewModel(Camp camp) {
+    public StaffViewModel(Camp selectedCamp) {
         staffView = new StaffView();
         this.selectedCamp = camp;
     }
@@ -46,7 +50,9 @@ public class StaffViewModel extends BaseViewModel implements IViewModel {
     @Override
     public void init(ViewManager viewManager) {
         super.init(viewManager);
+        cManager.loadContext();
         PrettyPage.printCampDetails(selectedCamp);
+        PrettyPage.printCamps(cManager.getCamps());
         staffView.display();
         handleInputs();
     }

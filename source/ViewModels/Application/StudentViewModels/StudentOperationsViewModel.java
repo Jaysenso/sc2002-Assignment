@@ -6,12 +6,15 @@ import source.Database.App;
 import source.Entity.Enquiry;
 import source.Entity.Student;
 import source.Utility.InputHandler;
+import source.Utility.Option;
 import source.Utility.PrettyPage;
 import source.ViewModels.BaseViewModel;
 import source.ViewModels.IViewModel;
 import source.ViewModels.ViewManager;
 import source.Views.Application.StudentView.StudentOperationsView;
 import source.Entity.Camp;
+
+import java.util.ArrayList;
 
 /**
  * The StudentOperationsViewModel holds all the logic and necessary UI elements for student.
@@ -31,6 +34,7 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
     CampManager campManager = App.getCampManager();
     EnquiryManager enquiryManager = new EnquiryManager();
     private Camp selectedCamp;
+
     /**
      * A default constructor.
      *
@@ -77,6 +81,10 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
                 case 2: {
                     Enquiry enquiry = enquiryManager.getUserQuery(selectedCamp.getCampInfo().getName(), student.getName());
                     enquiryManager.addEnquiry(enquiry, student);
+                    PrettyPage.printLine(new Option("Success", "You have successfully sent your enquiry!"));
+                    //reprint the camp and display the operations
+                    PrettyPage.printCampDetails(selectedCamp);
+                    studentOperationsView.display();
                     break;
                 }
                 //Apply Camp Committee
@@ -102,5 +110,8 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
     @Override
     public void cleanup() {
         System.out.flush(); //NOTE: Does not work in IntelliJ IDEA as it is not a real terminal.
+    }
+
+    public void printApplicableEnquiries() {
     }
 }

@@ -4,7 +4,6 @@ import source.Controllers.CampManager;
 import source.Controllers.FilterManager;
 import source.Database.App;
 import source.Entity.Camp;
-import source.Entity.CampCommitteeMember;
 import source.Entity.Student;
 import source.Utility.InputHandler;
 import source.ViewModels.Application.Apps.FilterViewModel;
@@ -21,7 +20,7 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
      * @see StaffCampView
      */
     StudentCampView studentCampView;
-    Student student = (Student) ApplicationContext.user;
+    Student student = (Student) App.getUser();
     private FilterManager filterManager = new FilterManager();
     private CampManager campManager;
 

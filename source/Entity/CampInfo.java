@@ -140,4 +140,5 @@ public class CampInfo {
     public void setMaxCampCommitteeSlots(int maxCampCommitteeSlots) {
         this.maxCampCommitteeSlots = maxCampCommitteeSlots;
     }
+
 }

@@ -7,10 +7,12 @@ import source.Entity.CampInfo;
 import source.Entity.Staff;
 import source.Entity.User;
 import source.Faculty.EEE;
+import source.Faculty.Faculty;
 import source.Utility.DirectoryUtility;
 import source.Utility.InputHandler;
 import source.Utility.PrettyPage;
 
+import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -113,6 +115,15 @@ public final class CampManager {
         else {
             return false;
         }
+    }
+
+    public Camp readCamp(String query, String header){
+        return campDao.readCamp(query,header);
+    }
+
+    public boolean updateCamp(Camp camp) {
+
+        return campDao.updateCamp(camp);
     }
 
     public void refresh() {

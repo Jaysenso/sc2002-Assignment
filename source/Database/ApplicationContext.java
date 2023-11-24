@@ -1,5 +1,6 @@
 package source.Database;
 
+import source.Controllers.CampManager;
 import source.Entity.User;
 
 /**
@@ -13,5 +14,15 @@ import source.Entity.User;
  * @since 11/4/2023
  */
 public abstract class ApplicationContext {
+
     public static User user;
+    private static CampManager campManager;
+
+    public static CampManager getCampManager() {
+        return campManager;
+    }
+
+    public static void setCampManager(CampManager campManager) {
+        ApplicationContext.campManager = campManager;
+    }
 }

@@ -1,30 +1,31 @@
 package source.ViewModels.Application;
 
 import source.Controllers.CampManager;
+import source.Database.ApplicationContext;
 import source.Entity.Camp;
 import source.Utility.InputHandler;
 import source.Utility.PrettyPage;
 import source.ViewModels.BaseViewModel;
 import source.ViewModels.IViewModel;
 import source.ViewModels.ViewManager;
-import source.Views.Application.StaffView;
+import source.Views.Application.StaffOperationsView;
 
 /**
- * The StaffViewModel holds all the logic and necessary UI elements for staff.
+ * The StaffOperationsViewModel holds all the logic and necessary UI elements for staff.
  *
  * @author Isaac Chun
  * @version 1.0
  * @since 11/12/2023
  */
-public class StaffViewModel extends BaseViewModel implements IViewModel {
+public class StaffOperationsViewModel extends BaseViewModel implements IViewModel {
     /**
      * The staff view object shows the UI when the user is logged in as a Staff, presenting the user with options a staff can take.
      *
-     * @see StaffView
+     * @see StaffOperationsView
      */
-    StaffView staffView;
+    StaffOperationsView staffOperationsView;
     Camp selectedCamp;
-    CampManager cManager;
+    CampManager campManager;
 
     /**
      * An overloaded constructor that initializes a selected camp and a manager
@@ -33,11 +34,11 @@ public class StaffViewModel extends BaseViewModel implements IViewModel {
      * ..@param campManager the camp manager reference.
      *
      * @see StaffCampViewModel
-     * @see StaffView
+     * @see StaffOperationsView
      */
-    public StaffViewModel(Camp selectedCamp) {
-        staffView = new StaffView();
-        cManager = new CampManager();
+    public StaffOperationsViewModel(Camp selectedCamp) {
+        staffOperationsView = new StaffOperationsView();
+        campManager = ApplicationContext.getCampManager();
         this.selectedCamp = selectedCamp;
     }
 
@@ -51,10 +52,10 @@ public class StaffViewModel extends BaseViewModel implements IViewModel {
     @Override
     public void init(ViewManager viewManager) {
         super.init(viewManager);
-        cManager.loadContext();
+        campManager.loadContext();
         PrettyPage.printCampDetails(selectedCamp);
-        PrettyPage.printCamps(cManager.getCamps());
-        staffView.display();
+        //PrettyPage.printCamps(cManager.getCamps());
+        staffOperationsView.display();
         handleInputs();
     }
 
@@ -78,13 +79,11 @@ public class StaffViewModel extends BaseViewModel implements IViewModel {
                 break;
             }
             case 4: {
-                System.out.println("edit");
-
-
+                viewManager.changeView(new EditCampDetailsViewModel(selectedCamp));
                 break;
             }
             case 5: {
-                if(cManager.deleteCamp(selectedCamp))
+                if(campManager.deleteCamp(selectedCamp))
                     System.out.println("Camp Deleted");
                 viewManager.returnToPreviousView();
                 break;

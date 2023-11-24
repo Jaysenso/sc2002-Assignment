@@ -5,32 +5,32 @@ import source.Utility.PrettyPage;
 import source.ViewModels.BaseViewModel;
 import source.ViewModels.IViewModel;
 import source.ViewModels.ViewManager;
-import source.Views.Application.StudentView;
+import source.Views.Application.StudentOperationsView;
 import source.Entity.Camp;
 
 /**
- * The StudentViewModel holds all the logic and necessary UI elements for student.
+ * The StudentOperationsViewModel holds all the logic and necessary UI elements for student.
  *
  * @author Isaac Chun
  * @version 1.0
  * @since 11/12/2023
  */
-public class StudentViewModel extends BaseViewModel implements IViewModel {
+public class StudentOperationsViewModel extends BaseViewModel implements IViewModel {
     /**
      * The student view object shows the UI when the user is logged in as a Student, presenting the user with options a student can take.
      *
-     * @see StudentView
+     * @see StudentOperationsView
      */
-    StudentView studentView;
+    StudentOperationsView studentOperationsView;
 
     private Camp selectedCamp;
     /**
      * A default constructor.
      *
-     * @see StudentView
+     * @see StudentOperationsView
      */
-    public StudentViewModel(Camp selectedCamp) {
-        studentView = new StudentView();
+    public StudentOperationsViewModel(Camp selectedCamp) {
+        studentOperationsView = new StudentOperationsView();
         this.selectedCamp = selectedCamp;
     }
 
@@ -45,7 +45,7 @@ public class StudentViewModel extends BaseViewModel implements IViewModel {
     public void init(ViewManager viewManager) {
         super.init(viewManager);
         PrettyPage.printCampDetails(selectedCamp);
-        studentView.display();
+        studentOperationsView.display();
         handleInputs();
     }
 

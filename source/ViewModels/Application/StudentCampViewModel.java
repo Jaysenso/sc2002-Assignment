@@ -60,7 +60,7 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
                 case 1: {
                     List<Camp> campList = dao.getCamps();
                     int index = InputHandler.tryGetInt(1, campList.size(), "Input camp choice : ", "Invalid Camp");
-                    viewManager.changeView(new StudentViewModel(campList.get(index-1)));
+                    viewManager.changeView(new StudentOperationsViewModel(campList.get(index-1)));
                     break;
                 }
                 case 2: {

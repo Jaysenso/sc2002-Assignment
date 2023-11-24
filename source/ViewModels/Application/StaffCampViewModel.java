@@ -1,23 +1,14 @@
 package source.ViewModels.Application;
 
 import source.Controllers.CampManager;
-import source.Database.CampDaoImpl;
-import source.Database.Dao.CampDao;
+import source.Database.ApplicationContext;
 import source.Entity.Camp;
-import source.Entity.CampInfo;
-import source.Entity.Staff;
-import source.Faculty.EEE;
-import source.Utility.DirectoryUtility;
 import source.Utility.InputHandler;
 import source.Utility.PrettyPage;
 import source.ViewModels.BaseViewModel;
 import source.ViewModels.IViewModel;
 import source.ViewModels.ViewManager;
 import source.Views.Application.StaffCampView;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 public class StaffCampViewModel extends BaseViewModel implements IViewModel {
     /**
@@ -34,6 +25,7 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
      */
     public StaffCampViewModel() {
         staffCampView = new StaffCampView();
+        campManager = ApplicationContext.getCampManager();
     }
 
     /**
@@ -46,9 +38,7 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
     @Override
     public void init(ViewManager viewManager) {
         super.init(viewManager);
-        //Refresh context of cManager on init
-        cManager.refresh();
-        PrettyPage.printCamps(cManager.getCamps());
+        PrettyPage.printCamps(campManager.getCamps());
         staffCampView.display();
         handleInputs();
     }

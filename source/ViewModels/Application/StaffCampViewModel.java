@@ -26,15 +26,13 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
      * @see StaffCampView
      */
     private StaffCampView staffCampView;
-    private CampManager cManager;
-
+    private CampManager campManager;
     /**
      * A default constructor.
      *
      * @see StaffCampView
      */
     public StaffCampViewModel() {
-        cManager = new CampManager();
         staffCampView = new StaffCampView();
     }
 
@@ -65,14 +63,14 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
             choice = InputHandler.tryGetInt(1, 4, "Input choice: ", "Invalid choice!");
             switch (choice) {
                 case 1: {
-                    int index = InputHandler.tryGetInt(1, cManager.getCamps().size(), "Input camp choice : ", "Invalid Camp");
-                    Camp selectedCamp = cManager.getCamps().get(index - 1);
-                    viewManager.changeView(new StaffViewModel(selectedCamp));
+                    int index = InputHandler.tryGetInt(1, campManager.getCamps().size(), "Input camp choice : ", "Invalid Camp");
+                    Camp selectedCamp = campManager.getCamps().get(index - 1);
+                    viewManager.changeView(new StaffOperationsViewModel(selectedCamp));
                     break;
                 }
                 case 2: {
-                    cManager.createCamp();
-                    PrettyPage.printCamps(cManager.getCamps());
+                    campManager.createCamp();
+                    PrettyPage.printCamps(campManager.getCamps());
                     staffCampView.display();
                     break;
                 }

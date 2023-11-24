@@ -86,8 +86,7 @@ public class StaffViewModel extends BaseViewModel implements IViewModel {
             case 5: {
                 if(cManager.deleteCamp(selectedCamp))
                     System.out.println("Camp Deleted");
-                PrettyPage.printCamps(cManager.getCamps());
-                //viewManager.returnToPreviousView();
+                viewManager.returnToPreviousView();
                 break;
             }
         }

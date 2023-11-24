@@ -47,6 +47,38 @@ public final class CampManager {
         System.out.println("Enter a brief description: ");
         String description = InputHandler.getString();
 
+        Faculty faculty = null;
+        do {
+            System.out.print("Enter User Group: ");
+            try {
+                String facultyName = "source.Faculty." + InputHandler.getString();
+                faculty = (Faculty) Class.forName(facultyName).getDeclaredConstructor().newInstance();
+            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException |
+                     InvocationTargetException | NoSuchMethodException e) {
+                PrettyPage.printError("Faculty Group not found in our System");
+            }
+        }while(faculty == null);
+
+        System.out.print("Set Visibility :");
+        boolean visibility;
+        String input = "";
+        do{
+            System.out.println("Hidden/Visible To All ");
+            try{
+                input = InputHandler.getString();
+            }catch (Exception e) {
+                PrettyPage.printError("Invalid Confirmation");
+            }
+        }while(!input.equals("Y") && !input.equals("F"));
+        if(input.equals("Y")){
+            System.out.println("Camp is now Visible");
+            visibility = true;
+        }
+        else{
+            System.out.println("Camp is now Not Visible");
+            visibility = false;
+        }
+
         CampInfo info = new CampInfo(
                 name,
                 location,
@@ -59,9 +91,9 @@ public final class CampManager {
                 startDate,
                 endDate,
                 regDate,
-                new EEE()
+                faculty
         );
-        campDao.createCamp(new Camp(info, true, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
+        campDao.createCamp(new Camp(info, visibility, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
     }
 
     public boolean deleteCamp(Camp camp) {
@@ -75,7 +107,12 @@ public final class CampManager {
             }
         }while(!input.equals("y") && !input.equals("n"));
 
-        return campDao.deleteCamp(camp);
+        if(input.equals("y")){
+            return campDao.deleteCamp(camp);
+        }
+        else {
+            return false;
+        }
     }
 
     public void refresh() {

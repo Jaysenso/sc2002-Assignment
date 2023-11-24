@@ -1,6 +1,7 @@
 package source.ViewModels.Application;
 
 import source.Controllers.AuthenticationController;
+import source.Controllers.CampManager;
 import source.Database.ApplicationContext;
 import source.Database.Dao.StaffDao;
 import source.Database.Dao.StudentDao;

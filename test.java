@@ -1,14 +1,13 @@
-import Source.Camp.Camp;
-import Source.Enquiry.Delete;
-import Source.Enquiry.Edit;
-import Source.Enquiry.Enquiry;
-import Source.Enquiry.EnquiryOperations;
-import Source.Entity.Student;
-import Source.Faculty.Faculty;
-import Source.Faculty.SCSE;
-import Source.Registration.Registration;
-import Source.Registration.RegistrationOperations;
-import Source.Registration.Withdraw;
+import source.Entity.Camp;
+import source.Enquiry.DeleteStudentEnquiry;
+import source.Entity.Enquiry;
+import source.Enquiry.StudentEnquiryOperations;
+import source.Entity.Student;
+import source.Faculty.Faculty;
+import source.Faculty.SCSE;
+import source.Registration.Registration;
+import source.Registration.RegistrationOperations;
+import source.Registration.Withdraw;
 
 public class test {
     public static void main(String[] args){
@@ -38,7 +37,7 @@ public class test {
         System.out.println(Edwin.getEnquiries());
 
         Enquiry helloKranji = Edwin.getEnquiries().get(0);
-        EnquiryOperations delete = new Delete(helloKranji, Edwin);
+        StudentEnquiryOperations delete = new DeleteStudentEnquiry(helloKranji, Edwin);
         helloKranji.UseEnquiryOperations(delete);
 
         System.out.println(Edwin.getEnquiries());

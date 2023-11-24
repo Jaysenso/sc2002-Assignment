@@ -20,8 +20,8 @@ public class CreateStudentEnquiry implements StudentEnquiryOperations {
         System.out.println("Enter the content of your enquiry:\n");
         String content = createEnquiryScanner.nextLine();
 
-        Enquiry enquiry = new Enquiry(enquiryManager.getStudent(), enquiryManager.getCamp(), content, title);
-        enquiryManager.getStudent().addEnquiry(enquiry);
+        //Enquiry enquiry = new Enquiry(enquiryManager.getStudent(), enquiryManager.getCamp(), content, title);
+        //enquiryManager.getStudent().addEnquiry(enquiry);
     }
 
     public void setEnquiryManager(EnquiryManager enquiryManager) {

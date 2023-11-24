@@ -11,7 +11,8 @@ public class DeleteStudentEnquiry implements StudentEnquiryOperations {
 
     @Override
     public void execute(){
-        enquiry.getStudent().getEnquiries().remove(enquiry);
+
+        //enquiry.getStudent().getEnquiries().remove(enquiry);
     }
 
     public void setEnquiry(Enquiry enquiry) {

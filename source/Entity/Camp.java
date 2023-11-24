@@ -1,5 +1,8 @@
 package source.Entity;
 
+import source.Controllers.DateRangeValidator;
+import source.Utility.PrettyPage;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -67,6 +70,8 @@ public class Camp {
         }
 
         this.attendees.add(attendee);
+        PrettyPage.printError("Registered Successfully.");
+        return true;
     }
 
     public boolean registerCommittees(Student committee){

@@ -6,12 +6,12 @@ import source.Faculty.Faculty;
 import java.util.ArrayList;
 
 public class Student extends User {
-
+	private ArrayList<Camp> registeredCamps;
 	private ArrayList<Registration> registrations;
 	private ArrayList<Enquiry> enquiries;
 	private CampService campService;
 	private boolean visibility = false;
-	private boolean isCampCommittee = false;
+	private Camp isCampCommittee;
 
 	public Student() {
 		super();
@@ -95,13 +95,11 @@ public class Student extends User {
 	 * 
 	 * IsCampCommittee
 	 */
-	public void setIsCampCommittee(boolean isCampCommittee) {
-
-		this.isCampCommittee = isCampCommittee;
+	public void setIsCampCommittee(Camp camp) {
+		this.isCampCommittee = camp;
 	}
 
-	public boolean getIsCampCommittee() {
-
+	public Camp getIsCampCommittee() {
 		return isCampCommittee;
 	}	
 
@@ -124,4 +122,11 @@ public class Student extends User {
 		return campService;
 	}
 
+	public ArrayList<Camp> getRegisteredCamps() {
+		return registeredCamps;
+	}
+
+	public void setRegisteredCamps(ArrayList<Camp> registeredCamps) {
+		this.registeredCamps = registeredCamps;
+	}
 }

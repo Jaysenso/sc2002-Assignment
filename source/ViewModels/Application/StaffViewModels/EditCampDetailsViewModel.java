@@ -2,6 +2,7 @@ package source.ViewModels.Application.StaffViewModels;
 
 import source.Controllers.CampManager;
 import source.Database.App;
+import source.Database.DatabaseQuery;
 import source.Entity.Camp;
 import source.Faculty.Faculty;
 import source.Utility.InputHandler;
@@ -66,9 +67,11 @@ public class EditCampDetailsViewModel extends BaseViewModel implements IViewMode
         int choice;
         //Use the camp reference
         //Find the camp with the same name
-        Camp camp = campManager.readCamp(selectedCamp.getCampInfo().getName(), "camp_name");
+        Camp camp = campManager.readCamp(
+                new DatabaseQuery(selectedCamp.getCampInfo().getName(),
+                        "camp_name"));
         do {
-            choice = InputHandler.tryGetInt(1,10 , "Input choice: ", "Invalid choice!");
+            choice = InputHandler.tryGetInt(1, 10, "Input choice: ", "Invalid choice!");
             switch (choice) {
                 case 1: {
                     viewManager.returnToPreviousView();
@@ -109,7 +112,7 @@ public class EditCampDetailsViewModel extends BaseViewModel implements IViewMode
                                  InvocationTargetException | NoSuchMethodException e) {
                             PrettyPage.printError("Faculty Group not found in our System");
                         }
-                    }while(f == null);
+                    } while (f == null);
                     selectedCamp.getCampInfo().setFaculty(f);
                     break;
                 }
@@ -129,24 +132,24 @@ public class EditCampDetailsViewModel extends BaseViewModel implements IViewMode
                     PrettyPage.printTitle("Visibility: " + selectedCamp.getVisibility(), 2);
                     System.out.println("Set to " + !selectedCamp.getVisibility() + " ?");
                     String input = "";
-                    do{
+                    do {
                         System.out.print("Confirm? y/n:");
-                        try{
+                        try {
                             input = InputHandler.getString();
-                        }catch (Exception e) {
+                        } catch (Exception e) {
                             PrettyPage.printError("Invalid Confirmation");
                         }
-                    }while(!input.equals("y") && !input.equals("n"));
+                    } while (!input.equals("y") && !input.equals("n"));
 
-                    if(input.equals("y")){
+                    if (input.equals("y")) {
                         selectedCamp.setVisibility(true);
-                    }
-                    else{
+                    } else {
                         selectedCamp.setVisibility(false);
                     }
                     break;
                 }
-                    default: break;
+                default:
+                    break;
             }
             //Update once at the end
             camp.shallowCopy(selectedCamp);

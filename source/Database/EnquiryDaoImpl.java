@@ -7,6 +7,7 @@ import source.FileIO.Serializer.Text.EnquirySerializer;
 import source.FileIO.Serializer.Text.TextDataDeserializer;
 import source.FileIO.Serializer.Text.TextDataSerializer;
 import source.FileIO.TextDataWriter;
+import source.Utility.PrettyPage;
 
 import java.security.KeyException;
 import java.util.ArrayList;
@@ -94,60 +95,146 @@ public class EnquiryDaoImpl extends BaseDaoImpl implements EnquiryDao {
     /**
      * Searches the database to see if the Enquiry name exists (it is assumed that Enquiry names are unique according to the FAQ).
      *
+     * @param query the datbase query object
      * @return the Enquiry object associated with that Enquiry name, null if there is no found entry.
      */
     @Override
-    public Enquiry readEnquiry(String query, String from) {
+    public Enquiry readEnquiry(DatabaseQuery query) {
         //Look through our text data file entries and get see if it exists
         HashMap<String, ArrayList<String>> mp = textDataFile.getData();
         //Check if the key exists, can throw exception here to be dealt with later
         try {
             //If the map does not contain our table, then query fails
-            if (!mp.containsKey(from))
+            if (!mp.containsKey(query.getHeader()))
                 throw new KeyException();
 
-            ArrayList<String> stringData = mp.get(from);
+            ArrayList<String> stringData = mp.get(query.getHeader());
             //Iterate and try to find
             for (int i = 0; i < stringData.size(); i++) {
-                if (query.equals(stringData.get(i)))
+                if (query.getQuery().equals(stringData.get(i)))
                     return enquiryList.get(i);
             }
         } catch (KeyException e) {
-            System.out.println("The " + from + " table does not exist!");
+            System.out.println("The " + query.getHeader() + " table does not exist!");
         }
         return null;
     }
 
     /**
-     * Reads all enquirie that satisfies a particular property.
+     * Reads an enquiry from the subsequent database using a given query and from which table
+     * Should be mainly used for name queries.
+     *
+     * @param queries queries to check that gives us the first result that satisfies the requirements.
+     */
+    @Override
+    public Enquiry readEnquiry(DatabaseQuery[] queries) {
+        //Look through our text data file entries and get see if it exists
+        HashMap<String, ArrayList<String>> mp = textDataFile.getData();
+        //Check if the key exists, can throw exception here to be dealt with later
+        int len = mp.get("camp_name").size();
+        try {
+            //Loop through from start to end and check at every instance if it satisfies our queries
+            for (int i = 0; i < len; i++) {
+                boolean satisfied = true;
+                for (int j = 0; j < queries.length; j++) {
+                    //If the map does not contain our table, then query fails
+                    if (!mp.containsKey(queries[j].getHeader()))
+                        throw new KeyException();
+
+                    ArrayList<String> stringData = mp.get(queries[j].getHeader());
+                    String data = stringData.get(i);
+                    //if data equals our query at this itr
+                    if (data.equals(queries[j].getQuery())) {
+                        continue;
+                    }
+                    //Else we did not satisfy this loop
+                    satisfied = false;
+                    break;
+                }
+                if (satisfied) {
+                    return enquiryList.get(i);
+                }
+            }
+        } catch (KeyException e) {
+            PrettyPage.printError("The table did not exist!");
+        }
+        return null;
+    }
+
+    /**
+     * Reads all enquiries that satisfies a particular property.
      * NOTE: List can be empty if no results are found
      *
      * @param query query to check in our header
-     * @param from  the header to query in
-     * @return an arraylist of enquirie if found, an empty list if not.
+     * @return an arraylist of enquiries if found, an empty list if not.
      */
     @Override
-    public ArrayList<Enquiry> readEnquiries(String query, String from) {
-        ArrayList<Enquiry> enquirie = new ArrayList<>();
+    public ArrayList<Enquiry> readEnquiries(DatabaseQuery query) {
+        ArrayList<Enquiry> enquiries = new ArrayList<>();
         //Look through our text data file entries and get see if it exists
         HashMap<String, ArrayList<String>> mp = textDataFile.getData();
         //Check if the key exists, can throw exception here to be dealt with later
         try {
             //If the map does not contain our table, then query fails
-            if (!mp.containsKey(from))
+            if (!mp.containsKey(query.getHeader()))
                 throw new KeyException();
 
-            ArrayList<String> stringData = mp.get(from);
+            ArrayList<String> stringData = mp.get(query.getHeader());
             //Iterate and try to find
             for (int i = 0; i < stringData.size(); i++) {
-                if (query.equals(stringData.get(i)))
-                    enquirie.add(enquiryList.get(i));
+                if (query.getQuery().equals(stringData.get(i)))
+                    enquiries.add(enquiryList.get(i));
             }
-            return enquirie;
+            return enquiries;
         } catch (KeyException e) {
-            System.out.println("The " + from + " table does not exist!");
+            System.out.println("The " + query.getHeader() + " table does not exist!");
         }
-        return enquirie;
+        return enquiries;
+    }
+
+    /**
+     * Reads all Enquiries that satisfies all the properties (Overloaded)
+     * NOTE: List can be empty if no results are found
+     *
+     * @param queries an array of database queries
+     * @return an arraylist of Enquiry if found, an empty list if not.
+     */
+    @Override
+    public ArrayList<Enquiry> readEnquiries(DatabaseQuery[] queries) {
+        if (queries.length == 0)
+            return new ArrayList<>();
+        ArrayList<Enquiry> enquiries = new ArrayList<>();
+        //Look through our text data file entries and get see if it exists
+        HashMap<String, ArrayList<String>> mp = textDataFile.getData();
+        int len = mp.get("camp_name").size();
+
+        try {
+            //Loop through from start to end and check at every instance if it satisfies our queries
+            for (int i = 0; i < len; i++) {
+                boolean satisfied = true;
+                for (int j = 0; j < queries.length; j++) {
+                    //If the map does not contain our table, then query fails
+                    if (!mp.containsKey(queries[j].getHeader()))
+                        throw new KeyException();
+
+                    ArrayList<String> stringData = mp.get(queries[j].getHeader());
+                    String data = stringData.get(i);
+                    //if data equals our query at this itr
+                    if (data.equals(queries[j].getQuery())) {
+                        continue;
+                    }
+                    //Else we did not satisfy this loop
+                    satisfied = false;
+                    break;
+                }
+                if (satisfied) {
+                    enquiries.add(enquiryList.get(i));
+                }
+            }
+        } catch (KeyException e) {
+            PrettyPage.printError("The table did not exist!");
+        }
+        return enquiries;
     }
 
     /**
@@ -174,8 +261,8 @@ public class EnquiryDaoImpl extends BaseDaoImpl implements EnquiryDao {
      * @return true if there was a successful deletion, else false.
      */
     @Override
-    public boolean deleteEnquiry(String query, String from) {
-        Enquiry Enquiry = readEnquiry(query, from);
+    public boolean deleteEnquiry(DatabaseQuery query) {
+        Enquiry Enquiry = readEnquiry(query);
         if (Enquiry != null) {
             return deleteEnquiry(Enquiry);
         }

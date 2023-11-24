@@ -6,6 +6,7 @@ import source.Controllers.StudentManager;
 import source.Controllers.UserManagement.StaffManagement;
 import source.Controllers.UserManagement.StudentManagement;
 import source.Database.App;
+import source.Database.DatabaseQuery;
 import source.Entity.Staff;
 import source.Entity.Student;
 import source.Entity.User;
@@ -97,7 +98,8 @@ public class LoginViewModel extends BaseViewModel implements IViewModel {
         while (true) {
             //Get the email input
             String email = InputHandler.tryGetEmail("Input your Student NTU email: ", "Invalid NTU email entered!");
-            Student student = App.getStudentManager().readStudent(email, "email");
+            Student student = App.getStudentManager().readStudent(
+                    new DatabaseQuery(email, "email"));
             //Check if the entry exists
             if (student == null) {
                 PrettyPage.printError("The student email you entered does not exist in our system.");
@@ -138,7 +140,7 @@ public class LoginViewModel extends BaseViewModel implements IViewModel {
         while (true) {
             //Get the email input
             String email = InputHandler.tryGetEmail("Input your Staff NTU email: ", "Invalid NTU email entered!");
-            Staff staff = App.getStaffManager().readStaff(email, "email");
+            Staff staff = App.getStaffManager().readStaff(new DatabaseQuery(email, "email"));
             //Check if the entry exists
             if (staff == null) {
                 PrettyPage.printError("The staff email you entered does not exist in our system.");

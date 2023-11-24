@@ -374,6 +374,19 @@ public class PrettyPage {
      */
     public static void printCampDetails(Camp camp) {
         CampInfo campInfo = camp.getCampInfo();
+        String attendees = "";
+        String committeeMembers = "";
+        //Populate strings into nice format
+        for (int i = 0; i < camp.getAttendees().size(); i++) {
+            attendees += camp.getAttendees().get(i).getUserID();
+            if (i != camp.getAttendees().size() - 1)
+                attendees += ", ";
+        }
+        for (int i = 0; i < camp.getCampCommitteeMembers().size(); i++) {
+            committeeMembers += camp.getCampCommitteeMembers().get(i).getUserID();
+            if (i != camp.getCampCommitteeMembers().size() - 1)
+                committeeMembers += ", ";
+        }
         printTitle("Information for: " + campInfo.getName(), 1);
         Option[] options = {
                 new Option("Name", campInfo.getName()),
@@ -381,6 +394,8 @@ public class PrettyPage {
                 new Option("End Date", DateTimeFormatter.formatDateTimeToLocal(campInfo.getEndDate())),
                 new Option("Registration Close Date", DateTimeFormatter.formatDateTimeToLocal(campInfo.getClosingDate())),
                 new Option("User Group", campInfo.getFaculty().getClass().getSimpleName()),
+                new Option("Attendees ", attendees),
+                new Option("Camp Committee Members ", committeeMembers),
                 new Option("Attendee Slots", campInfo.getCurrentSlots() + "/" + campInfo.getMaxSlots()),
                 new Option("Camp Committee", campInfo.getCampCommitteeSlots() + "/" + campInfo.getMaxCampCommitteeSlots()),
                 new Option("Description", campInfo.getDescription()),
@@ -398,7 +413,7 @@ public class PrettyPage {
         printTitle(enquiry.getTitle(), 1);
 
         String repliedBy = enquiry.getRepliedBy();
-        if(repliedBy.isEmpty())
+        if (repliedBy.isEmpty())
             repliedBy = "N/A";
 
         LocalDate date = enquiry.getRepliedDate();
@@ -421,19 +436,24 @@ public class PrettyPage {
      * @param enquiries the list of camps
      */
     public static void printEnquiries(ArrayList<Enquiry> enquiries) {
+
         printTitle("Your Enquiries", 1);
+        if (enquiries.isEmpty()) {
+            printTitle("You have not sent any enquiries before!", 1);
+            return;
+        }
         printLineDivided(new Option("N", "test"),
-                new SubOptions[] {
-                        new SubOptions("Name", 0.3f),
+                new SubOptions[]{
+                        new SubOptions("Name", 0.325f),
+                        new SubOptions("Created by", 0.15f),
                         new SubOptions("Created on", 0.175f),
-                        new SubOptions("Processed", 0.175f),
-                        new SubOptions("Replied on", 0.2f),
-                        new SubOptions("Replied by", 0.1f),
+                        new SubOptions("Replied by", 0.15f),
+                        new SubOptions("Replied on", 0.175f),
                 });
         for (int i = 0; i < enquiries.size(); i++) {
             Enquiry e = enquiries.get(i);
             String repliedBy = e.getRepliedBy();
-            if(repliedBy.isEmpty())
+            if (repliedBy.isEmpty())
                 repliedBy = "N/A";
 
             LocalDate date = e.getRepliedDate();
@@ -442,11 +462,11 @@ public class PrettyPage {
             printLineDivided(
                     new Option(String.valueOf(i + 1), ""),
                     new SubOptions[]{
-                            new SubOptions(e.getTitle(), 0.3f),
+                            new SubOptions(e.getTitle(), 0.325f),
+                            new SubOptions(e.getCreatedBy(), 0.15f),
                             new SubOptions(e.getCreatedDate().toString(), 0.175f),
-                            new SubOptions(String.valueOf(e.getProcessed()), 0.175f),
-                            new SubOptions(repliedDate, 0.2f),
-                            new SubOptions(repliedBy, 0.1f)
+                            new SubOptions(repliedBy, 0.15f),
+                            new SubOptions(repliedDate, 0.175f)
                     }
             );
         }
@@ -460,7 +480,7 @@ public class PrettyPage {
     public static void printCamps(ArrayList<Camp> camps) {
         printTitle("All Camps", 1);
         printLineDivided(new Option("N", "test"),
-                new SubOptions[] {
+                new SubOptions[]{
                         new SubOptions("Name", 0.3f),
                         new SubOptions("Start Date", 0.175f),
                         new SubOptions("End Date", 0.175f),
@@ -661,7 +681,7 @@ public class PrettyPage {
                             add = padText(descriptions[i].getDescription().substring(start[i], end[i]), ROW_PADDING);
                         }
                         //Repeat space for those that did not end
-                        String filledText = add+ SPACE.repeat(textSpace - add.length());
+                        String filledText = add + SPACE.repeat(textSpace - add.length());
                         //If at the last iterator, we add spaces
                         if (i == descriptions.length - 1) {
                             //FILL EMPTY SPACES AT THE END

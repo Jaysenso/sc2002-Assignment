@@ -1,6 +1,7 @@
 package source.Controllers;
 
 import source.Database.Dao.StudentDao;
+import source.Database.DatabaseQuery;
 import source.Database.StudentDaoImpl;
 import source.Entity.Student;
 import source.Utility.DirectoryUtility;
@@ -33,8 +34,8 @@ public final class StudentManager {
      * @param from  the header to search in
      * @return student object if found, null if not.
      */
-    public Student readStudent(String query, String from) {
-        return studentDao.readStudent(query, from);
+    public Student readStudent(DatabaseQuery query) {
+        return studentDao.readStudent(query);
     }
 
     /**

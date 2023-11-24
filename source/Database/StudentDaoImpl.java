@@ -7,6 +7,7 @@ import source.FileIO.Serializer.Text.StudentSerializer;
 import source.FileIO.Serializer.Text.TextDataDeserializer;
 import source.FileIO.Serializer.Text.TextDataSerializer;
 import source.FileIO.TextDataWriter;
+import source.Utility.PrettyPage;
 
 import java.security.KeyException;
 import java.util.ArrayList;
@@ -97,23 +98,63 @@ public class StudentDaoImpl extends BaseDaoImpl implements StudentDao {
      * @return the student object associated with that student name, null if there is no found entry.
      */
     @Override
-    public Student readStudent(String query, String from) {
+    public Student readStudent(DatabaseQuery query) {
         //Look through our text data file entries and get see if it exists
         HashMap<String, ArrayList<String>> mp = textDataFile.getData();
         //Check if the key exists, can throw exception here to be dealt with later
         try {
             //If the map does not contain our table, then query fails
-            if (!mp.containsKey(from))
+            if (!mp.containsKey(query.getHeader()))
                 throw new KeyException();
 
-            ArrayList<String> stringData = mp.get(from);
+            ArrayList<String> stringData = mp.get(query.getHeader());
             //Iterate and try to find
             for (int i = 0; i < stringData.size(); i++) {
-                if (query.equals(stringData.get(i)))
+                if (query.getQuery().equals(stringData.get(i)))
                     return studentList.get(i);
             }
         } catch (KeyException e) {
-            System.out.println("The " + from + " table does not exist!");
+            System.out.println("The " + query.getHeader() + " table does not exist!");
+        }
+        return null;
+    }
+
+    /**
+     * Searches the database to see if the student name exists (it is assumed that student names are unique according to the FAQ).
+     * MUST SATISFY ALL THE QUERIES
+     *
+     * @return the student object associated with that student name, null if there is no found entry.
+     */
+    @Override
+    public Student readStudent(DatabaseQuery[] queries) {
+        //Look through our text data file entries and get see if it exists
+        HashMap<String, ArrayList<String>> mp = textDataFile.getData();
+        int len = mp.get("name").size();
+        try {
+            //Loop through from start to end and check at every instance if it satisfies our queries
+            for (int i = 0; i < len; i++) {
+                boolean satisfied = true;
+                for (int j = 0; j < queries.length; j++) {
+                    //If the map does not contain our table, then query fails
+                    if (!mp.containsKey(queries[j].getHeader()))
+                        throw new KeyException();
+
+                    ArrayList<String> stringData = mp.get(queries[j].getHeader());
+                    String data = stringData.get(i);
+                    //if data equals our query at this itr
+                    if (data.equals(queries[j].getQuery())) {
+                        continue;
+                    }
+                    //Else we did not satisfy this loop
+                    satisfied = false;
+                    break;
+                }
+                if (satisfied) {
+                    return studentList.get(i);
+                }
+            }
+        } catch (KeyException e) {
+            PrettyPage.printError("The table did not exist!");
         }
         return null;
     }
@@ -123,29 +164,70 @@ public class StudentDaoImpl extends BaseDaoImpl implements StudentDao {
      * NOTE: List can be empty if no results are found
      *
      * @param query query to check in our header
-     * @param from  the header to query in
      * @return an arraylist of students if found, an empty list if not.
      */
     @Override
-    public ArrayList<Student> readStudents(String query, String from) {
+    public ArrayList<Student> readStudents(DatabaseQuery query) {
         ArrayList<Student> students = new ArrayList<>();
         //Look through our text data file entries and get see if it exists
         HashMap<String, ArrayList<String>> mp = textDataFile.getData();
         //Check if the key exists, can throw exception here to be dealt with later
         try {
             //If the map does not contain our table, then query fails
-            if (!mp.containsKey(from))
+            if (!mp.containsKey(query.getHeader()))
                 throw new KeyException();
 
-            ArrayList<String> stringData = mp.get(from);
+            ArrayList<String> stringData = mp.get(query.getHeader());
             //Iterate and try to find
             for (int i = 0; i < stringData.size(); i++) {
-                if (query.equals(stringData.get(i)))
-                    students.add(studentList.get(i));
+                if (query.getQuery().equals(stringData.get(i)))
+                    students.add(students.get(i));
             }
             return students;
         } catch (KeyException e) {
-            System.out.println("The " + from + " table does not exist!");
+            System.out.println("The " + query.getHeader() + " table does not exist!");
+        }
+        return students;
+    }
+
+    /**
+     * Reads all students that satisfies a particular property.
+     * NOTE: List can be empty if no results are found
+     *
+     * @param queries query to check in our header
+     * @return an arraylist of students if found, an empty list if not.
+     */
+    @Override
+    public ArrayList<Student> readStudents(DatabaseQuery[] queries) {
+        ArrayList<Student> students = new ArrayList<>();
+        //Look through our text data file entries and get see if it exists
+        HashMap<String, ArrayList<String>> mp = textDataFile.getData();
+        int len = mp.get("name").size();
+        try {
+            //Loop through from start to end and check at every instance if it satisfies our queries
+            for (int i = 0; i < len; i++) {
+                boolean satisfied = true;
+                for (int j = 0; j < queries.length; j++) {
+                    //If the map does not contain our table, then query fails
+                    if (!mp.containsKey(queries[j].getHeader()))
+                        throw new KeyException();
+
+                    ArrayList<String> stringData = mp.get(queries[j].getHeader());
+                    String data = stringData.get(i);
+                    //if data equals our query at this itr
+                    if (data.equals(queries[j].getQuery())) {
+                        continue;
+                    }
+                    //Else we did not satisfy this loop
+                    satisfied = false;
+                    break;
+                }
+                if (satisfied) {
+                    students.add(studentList.get(i));
+                }
+            }
+        } catch (KeyException e) {
+            PrettyPage.printError("The table did not exist!");
         }
         return students;
     }
@@ -174,8 +256,8 @@ public class StudentDaoImpl extends BaseDaoImpl implements StudentDao {
      * @return true if there was a successful deletion, else false.
      */
     @Override
-    public boolean deleteStudent(String query, String from) {
-        Student student = readStudent(query, from);
+    public boolean deleteStudent(DatabaseQuery query) {
+        Student student = readStudent(query);
         if (student != null) {
             return deleteStudent(student);
         }

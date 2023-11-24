@@ -1,15 +1,12 @@
 package source.FileIO.Serializer.Text;
 
 import source.Database.App;
-import source.Database.Dao.StudentDao;
-import source.Database.StudentDaoImpl;
+import source.Database.DatabaseQuery;
 import source.Entity.Camp;
 import source.Entity.CampInfo;
 import source.Entity.Student;
 import source.Faculty.Faculty;
-import source.Utility.DirectoryUtility;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -63,30 +60,28 @@ public class CampDeserializer implements TextDataDeserializer {
             String committee = parsedData.get("camp_committee").get(i);
             //Split by our specified delimiter
             String[] attendees = attendee.split("\\|");
-            String[] commiteeMembers = committee.split("\\|");
+            String[] committeeMembers = committee.split("\\|");
 
             //Then make our array list
             ArrayList<Student> attendeeList = new ArrayList<Student>();
             ArrayList<Student> committeeList = new ArrayList<Student>();
 
             //Handle attendees
-            for(String s : attendees)
-            {
+            for (String s : attendees) {
                 //Use the dao to get our student object
-                Student student = App.getStudentManager().readStudent(s, "name");
-                if(student != null)
-                {
+                Student student = App.getStudentManager().readStudent(
+                        new DatabaseQuery(s, "name"));
+                if (student != null) {
                     attendeeList.add(student);
                 }
             }
 
             //Handle attendees
-            for(String s : commiteeMembers)
-            {
+            for (String s : committeeMembers) {
                 //Use the dao to get our student object
-                Student student = App.getStudentManager().readStudent(s, "name");
-                if(student != null)
-                {
+                Student student = App.getStudentManager().readStudent(
+                        new DatabaseQuery(s, "name"));
+                if (student != null) {
                     committeeList.add(student);
                 }
             }

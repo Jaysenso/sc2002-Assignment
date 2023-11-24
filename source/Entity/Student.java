@@ -1,8 +1,6 @@
 package source.Entity;
 
 import source.Camp.CampService;
-import source.Controllers.CampManager;
-import source.Database.ApplicationContext;
 import source.Faculty.Faculty;
 
 import java.util.ArrayList;

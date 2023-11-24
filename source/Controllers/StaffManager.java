@@ -1,6 +1,7 @@
 package source.Controllers;
 
 import source.Database.Dao.StaffDao;
+import source.Database.DatabaseQuery;
 import source.Database.StaffDaoImpl;
 import source.Entity.Staff;
 import source.Utility.DirectoryUtility;
@@ -30,11 +31,10 @@ public class StaffManager {
      * A function to read a staff given a query and a header
      *
      * @param query the query
-     * @param from  the header to search in
      * @return staff object if found, null if not.
      */
-    public Staff readStaff(String query, String from) {
-        return staffDao.readStaff(query, from);
+    public Staff readStaff(DatabaseQuery query) {
+        return staffDao.readStaff(query);
     }
 
     /**

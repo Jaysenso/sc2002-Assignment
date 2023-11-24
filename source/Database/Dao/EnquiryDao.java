@@ -1,5 +1,6 @@
 package source.Database.Dao;
 
+import source.Database.DatabaseQuery;
 import source.Entity.Enquiry;
 
 import java.util.ArrayList;
@@ -27,19 +28,35 @@ public interface EnquiryDao {
      * Should be mainly used for name queries.
      *
      * @param query query to check in our header
-     * @param from  the header to query in
      */
-    Enquiry readEnquiry(String query, String from);
+    Enquiry readEnquiry(DatabaseQuery query);
+
+    /**
+     * Reads an enquiry from the subsequent database using a given query and from which table
+     * MUST SATISFY ALL QUERIES.
+     * Should be mainly used for name queries.
+     *
+     * @param queries queries to check that gives us the first result that satisfies the requirements.
+     */
+    Enquiry readEnquiry(DatabaseQuery[] queries);
 
     /**
      * Reads all Enquiries that satisfies a particular property.
      * NOTE: List can be empty if no results are found
      *
-     * @param query query to check in our header
-     * @param from  the header to query in
+     * @param query a database query
      * @return an arraylist of Enquiry if found, an empty list if not.
      */
-    ArrayList<Enquiry> readEnquiries(String query, String from);
+    ArrayList<Enquiry> readEnquiries(DatabaseQuery query);
+
+    /**
+     * Reads all Enquiries that satisfies all the properties (Overloaded)
+     * NOTE: List can be empty if no results are found
+     *
+     * @param queries an array of database queries
+     * @return an arraylist of Enquiry if found, an empty list if not.
+     */
+    ArrayList<Enquiry> readEnquiries(DatabaseQuery[] queries);
 
     /**
      * Updates an enquiry in the subsequent database. Directly updates the file straight away.
@@ -52,9 +69,8 @@ public interface EnquiryDao {
      * Deletes an enquiry in the subsequent database
      *
      * @param query query to check in our header
-     * @param from  the header to query in
      */
-    boolean deleteEnquiry(String query, String from);
+    boolean deleteEnquiry(DatabaseQuery query);
 
     /**
      * Deletes an enquiry in the subsequent database
@@ -67,9 +83,9 @@ public interface EnquiryDao {
      * @return the list of Enquiry stored in the database
      */
     ArrayList<Enquiry> getEnquiries();
+
     /**
      * Function to refresh the database by saving this context and then reading it again.
-     *
      */
     void refresh();
 }

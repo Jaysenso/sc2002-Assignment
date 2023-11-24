@@ -2,6 +2,7 @@ package source.Controllers;
 
 import source.Database.CampDaoImpl;
 import source.Database.Dao.CampDao;
+import source.Database.DatabaseQuery;
 import source.Entity.Camp;
 import source.Entity.CampInfo;
 import source.Faculty.Faculty;
@@ -117,8 +118,8 @@ public final class CampManager {
         }
     }
 
-    public Camp readCamp(String query, String header){
-        return campDao.readCamp(query,header);
+    public Camp readCamp(DatabaseQuery query){
+        return campDao.readCamp(query);
     }
 
     public boolean updateCamp(Camp camp) {

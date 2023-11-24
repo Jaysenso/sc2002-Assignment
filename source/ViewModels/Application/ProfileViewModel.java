@@ -23,13 +23,16 @@ public class ProfileViewModel extends BaseViewModel implements IViewModel {
      *
      * @see ProfileView
      */
-    private ProfileView profileView;
-    private ChangePasswordView changePasswordView;
+    private final ProfileView profileView;
+    /**
+     * The change password view object shows the UI for the changing password and its options
+     *
+     * @see ProfileView
+     */
+    private final ChangePasswordView changePasswordView;
 
     /**
      * A default constructor.
-     *
-     *
      */
     public ProfileViewModel() {
         super();

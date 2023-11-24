@@ -3,6 +3,7 @@ package source.ViewModels.Application.StudentViewModels;
 import source.Controllers.CampManager;
 import source.Controllers.EnquiryManager;
 import source.Database.App;
+import source.Database.DatabaseQuery;
 import source.Entity.Enquiry;
 import source.Entity.Student;
 import source.Utility.InputHandler;
@@ -34,16 +35,15 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
 
     /**
      * student is a downcasted object of user
-     *
      */
-    Student student = (Student) ApplicationContext.user;
+    Student student = (Student) App.getUser();
 
     /**
      * The Camp Manager object serves as a DB and abstracts the relevant methods to read/write camp list
      *
      * @see CampManager
      */
-    CampManager campManager = ApplicationContext.getCampManager();
+    CampManager campManager = App.getCampManager();
 
     /**
      * The enquiryManager object serves as an abstraction for all the relevant enquiry methods
@@ -80,6 +80,7 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
     public void init(ViewManager viewManager) {
         super.init(viewManager);
         PrettyPage.printCampDetails(selectedCamp);
+        printApplicableEnquiries();
         studentOperationsView.display();
         handleInputs();
     }
@@ -108,17 +109,17 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
                     PrettyPage.printLine(new Option("Success", "You have successfully sent your enquiry!"));
                     //reprint the camp and display the operations
                     PrettyPage.printCampDetails(selectedCamp);
+                    printApplicableEnquiries();
                     studentOperationsView.display();
                     break;
                 }
                 //Apply Camp Committee
                 case 3: {
                     boolean registerResult = selectedCamp.registerCommittees(student);
-                    if(registerResult) {
+                    if (registerResult) {
                         campManager.updateCamp(selectedCamp);
                         viewManager.changeView(new CampCommitteeViewModel(selectedCamp));
-                    }
-                    else {
+                    } else {
                         PrettyPage.printCampDetails(selectedCamp);
                         studentOperationsView.display();
                         handleInputs();
@@ -143,6 +144,25 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
         System.out.flush(); //NOTE: Does not work in IntelliJ IDEA as it is not a real terminal.
     }
 
+    /**
+     * Gets a list of applicable entries to the selected camp based on the user
+     */
+    public ArrayList<Enquiry> getApplicableEnquiries() {
+        return enquiryManager.readEnquiries(
+                new DatabaseQuery[]{
+                        new DatabaseQuery(student.getName(), "created_by"),
+                        new DatabaseQuery(selectedCamp.getCampInfo().getName(), "camp_name")
+                }
+        );
+    }
+
+    /**
+     * Acquires the applicable enquiries and prints it out
+     */
     public void printApplicableEnquiries() {
+        ArrayList<Enquiry> enquiries = getApplicableEnquiries();
+        if (!enquiries.isEmpty()) {
+            PrettyPage.printEnquiries(enquiries);
+        }
     }
 }

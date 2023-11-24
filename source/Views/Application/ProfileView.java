@@ -15,9 +15,9 @@ public class ProfileView implements IView {
     @Override
     public void display() {
         Option[] options = {
-                new Option("1", "Change password"), //will call another view for all camps or created camp
-                new Option("2", "Go back"),
+                new Option("1", "Change Password"), //will call another view for all camps or created camp
+                new Option("2", "Back"),
         };
-        PrettyPage.printLinesWithHeader(options, "Choose your option.");
+        PrettyPage.printLinesWithHeader(options, "Choose your option");
     }
 }

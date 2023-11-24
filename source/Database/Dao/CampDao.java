@@ -1,5 +1,6 @@
 package source.Database.Dao;
 
+import source.Database.DatabaseQuery;
 import source.Entity.Camp;
 
 import java.util.ArrayList;
@@ -26,19 +27,36 @@ public interface CampDao {
      * Should be mainly used for name queries.
      *
      * @param query query to check in our header
-     * @param from  the header to query in
      */
-    Camp readCamp(String query, String from);
+    Camp readCamp(DatabaseQuery query);
+
+    /**
+     * Reads a Camp from the subsequent database using a given query and from which table
+     * MUST SATISFY ALL QUERIES.
+     * Should be mainly used for name queries.
+     *
+     * @param query query to check in our header
+     */
+    Camp readCamp(DatabaseQuery[] query);
+
 
     /**
      * Reads all camps that satisfies a particular property.
      * NOTE: List can be empty if no results are found
      *
      * @param query query to check in our header
-     * @param from  the header to query in
      * @return an arraylist of camps if found, an empty list if not.
      */
-    ArrayList<Camp> readCamps(String query, String from);
+    ArrayList<Camp> readCamps(DatabaseQuery query);
+
+    /**
+     * Reads all Enquiries that satisfies all the properties (Overloaded)
+     * NOTE: List can be empty if no results are found
+     *
+     * @param queries queries to check in our header
+     * @return an arraylist of camps if found, an empty list if not.
+     */
+    ArrayList<Camp> readCamps(DatabaseQuery[] queries);
 
     /**
      * Updates a camp in the subsequent database. Directly updates the file straight away.
@@ -51,9 +69,8 @@ public interface CampDao {
      * Deletes a camp in the subsequent database
      *
      * @param query query to check in our header
-     * @param from  the header to query in
      */
-    boolean deleteCamp(String query, String from);
+    boolean deleteCamp(DatabaseQuery query);
 
     /**
      * Deletes a camp in the subsequent database
@@ -69,13 +86,11 @@ public interface CampDao {
 
     /**
      * Function to refresh the database by saving this context and then reading it again.
-     *
      */
     void refresh();
 
     /**
      * Function to reset the database by loading the context form the data files.
-     *
      */
     void loadContext();
 }

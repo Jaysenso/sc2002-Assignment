@@ -1,5 +1,6 @@
 package source.Database.Dao;
 
+import source.Database.DatabaseQuery;
 import source.Entity.Student;
 
 import java.util.ArrayList;
@@ -25,20 +26,36 @@ public interface StudentDao {
      * Reads a student from the subsequent database using the student name
      *
      * @param query query to check in our header
-     * @param from  the header to query in
      * @return a student object if found, null if not.
      */
-    Student readStudent(String query, String from);
+    Student readStudent(DatabaseQuery query);
+
+    /**
+     * Reads a student from the subsequent database using the student name
+     * MUST SATISFY ALL THE QUERIES
+     *
+     * @param queries query to check in our header
+     * @return a student object if found, null if not.
+     */
+    Student readStudent(DatabaseQuery[] queries);
 
     /**
      * Reads all students that satisfies a particular property.
      * NOTE: List can be empty if no results are found
      *
      * @param query query to check in our header
-     * @param from  the header to query in
      * @return an arraylist of students if found, an empty list if not.
      */
-    ArrayList<Student> readStudents(String query, String from);
+    ArrayList<Student> readStudents(DatabaseQuery query);
+
+    /**
+     * Reads all students that satisfies a particular property.
+     * NOTE: List can be empty if no results are found
+     *
+     * @param queries query to check in our header
+     * @return an arraylist of students if found, an empty list if not.
+     */
+    ArrayList<Student> readStudents(DatabaseQuery[] queries);
 
     /**
      * Updates a student in the subsequent database
@@ -51,9 +68,8 @@ public interface StudentDao {
      * Deletes a student in the subsequent database
      *
      * @param query query to check in our header
-     * @param from  the header to query in
      */
-    boolean deleteStudent(String query, String from);
+    boolean deleteStudent(DatabaseQuery query);
 
     /**
      * Deletes a student in the subsequent database
@@ -66,9 +82,9 @@ public interface StudentDao {
      * @return the list of student stored in the database
      */
     ArrayList<Student> getStudents();
+
     /**
      * Function to refresh the database by saving this context and then reading it again.
-     *
      */
     void refresh();
 }

@@ -31,7 +31,7 @@ public class CampCommitteeViewModel extends BaseViewModel implements IViewModel 
      *
      * @see Student
      */
-    private Student student = (Student) ApplicationContext.user;
+    private Student student = (Student) App.getUser();
 
     /**
      * The selectedCamp object stores the camp that the staff selects

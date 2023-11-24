@@ -41,7 +41,7 @@ public class StudentEnquiryViewModel extends BaseViewModel implements IViewModel
      *
      * @see EnquiryManager
      */
-    Student student = (Student) ApplicationContext.user;
+    Student student = (Student) App.getUser();
 
     /**
      * enquiries arraylist stores a reference of all the enquiries the student has made

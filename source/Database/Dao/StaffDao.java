@@ -1,5 +1,6 @@
 package source.Database.Dao;
 
+import source.Database.DatabaseQuery;
 import source.Entity.Staff;
 
 import java.util.ArrayList;
@@ -27,19 +28,34 @@ public interface StaffDao {
      * Should be mainly used for name queries.
      *
      * @param query query to check in our header
-     * @param from  the header to query in
      */
-    Staff readStaff(String query, String from);
+    Staff readStaff(DatabaseQuery query);
+
+    /**
+     * Reads a staff from the subsequent database using a given query and from which table
+     * Should be mainly used for name queries.
+     *
+     * @param queries query to check in our header
+     */
+    Staff readStaff(DatabaseQuery[] queries);
 
     /**
      * Reads all staffs that satisfies a particular property.
      * NOTE: List can be empty if no results are found
      *
      * @param query query to check in our header
-     * @param from  the header to query in
      * @return an arraylist of staff if found, an empty list if not.
      */
-    ArrayList<Staff> readStaffs(String query, String from);
+    ArrayList<Staff> readStaffs(DatabaseQuery query);
+
+    /**
+     * Reads all staffs that satisfies a particular property.
+     * NOTE: List can be empty if no results are found
+     *
+     * @param queries query to check in our header
+     * @return an arraylist of staff if found, an empty list if not.
+     */
+    ArrayList<Staff> readStaffs(DatabaseQuery[] queries);
 
     /**
      * Updates a staff in the subsequent database. Directly updates the file straight away.
@@ -52,9 +68,8 @@ public interface StaffDao {
      * Deletes a staff in the subsequent database
      *
      * @param query query to check in our header
-     * @param from  the header to query in
      */
-    boolean deleteStaff(String query, String from);
+    boolean deleteStaff(DatabaseQuery query);
 
     /**
      * Deletes a staff in the subsequent database
@@ -67,9 +82,9 @@ public interface StaffDao {
      * @return the list of staff stored in the database
      */
     ArrayList<Staff> getStaffs();
+
     /**
      * Function to refresh the database by saving this context and then reading it again.
-     *
      */
     void refresh();
 }

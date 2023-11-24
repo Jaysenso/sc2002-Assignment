@@ -1,5 +1,6 @@
 package source.ViewModels.Application;
 
+import source.Controllers.CampManager;
 import source.Entity.Camp;
 import source.Utility.InputHandler;
 import source.Utility.PrettyPage;
@@ -61,11 +62,20 @@ public class StaffViewModel extends BaseViewModel implements IViewModel {
                 break;
             }
             case 2: {
-                System.out.println("create camp");
+                System.out.println("View Enquiries");
                 break;
             }
             case 3: {
-                System.out.println("filter");
+                System.out.println("View Suggestions");
+                break;
+            }
+            case 4: {
+                System.out.println("edit");
+                break;
+            }
+            case 5: {
+
+                System.out.println("delete");
                 break;
             }
         }

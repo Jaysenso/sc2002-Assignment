@@ -4,7 +4,6 @@ import source.Controllers.CampManager;
 import source.Controllers.FilterManager;
 import source.Database.ApplicationContext;
 import source.Entity.Camp;
-import source.Entity.CampCommitteeMember;
 import source.Entity.Student;
 import source.Utility.InputHandler;
 import source.ViewModels.Application.Apps.FilterViewModel;
@@ -66,7 +65,7 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
                     if(student.getIsCampCommittee() != null && student.getIsCampCommittee().equals(selectedCamp)) {
                         viewManager.changeView(new CampCommitteeViewModel(selectedCamp));
                     }
-                    else if(student.getIsCampCommittee() == null){
+                    else {
                         viewManager.changeView(new StudentOperationsViewModel(selectedCamp));
                     }
                     break;

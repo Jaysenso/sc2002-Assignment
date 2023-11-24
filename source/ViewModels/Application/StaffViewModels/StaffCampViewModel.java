@@ -12,16 +12,36 @@ import source.ViewModels.BaseViewModel;
 import source.ViewModels.IViewModel;
 import source.ViewModels.ViewManager;
 import source.Views.Application.StaffView.StaffCampView;
-
+/**
+ * The StaffCampViewModel class handles the staffCampViewModel's logics and present the relevant operations that staff can use in the camp list view.
+ *
+ * @author J'sen Ong
+ * @version 1.0
+ * @since 11/17/2023
+ */
 public class StaffCampViewModel extends BaseViewModel implements IViewModel {
+
     /**
-     * The student view object shows the UI when the user is logged in as a Student, presenting the user with options a student can take.
+     * The StaffCampView object shows the UI for when the staff view all camps
      *
      * @see StaffCampView
      */
     private StaffCampView staffCampView;
+
+    /**
+     * The FilterManager object abstracts the various filter methods that user can use
+     *
+     * @see FilterManager
+     */
     private FilterManager filterManager = new FilterManager();
+
+    /**
+     * The Camp Manager object serves as a DB and abstracts the relevant methods to read/write camp list
+     *
+     * @see CampManager
+     */
     private CampManager campManager;
+
     /**
      * A default constructor.
      *

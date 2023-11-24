@@ -1,6 +1,7 @@
 package source.Entity;
 
 import source.Controllers.DateRangeValidator;
+import source.Utility.Option;
 import source.Utility.PrettyPage;
 
 import java.time.LocalDate;
@@ -79,7 +80,7 @@ public class Camp {
         this.attendees.add(attendee);
         this.campInfo.updateCurrentSlot(attendees.size());
         attendee.updateRegisteredCamps(this);
-        PrettyPage.printError("Registered Successfully.");
+        PrettyPage.printLine(new Option("Success","You Have Registered Successfully for " + this.getCampInfo().getName()));
         return true;
     }
 

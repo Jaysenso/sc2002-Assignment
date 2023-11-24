@@ -10,21 +10,39 @@ import source.ViewModels.IViewModel;
 import source.ViewModels.ViewManager;
 import source.Views.Application.StudentView.CampCommitteeView;
 import source.Views.Application.StudentView.StudentOperationsView;
-
+/**
+ * The CampCommitteeViewModel holds all the logic and necessary UI elements for CampCommittee
+ *
+ * @author J'sen Ong
+ * @version 1.0
+ * @since 11/12/2023
+ */
 public class CampCommitteeViewModel extends BaseViewModel implements IViewModel {
 
     /**
-     * The student view object shows the UI when the user is logged in as a Student, presenting the user with options a student can take.
+     * The CampCommitteeViewModel object shows the UI when the user access a camp that he is camp committee, presenting the user with options a camp committee can take
      *
-     * @see StudentOperationsView
+     * @see CampCommitteeView
      */
     CampCommitteeView campCommitteeView;
+
+    /**
+     * student is a downcasted object of user.
+     *
+     * @see Student
+     */
     private Student student = (Student) ApplicationContext.user;
+
+    /**
+     * The selectedCamp object stores the camp that the staff selects
+     *
+     * @see Camp
+     */
     private Camp selectedCamp;
+
     /**
      * A default constructor.
      * *
-     * @see source.Views.Application.StudentView.StudentOperationsView
      */
     public CampCommitteeViewModel(Camp selectedCamp) {
         campCommitteeView = new CampCommitteeView();
@@ -69,7 +87,7 @@ public class CampCommitteeViewModel extends BaseViewModel implements IViewModel 
                 }
                 //Back
                 case 4: {
-                    viewManager.returnToPreviousView();
+                    viewManager.changeView(new StudentCampViewModel());
                     break;
                 }
             }

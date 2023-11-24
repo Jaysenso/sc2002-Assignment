@@ -9,16 +9,36 @@ import source.ViewModels.BaseViewModel;
 import source.ViewModels.IViewModel;
 import source.ViewModels.ViewManager;
 import source.Views.Application.AppViews.FilterView;
-
+/**
+ * The FilterViewModel holds all the logic and necessary Ui elements for filter camp list.
+ *
+ * @author Ho Jian Feng
+ * @version 1.0
+ * @since 11/12/2023
+ */
 public class FilterViewModel extends BaseViewModel implements IViewModel {
+
     /**
-     * The student view object shows the UI when the user is logged in as a Student, presenting the user with options a student can take.
+     * The Filter View object that contains the UI for when the user selects Filter Camp List
      *
      * @see FilterView
      */
     FilterView filterView;
-    FilterManager filterManager;
+
+    /**
+     * The Filter View Manager object serves as a
+     *
+     * @see FilterManager
+     */
+    private FilterManager filterManager;
+
+    /**
+     * The Camp Manager object serves as a DB and abstracts the relevant methods to read/write camp list.
+     *
+     * @see CampManager
+     */
     private CampManager campManager;
+
     /**
      * A default constructor.
      *

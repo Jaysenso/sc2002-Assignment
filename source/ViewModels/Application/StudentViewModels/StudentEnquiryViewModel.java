@@ -20,7 +20,7 @@ import source.Views.Application.StudentView.StudentEnquiryView;
 import java.util.ArrayList;
 
 /**
- * The ProfileViewModel holds all the logic and necessary UI for displaying the profile
+ * The StudentEnquiryViewModel holds all the logic and necessary UI for read/write the student 's enquiries
  *
  * @author Marcus
  * @version 1.0
@@ -28,19 +28,35 @@ import java.util.ArrayList;
  */
 public class StudentEnquiryViewModel extends BaseViewModel implements IViewModel {
     /**
-     * The profile student view object shows the UI for the user profile and its options
+     * The studentEnquiryView object shows the UI for the student's enquiries and its relevant options
      *
      * @see StudentEnquiryView
      */
     private StudentEnquiryView studentEnquiryView;
+
+    /**
+     * The enquiryManager object serves as an abstraction for all the relevant enquiry methods
+     *
+     * @see EnquiryManager
+     */
     EnquiryManager enquiryManager = new EnquiryManager();
+
+    /**
+     * Student is a downcasted object of user
+     *
+     * @see EnquiryManager
+     */
     Student student = (Student) ApplicationContext.user;
+
+    /**
+     * enquiries arraylist stores a reference of all the enquiries the student has made
+     *
+     * @see Enquiry
+     */
     ArrayList<Enquiry> enquiries;
 
     /**
      * A default constructor.
-     *
-     *
      */
     public StudentEnquiryViewModel() {
         super();

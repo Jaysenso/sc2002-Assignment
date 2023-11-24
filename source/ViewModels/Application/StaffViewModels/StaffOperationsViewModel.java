@@ -19,19 +19,30 @@ import source.Views.Application.StaffView.StaffOperationsView;
  */
 public class StaffOperationsViewModel extends BaseViewModel implements IViewModel {
     /**
-     * The staff view object shows the UI when the user is logged in as a Staff, presenting the user with options a staff can take.
+     * The staffOperationsView object shows the UI when the user is logged in as a Staff, presenting the user with options a staff can take.
      *
      * @see StaffOperationsView
      */
     StaffOperationsView staffOperationsView;
+
+    /**
+     * The selectedCamp object stores the camp that the staff selects
+     *
+     * @see Camp
+     */
     Camp selectedCamp;
+
+    /**
+     * The Camp Manager object serves as a DB and abstracts the relevant methods to read/write camp list
+     *
+     * @see CampManager
+     */
     CampManager campManager;
 
     /**
      * An overloaded constructor that initializes a selected camp and a manager
      * NOTE: This view model should only be accessed by the StaffCampViewModel
      * @param selectedCamp the selected camp
-     * ..@param campManager the camp manager reference.
      *
      * @see StaffCampViewModel
      * @see StaffOperationsView

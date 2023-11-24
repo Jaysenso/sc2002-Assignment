@@ -22,16 +22,41 @@ import source.Entity.Camp;
  * @since 11/12/2023
  */
 public class StudentOperationsViewModel extends BaseViewModel implements IViewModel {
+
     /**
-     * The student view object shows the UI when the user is logged in as a Student, presenting the user with options a student can take.
+     * The StudentOperationsView object shows the UI when the user is logged in as a Student, presenting the user with options a student can take.
      *
      * @see StudentOperationsView
      */
     StudentOperationsView studentOperationsView;
+
+    /**
+     * student is a downcasted object of user
+     *
+     */
     Student student = (Student) ApplicationContext.user;
+
+    /**
+     * The Camp Manager object serves as a DB and abstracts the relevant methods to read/write camp list
+     *
+     * @see CampManager
+     */
     CampManager campManager = ApplicationContext.getCampManager();
+
+    /**
+     * The enquiryManager object serves as an abstraction for all the relevant enquiry methods
+     *
+     * @see EnquiryManager
+     */
     EnquiryManager enquiryManager = new EnquiryManager();
+
+    /**
+     * The selectedCamp object stores the camp that the student selects
+     *
+     * @see Camp
+     */
     private Camp selectedCamp;
+
     /**
      * A default constructor.
      *
@@ -83,8 +108,15 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
                 //Apply Camp Committee
                 case 3: {
                     boolean registerResult = selectedCamp.registerCommittees(student);
-                    campManager.updateCamp(selectedCamp);
-                    viewManager.changeView(new CampCommitteeViewModel(selectedCamp));
+                    if(registerResult) {
+                        campManager.updateCamp(selectedCamp);
+                        viewManager.changeView(new CampCommitteeViewModel(selectedCamp));
+                    }
+                    else {
+                        PrettyPage.printCampDetails(selectedCamp);
+                        studentOperationsView.display();
+                        handleInputs();
+                    }
                     break;
                 }
                 //Back

@@ -95,11 +95,4 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
     public void cleanup() {
         System.out.flush(); //NOTE: Does not work in IntelliJ IDEA as it is not a real terminal.
     }
-
-    public void viewAll() {
-        for (int i = 0; i < dao.getCamps().size(); i++) {
-            System.out.println(dao.getCamps().get(i).getCampInfo().getName());
-        }
-    }
-
 }

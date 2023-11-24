@@ -24,6 +24,7 @@ public class StaffViewModel extends BaseViewModel implements IViewModel {
      */
     StaffView staffView;
     Camp selectedCamp;
+    CampManager cManager;
 
     /**
      * A default constructor.
@@ -74,8 +75,10 @@ public class StaffViewModel extends BaseViewModel implements IViewModel {
                 break;
             }
             case 5: {
-
-                System.out.println("delete");
+                if(cManager.deleteCamp(selectedCamp))
+                    System.out.println("Camp Deleted");
+                PrettyPage.printCamps(cManager.getCamps());
+                //viewManager.returnToPreviousView();
                 break;
             }
         }

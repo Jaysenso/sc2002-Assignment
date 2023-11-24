@@ -9,6 +9,7 @@ import source.Entity.User;
 import source.Faculty.EEE;
 import source.Utility.DirectoryUtility;
 import source.Utility.InputHandler;
+import source.Utility.PrettyPage;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -64,8 +65,18 @@ public final class CampManager{
         dao.createCamp(new Camp(info, true, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
     }
 
-    public void deleteCamp(Camp camp) {
-        dao.deleteCamp(camp);
+    public boolean deleteCamp(Camp camp) {
+        String input = "";
+        do{
+            System.out.println("Confirm? y/n");
+            try{
+                input = InputHandler.getString();
+            }catch (Exception e) {
+                PrettyPage.printError("Invalid Confirmation");
+            }
+        }while(!input.equals("y") && !input.equals("n"));
+
+        return campDao.deleteCamp(camp);
     }
 
     public CampDao getDao() {

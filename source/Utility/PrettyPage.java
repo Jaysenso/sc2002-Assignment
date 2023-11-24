@@ -2,7 +2,9 @@ package source.Utility;
 
 import source.Entity.Camp;
 import source.Entity.CampInfo;
+import source.Entity.Enquiry;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -385,6 +387,69 @@ public class PrettyPage {
                 new Option("Staff in Charge", campInfo.getStaffInCharge())
         };
         printLines(options);
+    }
+
+    /**
+     * A method to print an enquiry using pretty formatting
+     *
+     * @param enquiry the enquiry
+     */
+    public static void printEnquiry(Enquiry enquiry) {
+        printTitle(enquiry.getTitle(), 1);
+
+        String repliedBy = enquiry.getRepliedBy();
+        if(repliedBy.isEmpty())
+            repliedBy = "N/A";
+
+        LocalDate date = enquiry.getRepliedDate();
+        String repliedDate = (date == null) ? "N/A" : date.toString();
+        Option[] options = {
+                new Option("Camp Name", enquiry.getCampName()),
+                new Option("Created by", enquiry.getCreatedBy()),
+                new Option("Created on", DateTimeFormatter.formatDateTimeToLocal(enquiry.getCreatedDate())),
+                new Option("Content", enquiry.getContent()),
+                new Option("Processed", String.valueOf(enquiry.getProcessed())),
+                new Option("Replied by", repliedBy),
+                new Option("Replied on", repliedDate)
+        };
+        printLines(options);
+    }
+
+    /**
+     * A method to print a list of enquiries using pretty formatting
+     *
+     * @param enquiries the list of camps
+     */
+    public static void printEnquiries(ArrayList<Enquiry> enquiries) {
+        printTitle("Your Enquiries", 1);
+        printLineDivided(new Option("N", "test"),
+                new SubOptions[] {
+                        new SubOptions("Name", 0.3f),
+                        new SubOptions("Created on", 0.175f),
+                        new SubOptions("Processed", 0.175f),
+                        new SubOptions("Replied on", 0.2f),
+                        new SubOptions("Replied by", 0.1f),
+                });
+        for (int i = 0; i < enquiries.size(); i++) {
+            Enquiry e = enquiries.get(i);
+            String repliedBy = e.getRepliedBy();
+            if(repliedBy.isEmpty())
+                repliedBy = "N/A";
+
+            LocalDate date = e.getRepliedDate();
+            String repliedDate = (date == null) ? "N/A" : date.toString();
+
+            printLineDivided(
+                    new Option(String.valueOf(i + 1), ""),
+                    new SubOptions[]{
+                            new SubOptions(e.getTitle(), 0.3f),
+                            new SubOptions(e.getCreatedDate().toString(), 0.175f),
+                            new SubOptions(String.valueOf(e.getProcessed()), 0.175f),
+                            new SubOptions(repliedDate, 0.2f),
+                            new SubOptions(repliedBy, 0.1f)
+                    }
+            );
+        }
     }
 
     /**

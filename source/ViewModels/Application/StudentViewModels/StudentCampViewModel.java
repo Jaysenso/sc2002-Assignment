@@ -4,6 +4,8 @@ import source.Controllers.CampManager;
 import source.Controllers.FilterManager;
 import source.Database.App;
 import source.Entity.Camp;
+import source.Entity.CampCommitteeMember;
+import source.Entity.Student;
 import source.Utility.InputHandler;
 import source.ViewModels.Application.Apps.FilterViewModel;
 import source.ViewModels.BaseViewModel;
@@ -19,6 +21,7 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
      * @see StaffCampView
      */
     StudentCampView studentCampView;
+    Student student = (Student) ApplicationContext.user;
     private FilterManager filterManager = new FilterManager();
     private CampManager campManager;
 
@@ -54,12 +57,18 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
     public void handleInputs() {
         int choice;
         do {
-            choice = InputHandler.tryGetInt(1, 3, "Input choice: ", "Invalid choice!");
+            choice = InputHandler.tryGetInt(1, 4, "Input choice: ", "Invalid choice!");
             switch (choice) {
                 case 1: {
                     int index = InputHandler.tryGetInt(1, campManager.getCamps().size(), "Input camp choice : ", "Invalid Camp");
                     Camp selectedCamp = campManager.getCamps().get(index - 1);
-                    viewManager.changeView(new StudentOperationsViewModel(selectedCamp));
+
+                    if(student.getIsCampCommittee() != null && student.getIsCampCommittee().equals(selectedCamp)) {
+                        viewManager.changeView(new CampCommitteeViewModel(selectedCamp));
+                    }
+                    else if(student.getIsCampCommittee() == null){
+                        viewManager.changeView(new StudentOperationsViewModel(selectedCamp));
+                    }
                     break;
                 }
                 case 2: {
@@ -67,7 +76,7 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
                     break;
                 }
                 case 3: {
-
+                    viewManager.changeView(new StudentEnquiryViewModel());
                     break;
                 }
                 case 4: {

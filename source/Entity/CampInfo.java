@@ -45,6 +45,11 @@ public class CampInfo {
         this.faculty = faculty;
     }
 
+    public void updateCurrentSlot(int currentSlots){
+        this.currentSlots = currentSlots;
+    }
+
+    public void updateCampCommitteeSlots(int currentSlots) {this.campCommitteeSlots = currentSlots;}
 
     public String getName() {
         return name;

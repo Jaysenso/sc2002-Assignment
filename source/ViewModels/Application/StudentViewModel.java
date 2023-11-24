@@ -44,7 +44,7 @@ public class StudentViewModel extends BaseViewModel implements IViewModel {
     @Override
     public void init(ViewManager viewManager) {
         super.init(viewManager);
-        campDetails(selectedCamp);
+        PrettyPage.printCampDetails(selectedCamp);
         studentView.display();
         handleInputs();
     }
@@ -90,8 +90,5 @@ public class StudentViewModel extends BaseViewModel implements IViewModel {
     @Override
     public void cleanup() {
         System.out.flush(); //NOTE: Does not work in IntelliJ IDEA as it is not a real terminal.
-    }
-    public void campDetails(Camp camp){
-        System.out.println(selectedCamp);
     }
 }

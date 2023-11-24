@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public final class CampManager {
     private CampDao campDao;
 
-//    public void createCamp(){
+    //    public void createCamp(){
 //        String name = InputHandler.getString();
 //        String description = InputHandler.getString();
 //    }
@@ -47,7 +47,7 @@ public final class CampManager {
         System.out.println("Enter a brief description: ");
         String description = InputHandler.getString();
 
-        CampInfo info =  new CampInfo(
+        CampInfo info = new CampInfo(
                 name,
                 location,
                 0,

@@ -37,7 +37,8 @@ public class StaffViewModel extends BaseViewModel implements IViewModel {
      */
     public StaffViewModel(Camp selectedCamp) {
         staffView = new StaffView();
-        this.selectedCamp = camp;
+        cManager = new CampManager();
+        this.selectedCamp = selectedCamp;
     }
 
     /**
@@ -78,6 +79,8 @@ public class StaffViewModel extends BaseViewModel implements IViewModel {
             }
             case 4: {
                 System.out.println("edit");
+
+
                 break;
             }
             case 5: {

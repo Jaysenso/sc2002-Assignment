@@ -25,10 +25,8 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
      *
      * @see StaffCampView
      */
-    StaffCampView staffCampView;
-    CampDao dao;
-    CampManager cManager;
-    ArrayList<Camp> campList;
+    private StaffCampView staffCampView;
+    private CampManager cManager;
 
     /**
      * A default constructor.

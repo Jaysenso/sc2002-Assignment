@@ -43,8 +43,7 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
     @Override
     public void init(ViewManager viewManager) {
         super.init(viewManager);
-        PrettyPage.printTitle("CampList : ", 1);
-        viewAll();
+        PrettyPage.printCamps(dao.getCamps());
         studentCampView.display();
         handleInputs();
     }

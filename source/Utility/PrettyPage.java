@@ -65,7 +65,7 @@ public class PrettyPage {
     /**
      * The size of our box
      */
-    private static final int SIZE = 80;
+    private static final int SIZE = 100;
     /**
      * The effective size of our box (excluding top left and top right and middle separation)
      */

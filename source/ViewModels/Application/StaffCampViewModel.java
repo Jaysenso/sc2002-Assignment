@@ -1,5 +1,6 @@
 package source.ViewModels.Application;
 
+import source.Controllers.CampManager;
 import source.Database.CampDaoImpl;
 import source.Database.Dao.CampDao;
 import source.Entity.Camp;
@@ -25,8 +26,9 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
      * @see StaffCampView
      */
     StaffCampView staffCampView;
-    Camp camp;
     CampDao dao;
+    CampManager cManager;
+    ArrayList<Camp> campList;
 
     /**
      * A default constructor.
@@ -34,7 +36,8 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
      * @see StaffCampView
      */
     public StaffCampViewModel() {
-        dao = new CampDaoImpl(DirectoryUtility.CAMP_LIST_PATH);
+        cManager = new CampManager();
+        campList = cManager.getDao().getCamps();
         staffCampView = new StaffCampView();
     }
 
@@ -48,8 +51,7 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
     @Override
     public void init(ViewManager viewManager) {
         super.init(viewManager);
-        PrettyPage.printTitle("CampList : ", 1);
-        viewAll();
+        PrettyPage.printCamps(campList);
         staffCampView.display();
         handleInputs();
     }
@@ -64,13 +66,14 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
             choice = InputHandler.tryGetInt(1, 4, "Input choice: ", "Invalid choice!");
             switch (choice) {
                 case 1: {
-                    List<Camp> campList = dao.getCamps();
                     int index = InputHandler.tryGetInt(1, campList.size(), "Input camp choice : ", "Invalid Camp");
                     viewManager.changeView(new StaffViewModel(campList.get(index - 1)));
                     break;
                 }
                 case 2: {
-                    createCamp();
+                    cManager.createCamp();
+                    PrettyPage.printCamps(campList);
+                    staffCampView.display();
                     break;
                 }
                 case 3: {
@@ -99,42 +102,4 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
         }
     }
 
-    public void createCamp() {
-        String name;
-        LocalDate startDate, endDate, regDate;
-        System.out.println("Enter Camp Name: ");
-        name = InputHandler.getString();
-        System.out.println("Enter start date in the format yyyy-MM-dd: ");
-        startDate = LocalDate.parse(InputHandler.getString());
-
-        System.out.println("Enter end date in the format yyyy-MM-dd:");
-        endDate = LocalDate.parse(InputHandler.getString());
-        System.out.println("Enter registration closing date in the format yyyy-MM-dd:");
-        regDate = LocalDate.parse(InputHandler.getString());
-
-        System.out.println("Enter Location: ");
-        String location = InputHandler.getString();
-        System.out.println("Enter number of Attendee slots: ");
-        int totalSlots = InputHandler.getInt();
-        int commSlots = InputHandler.tryGetInt(0, 10, "Enter number of Committee Member slots: ", "invalid");
-        System.out.println("Enter a brief description: ");
-        String description = InputHandler.getString();
-
-        CampInfo info =  new CampInfo(
-                name,
-                location,
-                0,
-                totalSlots,
-                0,
-                commSlots,
-                description,
-                "abdul",
-                startDate,
-                endDate,
-                regDate,
-                new EEE()
-        );
-
-        dao.createCamp(new Camp(info, true, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
-    }
 }

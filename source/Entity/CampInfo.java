@@ -136,9 +136,6 @@ public class CampInfo {
         this.faculty = faculty;
     }
 
-    public int getMaxCampCommitteeSlots() {
-        return maxCampCommitteeSlots;
-    }
 
     public void setMaxCampCommitteeSlots(int maxCampCommitteeSlots) {
         this.maxCampCommitteeSlots = maxCampCommitteeSlots;

@@ -2,6 +2,7 @@ package source.ViewModels.Application;
 
 import source.Entity.Camp;
 import source.Utility.InputHandler;
+import source.Utility.PrettyPage;
 import source.ViewModels.BaseViewModel;
 import source.ViewModels.IViewModel;
 import source.ViewModels.ViewManager;
@@ -21,7 +22,7 @@ public class StaffViewModel extends BaseViewModel implements IViewModel {
      * @see StaffView
      */
     StaffView staffView;
-    Camp camp;
+    Camp selectedCamp;
 
     /**
      * A default constructor.
@@ -30,7 +31,7 @@ public class StaffViewModel extends BaseViewModel implements IViewModel {
      */
     public StaffViewModel(Camp camp) {
         staffView = new StaffView();
-        this.camp = camp;
+        this.selectedCamp = camp;
     }
 
     /**
@@ -43,7 +44,7 @@ public class StaffViewModel extends BaseViewModel implements IViewModel {
     @Override
     public void init(ViewManager viewManager) {
         super.init(viewManager);
-        campDetails(camp);
+        PrettyPage.printCampDetails(selectedCamp);
         staffView.display();
         handleInputs();
     }
@@ -79,7 +80,4 @@ public class StaffViewModel extends BaseViewModel implements IViewModel {
         System.out.flush(); //NOTE: Does not work in IntelliJ IDEA as it is not a real terminal.
     }
 
-    public void campDetails(Camp camp){
-        System.out.println(camp);
-    }
 }

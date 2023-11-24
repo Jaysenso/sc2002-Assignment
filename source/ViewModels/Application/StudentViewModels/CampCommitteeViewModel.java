@@ -53,17 +53,17 @@ public class CampCommitteeViewModel extends BaseViewModel implements IViewModel 
     public void handleInputs() {
         int choice;
         do {
-            choice = InputHandler.tryGetInt(1, 3, "Input choice: ", "Invalid choice!");
+            choice = InputHandler.tryGetInt(1, 4, "Input choice: ", "Invalid choice!");
             switch (choice) {
-                //Register Camp
+                //View Enquiries
                 case 1: {
                     break;
                 }
-                //Make Enquiries
+                //View Suggestions
                 case 2: {
                     break;
                 }
-                //Apply Camp Committee
+                //Generate Camp Report
                 case 3: {
                     break;
                 }

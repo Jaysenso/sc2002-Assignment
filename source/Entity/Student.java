@@ -20,6 +20,7 @@ public class Student extends User {
 	public Student(String name, String userID, String password, Faculty facultyInfo) {
 		super(name, userID, password, facultyInfo);
 		this.registrations = new ArrayList<Registration>();
+		this.registeredCamps = new ArrayList<Camp>();
 		this.enquiries = new ArrayList<Enquiry>();
 		this.isCampCommittee = null;
 	}

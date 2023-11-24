@@ -69,6 +69,9 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
                 //Register Camp
                 case 1: {
                     boolean registerResult = selectedCamp.registerAttendees(student);
+                    campManager.updateCamp(selectedCamp);
+                    PrettyPage.printCampDetails(selectedCamp);
+                    studentOperationsView.display();
                     break;
                 }
                 //Make Enquiries
@@ -80,6 +83,8 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
                 //Apply Camp Committee
                 case 3: {
                     boolean registerResult = selectedCamp.registerCommittees(student);
+                    campManager.updateCamp(selectedCamp);
+                    viewManager.changeView(new CampCommitteeViewModel(selectedCamp));
                     break;
                 }
                 //Back

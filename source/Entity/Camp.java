@@ -53,10 +53,17 @@ public class Camp {
     public boolean registerAttendees(Student attendee){
         DateRangeValidator checker = new DateRangeValidator(this.campInfo.getStartDate(), this.campInfo.getEndDate());
         for (Camp camp : attendee.getRegisteredCamps()) {
+
+            if(this.equals(camp)){
+                PrettyPage.printError("Error: You have already registered.");
+                return false;
+            }
+
             if (checker.isWithinRange(camp.getCampInfo().getStartDate()) || checker.isWithinRange(camp.getCampInfo().getEndDate())) {
                 PrettyPage.printError("Error : You are already registered for a camp on the same date.");
                 return false;
             }
+
         }
 
         if (this.getCampInfo().getCurrentSlots() >= this.getCampInfo().getMaxSlots()) {
@@ -70,13 +77,35 @@ public class Camp {
         }
 
         this.attendees.add(attendee);
+        this.campInfo.updateCurrentSlot(attendees.size());
+        attendee.updateRegisteredCamps(this);
         PrettyPage.printError("Registered Successfully.");
         return true;
     }
 
     public boolean registerCommittees(Student committee){
+
+        if(committee.getIsCampCommittee() != null) {
+
+            if(committee.getIsCampCommittee() == this) {
+                PrettyPage.printError("Error: You are already Camp Committee for this camp.");
+                return false;
+            }
+
+            if(committee.getIsCampCommittee() != this) {
+                PrettyPage.printError("Error: You are already Camp Committee for another camp.");
+                return false;
+            }
+        }
+
         DateRangeValidator checker = new DateRangeValidator(this.campInfo.getStartDate(), this.campInfo.getEndDate());
         for (Camp camp : committee.getRegisteredCamps()) {
+
+            if(this.campInfo.equals(camp.campInfo)) {
+                PrettyPage.printError("Error: You have already registered.");
+                return false;
+            }
+
             if (checker.isWithinRange(camp.getCampInfo().getStartDate()) || checker.isWithinRange(camp.getCampInfo().getEndDate())) {
                 PrettyPage.printError("Error : You are already registered for a camp on the same date.");
                 return false;
@@ -99,6 +128,8 @@ public class Camp {
         }
 
         this.campCommitteeMembers.add(committee);
+        this.campInfo.updateCampCommitteeSlots(campCommitteeMembers.size());
+        committee.setIsCampCommittee(this);
         PrettyPage.printError("Registered Successfully.");
         return true;
     }

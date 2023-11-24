@@ -1,9 +1,14 @@
 package source.FileIO.Serializer.Text;
 
+import source.Database.Dao.StudentDao;
+import source.Database.StudentDaoImpl;
 import source.Entity.Camp;
 import source.Entity.CampInfo;
+import source.Entity.Student;
 import source.Faculty.Faculty;
+import source.Utility.DirectoryUtility;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -24,6 +29,10 @@ public class CampDeserializer implements TextDataDeserializer {
      */
     @Override
     public ArrayList deserialize(HashMap<String, ArrayList<String>> parsedData) {
+
+        //TEMP SOLUTION
+        StudentDao dao = new StudentDaoImpl(DirectoryUtility.STUDENT_DATA_PATH);
+
         ArrayList campList = new ArrayList();
         int len = parsedData.get("camp_name").size();
         if (len == 0)
@@ -38,7 +47,6 @@ public class CampDeserializer implements TextDataDeserializer {
             int maxCommitteeSlots = Integer.parseInt(parsedData.get("max_committee_slots").get(i));
             String description = parsedData.get("description").get(i);
             String staffID = parsedData.get("staff_in_charge").get(i);
-
             LocalDate startDate = LocalDate.parse(parsedData.get("start_date").get(i));
             LocalDate endDate = LocalDate.parse(parsedData.get("end_date").get(i));
             LocalDate closingDate = LocalDate.parse(parsedData.get("closing_date").get(i));
@@ -52,12 +60,47 @@ public class CampDeserializer implements TextDataDeserializer {
             } catch (InvocationTargetException | NoSuchMethodException e) {
                 throw new RuntimeException(e);
             }
-            campList.add(new Camp(new CampInfo(
+
+            //Handle the mapping of attendees and committee members
+            String attendee = parsedData.get("attendees").get(i);
+            String committee = parsedData.get("camp_committee").get(i);
+            //Split by our specified delimiter
+            String[] attendees = attendee.split("\\|");
+            String[] commiteeMembers = committee.split("\\|");
+
+            //Then make our array list
+            ArrayList<Student> attendeeList = new ArrayList<Student>();
+            ArrayList<Student> committeeList = new ArrayList<Student>();
+
+            //Handle attendees
+            for(String s : attendees)
+            {
+                //Use the dao to get our student object
+                Student student = dao.readStudent(s, "name");
+                if(student != null)
+                {
+                    attendeeList.add(student);
+                }
+            }
+
+            //Handle attendees
+            for(String s : commiteeMembers)
+            {
+                //Use the dao to get our student object
+                Student student = dao.readStudent(s, "name");
+                if(student != null)
+                {
+                    committeeList.add(student);
+                }
+            }
+
+            //Make our camp object
+            Camp camp = new Camp(new CampInfo(
                     campName,
                     location,
-                    currentSlots,
+                    attendeeList.size(),
                     maxSlots,
-                    committeeSlots,
+                    committeeList.size(),
                     maxCommitteeSlots,
                     description,
                     staffID,
@@ -68,8 +111,9 @@ public class CampDeserializer implements TextDataDeserializer {
             ),
                     visibility,
                     new ArrayList<>(),
-                    new ArrayList<>(),
-                    new ArrayList<>()));
+                    attendeeList,
+                    committeeList);
+            campList.add(camp);
         }
         return campList;
     }

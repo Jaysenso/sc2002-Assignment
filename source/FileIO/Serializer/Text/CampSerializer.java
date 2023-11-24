@@ -2,7 +2,7 @@ package source.FileIO.Serializer.Text;
 
 import source.Entity.Camp;
 import source.Entity.CampInfo;
-import source.Entity.Staff;
+import source.Entity.Student;
 import source.Utility.SerializeBuilder;
 
 import java.util.ArrayList;
@@ -35,9 +35,12 @@ public class CampSerializer extends BaseSerializer implements TextDataSerializer
             "end_date",
             "closing_date",
             "faculty",
-            "visibility"
+            "visibility",
+            "attendees",
+            "camp_committee"
 
     };
+
     /**
      * A default constructor.
      */
@@ -63,7 +66,7 @@ public class CampSerializer extends BaseSerializer implements TextDataSerializer
     public ArrayList<String> serialize(List objects) {
         //There are three we have to write into for camp,
         // one for camp list, one for camp attendees, one for enquiries.
-        
+
         ArrayList<String> serializedData = new ArrayList<String>();
         if (useHeader) {
             String serializedHeader = SerializeBuilder.buildSerializedString(campHeader, delimiter);
@@ -75,6 +78,30 @@ public class CampSerializer extends BaseSerializer implements TextDataSerializer
             if (objects.get(i) instanceof Camp camp) {
                 //Build our string
                 CampInfo campInfo = camp.getCampInfo();
+
+                //Get the lists
+                ArrayList<Student> attendees = camp.getAttendees();
+                ArrayList<Student> committeeMembers = camp.getCampCommitteeMembers();
+
+                String[] attendeeNames = new String[attendees.size()];
+                String[] committeeNames = new String[committeeMembers.size()];
+
+                //Convert them into string[]
+                for (int j = 0; j < attendees.size(); j++) {
+                    attendeeNames[j] = attendees.get(j).getName();
+                }
+                for (int j = 0; j < committeeMembers.size(); j++) {
+                    committeeNames[j] = committeeMembers.get(j).getName();
+                }
+                //Build attendee string
+                String serializedAttendees = SerializeBuilder.buildSerializedString(attendeeNames,
+                        '|'
+                );
+                //Build committee string
+                String serializedCommittee = SerializeBuilder.buildSerializedString(committeeNames,
+                        '|'
+                );
+
                 String campData = SerializeBuilder.buildSerializedString(
                         new String[]{
                                 campInfo.getName(),
@@ -89,7 +116,9 @@ public class CampSerializer extends BaseSerializer implements TextDataSerializer
                                 campInfo.getEndDate().toString(),
                                 campInfo.getClosingDate().toString(),
                                 campInfo.getFaculty().getClass().getSimpleName(),
-                                String.valueOf(camp.getVisibility())
+                                String.valueOf(camp.getVisibility()),
+                                serializedAttendees,
+                                serializedCommittee
                         },
                         delimiter
                 );

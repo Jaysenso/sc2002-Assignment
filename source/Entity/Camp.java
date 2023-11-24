@@ -39,25 +39,35 @@ public class Camp {
                 "Staff-In-Charge : " + campInfo.getStaffInCharge();
     }
 
-    public void addAttendees(Student attendee){
+    public ArrayList<Student> getAttendees() {
+        return this.attendees;
+    }
+
+    public ArrayList<Student> getCampCommitteeMembers() {
+        return this.campCommitteeMembers;
+    }
+
+
+
+    public void addAttendees(Student attendee) {
         this.attendees.add(attendee);
     }
 
-    public void addCommittee(Student attendee){
+    public void addCommittee(Student attendee) {
         this.campCommitteeMembers.add(attendee);
     }
 
-    public void addInquiry(Enquiry enquiry){
+    public void addInquiry(Enquiry enquiry) {
         this.enquiryList.add(enquiry);
     }
 
     //check if date is before reg losing date
-    public boolean isAvailable(LocalDate date){
+    public boolean isAvailable(LocalDate date) {
         return !date.isBefore(campInfo.getClosingDate());
     }
 
     //toggle visibility
-    public void toggleVisibility(){
+    public void toggleVisibility() {
         this.visibility = (!this.visibility);
     }
 
@@ -93,7 +103,7 @@ public class Camp {
         return campInfo.getName().equals(c.campInfo.getName());
     }
 
-    public void shallowCopy(Camp camp){
+    public void shallowCopy(Camp camp) {
         this.campInfo = camp.campInfo;
         this.visibility = camp.visibility;
         this.attendees = camp.attendees;

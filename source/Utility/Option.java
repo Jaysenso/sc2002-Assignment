@@ -27,19 +27,22 @@ public class Option {
 
     /**
      * An overloaded constructor that sets the option and description text.
-     * @param option the text for our option
+     *
+     * @param option      the text for our option
      * @param description the description text
      */
     public Option(String option, String description) {
         this.option = option;
         this.description = description;
     }
+
     /**
      * A getter method to get our action
      */
     public String getOption() {
         return this.option;
     }
+
     /**
      * A getter method to get our description
      */

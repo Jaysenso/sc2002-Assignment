@@ -4,6 +4,8 @@ import source.Entity.Camp;
 import source.Entity.CampInfo;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * A class that contains static functions to handle pretty printing of the UI
@@ -132,6 +134,72 @@ public class PrettyPage {
         System.out.println(line + middle + last);
     }
 
+    public static void printLineDivided(Option option, SubOptions[] descriptions) {
+        String optionMessage = option.getOption();
+        String description = option.getDescription();
+        /*
+         * OPTION BOX WIDTH AND DETAILS
+         */
+        int optionBoxLength = padText(optionMessage, ROW_PADDING).length();
+        int optionBoxWidth = optionBoxLength + 2;
+        /*
+         * DESCRIPTION BOX WIDTH AND DETAILS
+         */
+        int descriptionBoxLength = EFFECTIVE_SIZE - optionBoxWidth;
+        int descriptionBoxWidth = descriptionBoxLength - 1;
+
+        /*
+         *       SPACE and calculations
+         */
+        //Partition array for each description
+        Integer[] partitions = new Integer[descriptions.length];
+        Integer[] space = new Integer[descriptions.length];
+
+        //Loop through all the descriptions and initialize partition and spaces array
+        int runningSpace = 0;
+        for (int i = 0; i < descriptions.length; i++) {
+            //Total text space
+            space[i] = (int) Math.floor(descriptions[i].getProportion() * descriptionBoxWidth) - (2 * ROW_PADDING) - 1;
+            partitions[i] = (int) Math.ceil((double) descriptions[i].getDescription().length() / space[i]);
+            runningSpace += space[i];
+        }
+        //Total available text space
+        int availableTextSpace = descriptionBoxWidth - (descriptions.length * (2 * ROW_PADDING)) - descriptions.length;
+        //Prioritize last element
+        if (runningSpace < availableTextSpace) {
+            space[space.length - 1] += (availableTextSpace - runningSpace);
+        }
+        //Calculate our partitions after updating space
+        for (int i = 0; i < descriptions.length; i++) {
+            partitions[i] = (int) Math.ceil((double) descriptions[i].getDescription().length() / space[i]);
+        }
+        String line = TOP_LEFT + HORIZONTAL_LINE.repeat(optionBoxLength) + TOP_VERTICAL; // FIRST INITIAL BOX
+        for (int i = 0; i < descriptions.length; i++) {
+
+            line += HORIZONTAL_LINE.repeat(space[i] + (2 * ROW_PADDING));
+            if (i != descriptions.length - 1) {
+                line += TOP_VERTICAL;
+            } else {
+                line += HORIZONTAL_LINE + TOP_RIGHT;
+            }
+        }
+        line += "\n";
+
+
+        String middle = wrapTexts(optionBoxWidth, optionMessage, descriptions, partitions, space);
+
+        String last = BOTTOM_LEFT + HORIZONTAL_LINE.repeat(optionBoxLength) + BOTTOM_VERTICAL; //FIRST INITIAL BOX
+        for (int i = 0; i < descriptions.length; i++) {
+            last += HORIZONTAL_LINE.repeat(space[i] + (2 * ROW_PADDING));
+            if (i != descriptions.length - 1) {
+                last += BOTTOM_VERTICAL;
+            } else {
+                last += HORIZONTAL_LINE + BOTTOM_RIGHT;
+            }
+        }
+        System.out.println(line + middle + last);
+    }
+
     /**
      * A method to print a text in the center of the box, editable by height.
      *
@@ -250,6 +318,7 @@ public class PrettyPage {
      * A method to print multiple lines and descriptions all enclosed in a box with a header.
      *
      * @param options Option array
+     * @param header  the header to use
      */
     public static void printLinesWithHeader(Option[] options, String header) {
 
@@ -296,6 +365,11 @@ public class PrettyPage {
         System.out.println(line + middle + last);
     }
 
+    /**
+     * A method to print a camp using pretty formatting
+     *
+     * @param camp the camp
+     */
     public static void printCampDetails(Camp camp) {
         CampInfo campInfo = camp.getCampInfo();
         printTitle("Information for: " + campInfo.getName(), 1);
@@ -313,13 +387,33 @@ public class PrettyPage {
         printLines(options);
     }
 
+    /**
+     * A method to print a list of camps using pretty formatting
+     *
+     * @param camps the list of camps
+     */
     public static void printCamps(ArrayList<Camp> camps) {
         printTitle("All camps", 1);
+        printLineDivided(new Option("N", "test"),
+                new SubOptions[] {
+                        new SubOptions("Name", 0.3f),
+                        new SubOptions("Start Date", 0.175f),
+                        new SubOptions("End Date", 0.175f),
+                        new SubOptions("Faculty", 0.2f),
+                        new SubOptions("Slot", 0.1f),
+                });
         for (int i = 0; i < camps.size(); i++) {
             CampInfo campInfo = camps.get(i).getCampInfo();
-            printLineWithHeader(
-                    new Option(String.valueOf(i + 1), campInfo.getName()),
-                    campInfo.getFaculty().getClass().getSimpleName()
+            String description = campInfo.getName();
+            printLineDivided(
+                    new Option(String.valueOf(i + 1), description),
+                    new SubOptions[]{
+                            new SubOptions(description, 0.3f),
+                            new SubOptions(campInfo.getStartDate().toString(), 0.175f),
+                            new SubOptions(campInfo.getEndDate().toString(), 0.175f),
+                            new SubOptions(campInfo.getFaculty().getClass().getSimpleName(), 0.2f),
+                            new SubOptions(campInfo.getCurrentSlots() + "/" + campInfo.getMaxSlots(), 0.1f)
+                    }
             );
         }
     }
@@ -409,6 +503,116 @@ public class PrettyPage {
                 currDescription = padText(description.substring(start, end), ROW_PADDING);
                 middle += currDescription + VERTICAL + "\n";
             }
+        }
+        return middle;
+    }
+
+    /**
+     * A helper method to wrap text around the box given
+     *
+     * @param optionBoxWidth the width of our option box
+     * @param optionMessage  the initial option message for width testing
+     * @param descriptions   the description of to be wrapped
+     * @param partitions     the partition array
+     * @param space          the space array
+     */
+    private static String wrapTexts(
+            int optionBoxWidth,
+            String optionMessage,
+            SubOptions[] descriptions,
+            Integer[] partitions,
+            Integer[] space
+    ) {
+        //Start end iterators
+        Integer[] start = new Integer[descriptions.length];
+        Integer[] end = new Integer[descriptions.length];
+        Arrays.fill(start, 0);
+        //Set the end to be the appropriate space
+        System.arraycopy(space, 0, end, 0, space.length);
+        //Find the max partition
+        int maxPartitions = Collections.max(Arrays.asList(partitions));
+        //Initialize initialisation of option message
+        String middle = "";
+        //Our true effective size
+        int effectiveSize = SIZE - descriptions.length;
+        //Loop through all the descriptions and up to max partitions
+        //Make the initial partition
+        for (int j = 1; j <= maxPartitions; j++) {
+            String option = "";
+            //only print options for first line
+            if (j == 1) {
+                //Add the initial box
+                option += VERTICAL + padText(optionMessage, ROW_PADDING); //ERROR TEXT BOX
+            } else {
+                option += VERTICAL + padText(SPACE.repeat(optionMessage.length()), ROW_PADDING); //EMPTY BOX
+            }
+            if (option.length() < optionBoxWidth) {
+                int diff = optionBoxWidth - option.length() - 1;
+                option += SPACE.repeat(diff);
+            }
+            //INCLUDE VERTICAL
+            int runningLength = option.length() + 1;
+            middle += option + VERTICAL;
+            for (int i = 0; i < descriptions.length; i++) {
+                //Calculate our text space
+                int textSpace = space[i] + (2 * ROW_PADDING);
+                //The current partitions
+                int cp = partitions[i];
+                //If current iterator > our max partitions then continue
+                if (j > cp) {
+                    String filledText = "";
+                    //If last, fill to end,
+                    if (i != descriptions.length - 1) {
+                        filledText = SPACE.repeat(textSpace) + VERTICAL;
+                    } else {
+                        filledText = SPACE.repeat(effectiveSize - runningLength + 1) + VERTICAL;
+                    }
+                    //Fill to the end
+                    middle += filledText;
+                    runningLength += filledText.length();
+                    continue;
+                }
+                //For single partitions, this is the code.
+                if (cp == 1) {
+                    String filledText;
+                    String text = padText(descriptions[i].getDescription(), ROW_PADDING);
+                    if (i != descriptions.length - 1) {
+                        filledText = text + SPACE.repeat(textSpace - text.length());
+                    } else {
+                        //System.out.println(effectiveSize);
+                        filledText = text + SPACE.repeat(effectiveSize - runningLength - text.length() + 1);
+                    }
+                    filledText += VERTICAL;
+                    middle += filledText;
+                    runningLength += filledText.length();
+                } else {
+                    //Check out of bounds for start
+                    if (start[i] < descriptions[i].getDescription().length()) {
+                        String add = "";
+                        if (end[i] > descriptions[i].getDescription().length()) {
+                            //substring to the end and add spaces
+                            add = padText(descriptions[i].getDescription().substring(start[i]), ROW_PADDING);
+                        } else {
+                            add = padText(descriptions[i].getDescription().substring(start[i], end[i]), ROW_PADDING);
+                        }
+                        //Repeat space for those that did not end
+                        String filledText = add+ SPACE.repeat(textSpace - add.length());
+                        //If at the last iterator, we add spaces
+                        if (i == descriptions.length - 1) {
+                            //FILL EMPTY SPACES AT THE END
+                            filledText += SPACE.repeat(effectiveSize - runningLength - filledText.length() - 1);
+                        }
+                        //Add final separator
+                        filledText += VERTICAL;
+                        middle += filledText;
+                        runningLength += filledText.length();
+                    }
+                }
+                //Increment start and end
+                start[i] = end[i];
+                end[i] += space[i];
+            }
+            middle += "\n";
         }
         return middle;
     }

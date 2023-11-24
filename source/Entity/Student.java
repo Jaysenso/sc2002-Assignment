@@ -91,6 +91,10 @@ public class Student extends User {
 		return visibility;
 	}
 
+	public void updateRegisteredCamps(Camp camp) {
+		this.registeredCamps.add(camp);
+	}
+
 	/**
 	 * 
 	 * IsCampCommittee

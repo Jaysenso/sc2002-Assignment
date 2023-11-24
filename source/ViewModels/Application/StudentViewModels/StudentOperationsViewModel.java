@@ -64,7 +64,7 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
     public void handleInputs() {
         int choice;
         do {
-            choice = InputHandler.tryGetInt(1, 3, "Input choice: ", "Invalid choice!");
+            choice = InputHandler.tryGetInt(1, 4, "Input choice: ", "Invalid choice!");
             switch (choice) {
                 //Register Camp
                 case 1: {

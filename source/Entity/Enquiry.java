@@ -1,5 +1,4 @@
 package source.Entity;
-import source.Enquiry.StudentEnquiryOperations;
 
 public class Enquiry {
 
@@ -8,7 +7,6 @@ public class Enquiry {
 	private Camp camp;
 	private String content;
 	private String title;
-	private StudentEnquiryOperations studentEnquiryOperations;
 
 	public Enquiry(Student student, Camp camp, String content, String title){
 		this.student = student;
@@ -24,7 +22,6 @@ public class Enquiry {
 	}
 
 	/**
-	 * 
 	 * Processed
 	 */
 	public void setProcessed(boolean processed) {
@@ -37,7 +34,6 @@ public class Enquiry {
 	}
 
 	/**
-	 * 
 	 * Student
 	 */
 	public void setStudent(Student student) {
@@ -51,7 +47,6 @@ public class Enquiry {
 	}
 
 	/**
-	 * 
 	 * Camp
 	 */
 	public void setCamp(Camp camp) {
@@ -65,7 +60,6 @@ public class Enquiry {
 	}
 
 	/**
-	 * 
 	 * Content
 	 */
 	public void setContent(String content) {
@@ -79,8 +73,7 @@ public class Enquiry {
 	}
 
 	/**
-	 *
-	 * Content
+	 * Title
 	 */
 	public void setTitle(String title) {
 
@@ -92,22 +85,4 @@ public class Enquiry {
 		return title;
 	}
 
-	/**
-	 * 
-	 * EnquiryOperations
-	 */
-	public void UseEnquiryOperations(StudentEnquiryOperations studentEnquiryOperations) {
-
-		studentEnquiryOperations.execute();
-	}
-
-	public void setEnquiryOperations(StudentEnquiryOperations studentEnquiryOperations) {
-
-		this.studentEnquiryOperations = studentEnquiryOperations;
-	}
-
-	public StudentEnquiryOperations getEnquiryOperations() {
-
-		return studentEnquiryOperations;
-	}
 }

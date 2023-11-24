@@ -3,26 +3,15 @@ import source.Entity.Enquiry;
 import source.Entity.Student;
 
 public class DeleteStudentEnquiry implements StudentEnquiryOperations {
-
-    private Student student;
     private Enquiry enquiry;
 
-    public DeleteStudentEnquiry(Enquiry enquiry, Student student){
+    public DeleteStudentEnquiry(Enquiry enquiry){
         this.enquiry = enquiry;
-        this.student = student;
     }
 
     @Override
     public void execute(){
-        student.getEnquiries().remove(enquiry);
-    }
-
-    public void setStudent(Student student) {
-        this.student = student;
-    }
-
-    public Student getStudent() {
-        return student;
+        enquiry.getStudent().getEnquiries().remove(enquiry);
     }
 
     public void setEnquiry(Enquiry enquiry) {

@@ -1,4 +1,5 @@
 package source.Controllers;
+import source.Enquiry.StudentEnquiryOperations;
 import source.Entity.Student;
 import source.Entity.Enquiry;
 import source.Entity.Camp;
@@ -10,6 +11,10 @@ public class EnquiryManager {
     public EnquiryManager(Student student, Camp camp){
         this.student = student;
         this.camp = camp;
+    }
+
+    public void useStudentEnquiryOperation(StudentEnquiryOperations studentEnquiryOperations){
+        studentEnquiryOperations.execute();
     }
 
     public void setStudent(Student student) {

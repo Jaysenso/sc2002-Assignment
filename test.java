@@ -1,13 +1,15 @@
+import source.Controllers.EnquiryManager;
+import source.Controllers.RegistrationManager;
+import source.Enquiry.CreateStudentEnquiry;
 import source.Entity.Camp;
 import source.Enquiry.DeleteStudentEnquiry;
 import source.Entity.Enquiry;
-import source.Enquiry.StudentEnquiryOperations;
 import source.Entity.Student;
 import source.Faculty.Faculty;
 import source.Faculty.SCSE;
-import source.Registration.Registration;
-import source.Registration.RegistrationOperations;
-import source.Registration.Withdraw;
+import source.Entity.Registration;
+import source.Registration.CreateStudentRegistration;
+import source.Registration.WithdrawStudentRegistration;
 
 public class test {
     public static void main(String[] args){
@@ -16,35 +18,36 @@ public class test {
         Camp Kranji = new Camp("Kranji");
 
         System.out.println(Edwin.getIsCampCommittee());
-        Edwin.createRegistration(Kranji, "Camp Committee");
+        RegistrationManager registrationManager1 = new RegistrationManager(Edwin, Kranji);
+        CreateStudentRegistration createStudentRegistration = new CreateStudentRegistration(registrationManager1);
+        registrationManager1.useStudentRegistrationOperation(createStudentRegistration);
+
 
         Camp KeatHong = new Camp("Keat Hong");
         System.out.println(Edwin.getIsCampCommittee());
-        Edwin.createRegistration(KeatHong, "Camp Attendee");
+        RegistrationManager registrationManager2 = new RegistrationManager(Edwin, KeatHong);
+        CreateStudentRegistration createStudentRegistration1 = new CreateStudentRegistration(registrationManager2);
+        registrationManager2.useStudentRegistrationOperation(createStudentRegistration1);
 
         System.out.println(Edwin.getRegistrations());
 
-        String content = "Hello World";
-        String title = "Saying hello to Kranji Camp";
-        Edwin.createEnquiry(Kranji, content, title);
+        EnquiryManager enquiryManager = new EnquiryManager(Edwin, Kranji);
+        enquiryManager.useStudentEnquiryOperation(new CreateStudentEnquiry(enquiryManager));
         System.out.println(Edwin.getEnquiries().get(0).getContent());
 
-        content = "Bye World";
-        title = "Saying bye to Kranji Camp";
-        Edwin.createEnquiry(Kranji, content, title);
+        EnquiryManager enquiryManager1 = new EnquiryManager(Edwin, KeatHong);
+        enquiryManager1.useStudentEnquiryOperation(new CreateStudentEnquiry(enquiryManager1));
         System.out.println(Edwin.getEnquiries().get(1).getContent());
 
         System.out.println(Edwin.getEnquiries());
 
         Enquiry helloKranji = Edwin.getEnquiries().get(0);
-        StudentEnquiryOperations delete = new DeleteStudentEnquiry(helloKranji, Edwin);
-        helloKranji.UseEnquiryOperations(delete);
+        enquiryManager.useStudentEnquiryOperation(new DeleteStudentEnquiry(helloKranji));
 
         System.out.println(Edwin.getEnquiries());
 
         Registration RegKranji = Edwin.getRegistrations().get(0);
-        RegistrationOperations withdraw = new Withdraw(Edwin, RegKranji);
-        RegKranji.UseRegistrationOperations(withdraw);
+        registrationManager2.useStudentRegistrationOperation(new WithdrawStudentRegistration(RegKranji));
 
         System.out.println(Edwin.getRegistrations());
     }

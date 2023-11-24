@@ -2,7 +2,6 @@ package source.Entity;
 
 import source.Camp.CampService;
 import source.Faculty.Faculty;
-import source.Registration.Registration;
 
 import java.util.ArrayList;
 /**
@@ -23,26 +22,14 @@ public class Student extends User {
 
 	public Student(String name, String userID, String password, Faculty facultyInfo) {
 		super(name, userID, password, facultyInfo);
-		this.registrations = new ArrayList<Registration>();
-		this.enquiries = new ArrayList<Enquiry>();
+		this.registrations = new ArrayList<>();
+		this.enquiries = new ArrayList<>();
 	}
 
 	@Override
 	public String toString() {
 		return "Student Name: " + getName();
 	}
-
-    public void createRegistration(Camp camp, String roleType) {
-
-        Registration registration = new Registration(this, camp, roleType);
-        registrations.add(registration);
-    }
-
-    public void createEnquiry(Camp camp, String content, String title) {
-
-        Enquiry enquiry = new Enquiry(this, camp, content, title);
-        enquiries.add(enquiry);
-    }
 
 	/**
 	 * Registrations

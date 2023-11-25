@@ -85,7 +85,6 @@ public class Parser implements TextDataParser {
             String line = data.get(i);
             String[] lineData = line.split(String.valueOf(DELIMITER));
             for (int j = 0; j < lineData.length; j++) {
-                //System.out.println("Putting " + lineData[j] + " into " + headers[j]);
                 //Put the data accordingly into the array list
                 map.get(headers[j]).add(lineData[j]);
             }

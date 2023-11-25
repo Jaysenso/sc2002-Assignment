@@ -102,6 +102,17 @@ public class CampSerializer extends BaseSerializer implements TextDataSerializer
                         '|'
                 );
 
+                if (serializedAttendees.isEmpty()) {
+                    serializedAttendees = "N/A";
+                }
+                if (serializedCommittee.isEmpty()) {
+                    serializedCommittee = "N/A";
+                }
+
+                //Parse the description data
+                String description = campInfo.getDescription();
+                description = description.replace(',', '|');
+
                 String campData = SerializeBuilder.buildSerializedString(
                         new String[]{
                                 campInfo.getName(),
@@ -110,7 +121,7 @@ public class CampSerializer extends BaseSerializer implements TextDataSerializer
                                 String.valueOf(campInfo.getMaxSlots()),
                                 String.valueOf(campInfo.getCampCommitteeSlots()),
                                 String.valueOf(campInfo.getMaxCampCommitteeSlots()),
-                                campInfo.getDescription(),
+                                description,
                                 campInfo.getStaffInCharge(),
                                 campInfo.getStartDate().toString(),
                                 campInfo.getEndDate().toString(),

@@ -387,6 +387,12 @@ public class PrettyPage {
             if (i != camp.getCampCommitteeMembers().size() - 1)
                 committeeMembers += ", ";
         }
+
+        if (attendees.isEmpty())
+            attendees = "N/A";
+        if (committeeMembers.isEmpty())
+            committeeMembers = "N/A";
+
         printTitle("Information for: " + campInfo.getName(), 1);
         Option[] options = {
                 new Option("Name", campInfo.getName()),

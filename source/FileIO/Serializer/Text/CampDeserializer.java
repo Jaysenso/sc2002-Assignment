@@ -40,6 +40,7 @@ public class CampDeserializer implements TextDataDeserializer {
             int committeeSlots = Integer.parseInt(parsedData.get("committee_slots").get(i));
             int maxCommitteeSlots = Integer.parseInt(parsedData.get("max_committee_slots").get(i));
             String description = parsedData.get("description").get(i);
+            description = description.replace('|', ',');
             String staffID = parsedData.get("staff_in_charge").get(i);
             LocalDate startDate = LocalDate.parse(parsedData.get("start_date").get(i));
             LocalDate endDate = LocalDate.parse(parsedData.get("end_date").get(i));
@@ -66,23 +67,26 @@ public class CampDeserializer implements TextDataDeserializer {
             ArrayList<Student> attendeeList = new ArrayList<Student>();
             ArrayList<Student> committeeList = new ArrayList<Student>();
 
-            //Handle attendees
-            for (String s : attendees) {
-                //Use the dao to get our student object
-                Student student = App.getStudentManager().readStudent(
-                        new DatabaseQuery(s, "name"));
-                if (student != null) {
-                    attendeeList.add(student);
+            if (!attendee.equals("N/A")) {
+                //Handle attendees
+                for (String s : attendees) {
+                    //Use the dao to get our student object
+                    Student student = App.getStudentManager().readStudent(
+                            new DatabaseQuery(s, "name"));
+                    if (student != null) {
+                        attendeeList.add(student);
+                    }
                 }
             }
-
-            //Handle attendees
-            for (String s : committeeMembers) {
-                //Use the dao to get our student object
-                Student student = App.getStudentManager().readStudent(
-                        new DatabaseQuery(s, "name"));
-                if (student != null) {
-                    committeeList.add(student);
+            if (!committee.equals("N/A")) {
+                //Handle committee members
+                for (String s : committeeMembers) {
+                    //Use the dao to get our student object
+                    Student student = App.getStudentManager().readStudent(
+                            new DatabaseQuery(s, "name"));
+                    if (student != null) {
+                        committeeList.add(student);
+                    }
                 }
             }
 

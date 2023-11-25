@@ -126,7 +126,6 @@ public class LoginViewModel extends BaseViewModel implements IViewModel {
                 //Update application context
                 App.setUser(student);
                 App.getUserManager().setManagement(new StudentManagement(student));
-                System.out.println(App.getUser());
                 //Transition to view models
                 viewManager.changeView(new HomeViewModel(false));
                 break;

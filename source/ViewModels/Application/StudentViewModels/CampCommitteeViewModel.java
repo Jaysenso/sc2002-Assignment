@@ -25,7 +25,7 @@ public class CampCommitteeViewModel extends BaseViewModel implements IViewModel 
      *
      * @see CampCommitteeView
      */
-    CampCommitteeView campCommitteeView;
+    private final CampCommitteeView campCommitteeView;
 
     /**
      * student is a downcasted object of user.
@@ -39,7 +39,7 @@ public class CampCommitteeViewModel extends BaseViewModel implements IViewModel 
      *
      * @see Camp
      */
-    private Camp selectedCamp;
+    private final Camp selectedCamp;
 
     /**
      * A default constructor.

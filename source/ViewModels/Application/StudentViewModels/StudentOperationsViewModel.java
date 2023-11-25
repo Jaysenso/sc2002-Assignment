@@ -32,40 +32,41 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
      *
      * @see StudentOperationsView
      */
-    StudentOperationsView studentOperationsView;
+    private final StudentOperationsView studentOperationsView;
 
     /**
-     * student is a downcasted object of user
+     * Student is a downcasted object of user
      */
-    Student student = (Student) App.getUser();
+    private final Student student = (Student) App.getUser();
 
     /**
      * The Camp Manager object serves as a DB and abstracts the relevant methods to read/write camp list
      *
      * @see CampManager
      */
-    CampManager campManager = App.getCampManager();
+    private final CampManager campManager;
 
     /**
      * The enquiryManager object serves as an abstraction for all the relevant enquiry methods
      *
      * @see EnquiryManager
      */
-    EnquiryManager enquiryManager = new EnquiryManager();
+    private final EnquiryManager enquiryManager;
 
     /**
      * The selectedCamp object stores the camp that the student selects
      *
      * @see Camp
      */
-    private Camp selectedCamp;
+    private final Camp selectedCamp;
 
     /**
      * The student manager referenced
      *
      * @see StudentManager
      */
-    private StudentManager studentManager;
+    private final StudentManager studentManager;
+
     /**
      * A default constructor.
      *
@@ -74,6 +75,8 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
     public StudentOperationsViewModel(Camp selectedCamp) {
         studentOperationsView = new StudentOperationsView();
         this.studentManager = App.getStudentManager();
+        this.campManager = App.getCampManager();
+        this.enquiryManager = new EnquiryManager();
         this.selectedCamp = selectedCamp;
     }
 
@@ -104,9 +107,11 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
             switch (choice) {
                 //Register Camp
                 case 1: {
-                    boolean registerResult = campManager.registerAttendees(student,selectedCamp);
-                    campManager.updateCamp(selectedCamp);
-                    studentManager.updateStudent(student);
+                    boolean registerResult = campManager.registerAttendees(student, selectedCamp);
+                    if (registerResult) {
+                        campManager.updateCamp(selectedCamp);
+                        studentManager.updateStudent(student);
+                    }
                     PrettyPage.printCampDetails(selectedCamp);
                     studentOperationsView.display();
                     break;
@@ -124,13 +129,11 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
                 }
                 //Apply Camp Committee
                 case 3: {
-                    boolean registerResult = campManager.registerCommittees(student,selectedCamp);
-                    if(registerResult) {
-
-                        for(Camp camp : student.getRegisteredCamps()) {
+                    boolean registerResult = campManager.registerCommittees(student, selectedCamp);
+                    if (registerResult) {
+                        for (Camp camp : student.getRegisteredCamps()) {
                             System.out.println(camp.getCampInfo().getName());
                         }
-
                         campManager.updateCamp(selectedCamp);
                         studentManager.updateStudent(student);
                     }
@@ -139,7 +142,7 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
                 }
                 //Withdraw from Camp
                 case 4: {
-                    boolean withdrawResult = campManager.withdrawAttendees(student,selectedCamp);
+                    boolean withdrawResult = campManager.withdrawAttendees(student, selectedCamp);
                     campManager.updateCamp(selectedCamp);
                     studentManager.updateStudent(student);
                     PrettyPage.printCampDetails(selectedCamp);

@@ -11,11 +11,11 @@ import source.Utility.PrettyPage;
 import java.util.ArrayList;
 
 /**
- * This class provides implementation of filtering the camps by staff, allowing staff to see particular camps.
+ * This class provides implementation of filtering the camps by students, allowing students to see particular camps.
  *
  * @author Isaac Chun
  * @version 1.0
- * @see Staff
+ * @see Student
  * @since 11/22/2023
  */
 public class CampFilterByStaff implements CampFilterOperation {

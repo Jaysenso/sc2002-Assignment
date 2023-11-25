@@ -143,6 +143,17 @@ public class Student extends User {
 		this.accumulatedPoints = accumulatedPoints;
 	}
 
+	public boolean isAttendee(Camp selectedCamp) {
+		for(Camp camp : this.registeredCamps){
+			if(camp == selectedCamp)
+				return true;
+		}
+		return false;
+	}
+
+	public boolean isCommittee(Camp selectedCamp) {
+		return this.isCampCommittee == selectedCamp;
+	}
 	//    public boolean createRegistration(Camp selectedCamp, String roleType) {
 //		try{
 //			for(Registration registration : registrations) {

@@ -422,6 +422,11 @@ public class PrettyPage {
         if (repliedBy.isEmpty())
             repliedBy = "N/A";
 
+        String reply = enquiry.getReply();
+        if (reply.isEmpty())
+            reply = "N/A";
+
+
         LocalDate date = enquiry.getRepliedDate();
         String repliedDate = (date == null) ? "N/A" : date.toString();
         Option[] options = {
@@ -430,7 +435,7 @@ public class PrettyPage {
                 new Option("Created on", DateTimeFormatter.formatDateTimeToLocal(enquiry.getCreatedDate())),
                 new Option("Content", enquiry.getContent()),
                 new Option("Processed", String.valueOf(enquiry.getProcessed())),
-                new Option("Reply", enquiry.getReply()),
+                new Option("Reply", reply),
                 new Option("Replied by", repliedBy),
                 new Option("Replied on", repliedDate)
         };

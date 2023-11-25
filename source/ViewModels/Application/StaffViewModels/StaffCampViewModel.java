@@ -108,7 +108,6 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
                 case 2: {
                     campManager.createCamp();
                     PrettyPage.printCamps(campManager.getCamps());
-                    staffCampView.display();
                     break;
                 }
                 case 3: {

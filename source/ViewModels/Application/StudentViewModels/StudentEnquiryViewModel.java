@@ -87,13 +87,13 @@ public class StudentEnquiryViewModel extends BaseViewModel implements IViewModel
                     viewEnquiry();
                     break;
                 }
-                case 3: {
+                case 2: {
                     //delete
                     int index = InputHandler.tryGetInt(1, enquiries.size(), "Enter Enquiry No.", "Invalid Enquiry");
                     enquiryManager.deleteStudentEnquiry(enquiries.get(index));
                     break;
                 }
-                case 2: {
+                case 3: {
                     viewManager.returnToPreviousView();
                     break;
                 }

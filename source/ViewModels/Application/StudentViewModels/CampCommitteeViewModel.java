@@ -5,6 +5,7 @@ import source.Entity.Camp;
 import source.Entity.Student;
 import source.Utility.InputHandler;
 import source.Utility.PrettyPage;
+import source.ViewModels.Application.Apps.ReplyEnquiryViewModel;
 import source.ViewModels.BaseViewModel;
 import source.ViewModels.IViewModel;
 import source.ViewModels.ViewManager;
@@ -75,6 +76,7 @@ public class CampCommitteeViewModel extends BaseViewModel implements IViewModel 
             switch (choice) {
                 //View Enquiries
                 case 1: {
+                    viewManager.changeView(new ReplyEnquiryViewModel(selectedCamp));
                     break;
                 }
                 //View Suggestions

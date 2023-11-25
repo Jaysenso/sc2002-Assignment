@@ -124,39 +124,95 @@ public final class CampManager {
         }
     }
 
-//    public boolean registerAttendees(Student student, Camp selectedCamp) {
-//
-//        DateRangeValidator checker = new DateRangeValidator(selectedCamp.getCampInfo().getStartDate(), selectedCamp.getEndDate());
-//        if (isAttendee(student)) {
-//            PrettyPage.printError("Error: You have already registered.");
-//            return false;
-//        }
-//
-//        for (Camp camp : student.getRegisteredCamps()) {
-//            if (checker.isWithinRange(camp.getCampInfo().getStartDate()) || checker.isWithinRange(camp.getCampInfo().getEndDate())) {
-//                PrettyPage.printError("Error : You are already registered for a camp on the same date.");
-//                return false;
-//            }
-//        }
-//
-//        if (selectedCamp.getCampInfo().getCurrentSlots() >= selectedCamp.getCampInfo().getMaxSlots()) {
-//            PrettyPage.printError("Error : Camp is already full.");
-//            return false;
-//        }
-//
-//        if (LocalDate.now().isAfter(selectedCamp.getCampInfo().getClosingDate())) {
-//            PrettyPage.printError("Error : Registration period has closed.");
-//            return false;
-//        }
-//
-//        selectedCamp.attendees.add(student);
-//        this.campInfo.updateCurrentSlot(attendees, campCommitteeMembers);
-//        student.addRegisteredCamps(this);
-//        PrettyPage.printLine(new Option("Success", "You Have Registered Successfully for " + selectedCamp.getCampInfo().getName()));
-//        //update the file.
-//        App.getUserManager().update();
-//        return true;
-//    }
+    public boolean registerAttendees(Student student, Camp selectedCamp) {
+
+        DateRangeValidator checker = new DateRangeValidator(selectedCamp.getCampInfo().getStartDate(), selectedCamp.getCampInfo().getEndDate());
+
+        if (student.isAttendee(selectedCamp)) {
+            PrettyPage.printError("Error: You have already registered.");
+            return false;
+        }
+
+        for (Camp camp : student.getRegisteredCamps()) {
+            if (checker.isWithinRange(camp.getCampInfo().getStartDate()) || checker.isWithinRange(camp.getCampInfo().getEndDate())) {
+                PrettyPage.printError("Error : You are already registered for a camp on the same date.");
+                return false;
+            }
+        }
+
+        if (selectedCamp.getCampInfo().getCurrentSlots() >= selectedCamp.getCampInfo().getMaxSlots()) {
+            PrettyPage.printError("Error : Camp is already full.");
+            return false;
+        }
+
+        if (LocalDate.now().isAfter(selectedCamp.getCampInfo().getClosingDate())) {
+            PrettyPage.printError("Error : Registration period has closed.");
+            return false;
+        }
+
+        student.addRegisteredCamps(selectedCamp);
+        selectedCamp.addAttendee(student);
+        PrettyPage.printLine(new Option("Success", "You Have Registered Successfully for " +selectedCamp.getCampInfo().getName()));
+        return true;
+    }
+
+    public boolean registerCommittees(Student student, Camp selectedCamp) {
+
+        if(student.isAttendee(selectedCamp)) {
+            PrettyPage.printError("Error: You are already an Attendee for this camp.");
+            return false;
+        }
+
+        if (student.getIsCampCommittee() == selectedCamp)  {
+            PrettyPage.printError("Error : You are already a camp committee for this camp.");
+            return false;
+        }
+
+        if (student.getIsCampCommittee() != null && student.getIsCampCommittee() != selectedCamp) {
+            PrettyPage.printError("Error: You are already Camp Committee for another camp.");
+            return false;
+        }
+
+        DateRangeValidator checker = new DateRangeValidator(selectedCamp.getCampInfo().getStartDate(), selectedCamp.getCampInfo().getEndDate());
+        for (Camp camp : student.getRegisteredCamps()) {
+
+            if (checker.isWithinRange(camp.getCampInfo().getStartDate()) || checker.isWithinRange(camp.getCampInfo().getEndDate())) {
+                PrettyPage.printError("Error : You are already registered for a camp on the same date.");
+                return false;
+            }
+        }
+
+        if (selectedCamp.getCampInfo().getCampCommitteeSlots() >= selectedCamp.getCampInfo().getMaxCampCommitteeSlots()) {
+            PrettyPage.printError("Error : Camp Committee slots are full.");
+            return false;
+        }
+
+        if (LocalDate.now().isAfter(selectedCamp.getCampInfo().getClosingDate())) {
+            PrettyPage.printError("Error : Registration period has closed.");
+            return false;
+        }
+
+        student.addRegisteredCamps(selectedCamp);
+        student.isCommittee(selectedCamp);
+        selectedCamp.addCommittee(student);
+        PrettyPage.printLine(new Option("Success", "You Have Registered Successfully for " +selectedCamp.getCampInfo().getName()));
+        return true;
+    }
+
+    public boolean withdrawAttendees(Student attendee, Camp selectedCamp) {
+        if (attendee.isAttendee(selectedCamp)) {
+            PrettyPage.printError("You are not part of the camp!");
+            return false;
+
+        } else {
+            selectedCamp.withdrawAttendee(attendee);
+            attendee.removeRegisteredCamps(selectedCamp);
+            updateCamp(selectedCamp);
+            PrettyPage.printLine(new Option("Success", "You Have withdrew from " +selectedCamp.getCampInfo().getName()));
+            return true;
+        }
+    }
+
 
     public Camp readCamp(DatabaseQuery query) {
         return campDao.readCamp(query);

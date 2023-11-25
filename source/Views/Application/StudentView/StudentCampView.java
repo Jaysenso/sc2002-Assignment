@@ -10,8 +10,9 @@ public class StudentCampView implements IView {
         Option[] options = {
                 new Option("1", "Select Camp"),
                 new Option("2", "Sort Camp List"),
-                new Option("3", "View My Enquiries"),
-                new Option("4", "Back"),
+                new Option("3", "View My Registered Camps"),
+                new Option("4", "View My Enquiries"),
+                new Option("5", "Back"),
         };
         PrettyPage.printLinesWithHeader(options, "Choose your option");
     }

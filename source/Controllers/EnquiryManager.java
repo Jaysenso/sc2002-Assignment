@@ -4,6 +4,7 @@ import source.Database.Dao.EnquiryDao;
 import source.Database.DatabaseQuery;
 import source.Database.EnquiryDaoImpl;
 import source.Entity.Enquiry;
+import source.Entity.Staff;
 import source.Entity.Student;
 import source.Entity.User;
 import source.Utility.DirectoryUtility;
@@ -52,11 +53,19 @@ public class EnquiryManager {
 
     public void replyEnquiry(Enquiry enquiry, User user) {
         LocalDate createdDate = LocalDate.now();
+        String userType;
+        if(user instanceof Staff){
+            userType = "Staff In charge";
+        }
+        else{
+            userType = "Camp Committee Member";
+        }
         enquiry.setRepliedDate(createdDate);
-        enquiry.setRepliedBy(user.getUserID());
+        enquiry.setRepliedBy(user.getUserID() + " (" + userType + ")");
         enquiry.setProcessed(true);
-        System.out.println("Enter ");
+        System.out.println("Enter Reply Message: ");
         String replyMessage = InputHandler.getString();
+        enquiry.setReply(replyMessage);
         enquiryDao.updateEnquiry(enquiry);
     }
 

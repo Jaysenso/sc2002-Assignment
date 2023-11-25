@@ -6,6 +6,7 @@ import source.Database.App;
 import source.Entity.Camp;
 import source.Entity.Student;
 import source.Utility.InputHandler;
+import source.Utility.Option;
 import source.Utility.PrettyPage;
 import source.ViewModels.Application.Apps.SortViewModel;
 import source.ViewModels.BaseViewModel;
@@ -50,8 +51,6 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
     @Override
     public void init(ViewManager viewManager) {
         super.init(viewManager);
-        //Show the filtered version
-        PrettyPage.printCamps(sortedCamps);
         handleInputs();
     }
 
@@ -62,9 +61,12 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
     public void handleInputs() {
         int choice;
         do {
+            //Show the filtered version
+            ArrayList<Camp> filteredCamps = filterManager.filter(new CampFilterByStudent(), sortedCamps);
+            PrettyPage.printCamps(filteredCamps);
             //Display the student camp view
             studentCampView.display();
-            choice = InputHandler.tryGetInt(1, 4, "Input choice: ", "Invalid choice!");
+            choice = InputHandler.tryGetInt(1, 5, "Input choice: ", "Invalid choice!");
             switch (choice) {
                 case 1: {
                     if (campManager.getCamps().isEmpty()) {
@@ -87,15 +89,19 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
                     break;
                 }
                 case 3: {
-                    viewManager.changeView(new StudentEnquiryViewModel());
+                    viewRegisteredCamps();
                     break;
                 }
                 case 4: {
+                    viewManager.changeView(new StudentEnquiryViewModel());
+                    break;
+                }
+                case 5: {
                     viewManager.returnToPreviousView();
                     break;
                 }
             }
-        } while (choice != 3);
+        } while (true);
     }
 
     /**
@@ -107,4 +113,34 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
         System.out.flush(); //NOTE: Does not work in IntelliJ IDEA as it is not a real terminal.
     }
 
+    public void viewRegisteredCamps(){
+
+        ArrayList<Camp> registeredCamps = student.getRegisteredCamps();
+        PrettyPage.printCamps(registeredCamps);
+        Option[] options = {
+                new Option("1", "Select Camp"),
+                new Option("2", "Back"),
+        };
+        PrettyPage.printLinesWithHeader(options, "Choose your option");
+        int choice = InputHandler.tryGetInt(1, 2, "Input choice: ", "Invalid choice!");
+        switch (choice) {
+            case 1: {
+                if (campManager.getCamps().isEmpty()) {
+                    PrettyPage.printError("There are no camps to view!");
+                } else {
+                    int index = InputHandler.tryGetInt(1, registeredCamps.size(), "Input camp choice: ", "Invalid Camp Selected");
+                    Camp selectedCamp = registeredCamps.get(index - 1);
+                    if (student.isCommittee(selectedCamp)) {
+                        viewManager.changeView(new CampCommitteeViewModel(selectedCamp));
+                    } else {
+                        viewManager.changeView(new StudentOperationsViewModel(selectedCamp));
+                    }
+                }
+                break;
+            }
+            case 2: {
+                break;
+            }
+        }
+    }
 }

@@ -1,5 +1,8 @@
 package source.Utility;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -19,6 +22,10 @@ public class InputHandler {
      * A static scanner that lasts throughout the lifetime of the application.
      */
     private static Scanner scanner = new Scanner(System.in);
+    /**
+     * The DateTimeFormatter is thread safe and immutable, it should be static!
+     */
+    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/uuuu");
     /**
      * The regex to get a good email
      */
@@ -61,6 +68,55 @@ public class InputHandler {
     }
 
     /**
+     * Encapsulates the logic of asking for input and making sure the inptu is not null
+     *
+     * @return string user input
+     */
+    public static String tryGetString() {
+        //Lazily clear the buffer
+        scanner = new Scanner(System.in);
+        try {
+            while (true) {
+                String s = scanner.nextLine();
+                if (s.isEmpty()) {
+                    PrettyPage.printError("Input cannot be empty!");
+                    continue;
+                }
+                return s;
+            }
+
+        } catch (Exception e) {
+            PrettyPage.printError("Error in getting string!");
+        }
+        return "";
+    }
+
+    /**
+     * Encapsulates the logic of asking for input and making sure the inptu is not null
+     *
+     * @param availableInputs allowed inputs
+     * @return string user input
+     */
+    public static String tryGetString(String[] availableInputs) {
+        //Lazily clear the buffer
+        scanner = new Scanner(System.in);
+        try {
+            while (true) {
+                String input = scanner.nextLine();
+                for (String s : availableInputs) {
+                    if (input.equals(s))
+                        return s;
+                }
+                PrettyPage.printError("Invalid input!");
+            }
+
+        } catch (Exception e) {
+            PrettyPage.printError("Error in getting string!");
+        }
+        return "";
+    }
+
+    /**
      * Asks for the user's input and try gets an int until a positive case is recorded.
      *
      * @param min          minimum number for the input
@@ -87,6 +143,24 @@ public class InputHandler {
             PrettyPage.printError("You did not input an integer!");
             //Try and try again, although this may be bad?
             return tryGetInt(min, max, choiceText, errorMessage);
+        }
+    }
+
+    /**
+     * Asks for the user's input and try gets a date until a positive case is recorded.
+     *
+     * @see java.time.format.DateTimeFormatter
+     */
+    public static LocalDate tryGetDate(String choiceText, String errorMessage) {
+        try {
+            scanner = new Scanner(System.in);
+            System.out.print(choiceText);
+            String date = scanner.nextLine();
+            LocalDate lt = LocalDate.parse(date, formatter);
+            return lt;
+        } catch (DateTimeParseException e) {
+            PrettyPage.printError("You did not key in the date in the right format!");
+            return tryGetDate(choiceText, errorMessage);
         }
     }
 

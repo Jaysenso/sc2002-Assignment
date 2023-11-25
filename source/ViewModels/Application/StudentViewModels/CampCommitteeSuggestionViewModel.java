@@ -49,7 +49,7 @@ public class CampCommitteeSuggestionViewModel extends BaseViewModel implements I
      */
     public CampCommitteeSuggestionViewModel(Camp selectedCamp) {
         this.selectedCamp = selectedCamp;
-        suggestionManager = new SuggestionManager();
+        suggestionManager = App.getSuggestionManager();
         campCommitteeSuggestionView = new CampCommitteeSuggestionView();
     }
 
@@ -85,7 +85,6 @@ public class CampCommitteeSuggestionViewModel extends BaseViewModel implements I
                 case 1: {
                     //View suggestion
                     if (suggestions.isEmpty()) {
-                        //PrettyPage.printTitle("There are no suggestions!", 1);
                         break;
                     }
                     int index = InputHandler.tryGetInt(1, suggestions.size(), "Select Suggestion: ", "Invalid Suggestion");
@@ -119,27 +118,18 @@ public class CampCommitteeSuggestionViewModel extends BaseViewModel implements I
     }
 
     public void showSuggestionDetails(Suggestion suggestion) {
-        boolean isLooping = true;
-        while (isLooping) {
-
-            //print details here
-//            System.out.println(suggestion.getCreatedDate());
-//            System.out.println(suggestion.getContent());
-//            System.out.println(suggestion.getApproved());
-//            System.out.println(suggestion.getProcessed());
+        while (true) {
             PrettyPage.printSuggestion(suggestion);
-
             Option[] options = {
                     new Option("1", "Edit Suggestion"),
                     new Option("2", "Delete Suggestion"),
                     new Option("3", "Back"),
             };
             PrettyPage.printLinesWithHeader(options, "Choose your option");
-
             int choice = InputHandler.tryGetInt(1, 3, "Choose option: ", "Invalid Option");
             switch (choice) {
                 case 1: {
-                    System.out.println("Enter new Content");
+                    System.out.print("Enter new content: ");
                     String newContent = InputHandler.getString();
                     suggestion.setContent(newContent);
                     suggestionManager.editSuggestion(suggestion);
@@ -147,12 +137,10 @@ public class CampCommitteeSuggestionViewModel extends BaseViewModel implements I
                 }
                 case 2: {
                     suggestionManager.deleteSuggestion(suggestion);
-                    isLooping = false;
-                    break;
+                    return;
                 }
                 case 3: {
-                    isLooping = false;
-                    break;
+                    return;
                 }
             }
         }

@@ -191,7 +191,7 @@ public class Student extends User {
     }
 
     /**
-     * Over riden equals function
+     * Overriden equals function
      *
      * @return true if equals by name as it is the unique identifier
      */

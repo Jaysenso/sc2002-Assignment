@@ -219,4 +219,25 @@ public class Suggestion {
     public void setCreatedDate(LocalDate createdDate) {
         this.createdDate = createdDate;
     }
+
+    /**
+     * Overriden equals function
+     *
+     * @return true if equals by name as it is the unique identifier
+     */
+    @Override
+    public boolean equals(Object obj) {
+        // If the object is compared with itself then return true
+        if (obj == this) {
+            return true;
+        }
+        /* Check if o is an instance of Student or not
+          "null instanceof [type]" also returns false */
+        if (!(obj instanceof Suggestion)) {
+            return false;
+        }
+        Suggestion s = (Suggestion) obj;
+        // Compare the data members and return accordingly
+        return createdBy.equals(s.getCreatedBy()) && campName.equals(s.getCampName());
+    }
 }

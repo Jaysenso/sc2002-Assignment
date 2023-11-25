@@ -1,8 +1,6 @@
 package source.Database;
 
-import source.Controllers.CampManager;
-import source.Controllers.StaffManager;
-import source.Controllers.StudentManager;
+import source.Controllers.*;
 import source.Controllers.UserManagement.UserManager;
 import source.Entity.User;
 
@@ -37,6 +35,14 @@ public abstract class App {
      * The staff manager reference
      */
     private static StaffManager staffManager;
+    /**
+     * The enquiry manager reference
+     */
+    private static EnquiryManager enquiryManager;
+    /**
+     * The staff manager reference
+     */
+    private static SuggestionManager suggestionManager;
 
     /**
      * A function to initialize ALL static managers. Should be called in main as the first line.
@@ -46,6 +52,8 @@ public abstract class App {
         studentManager = new StudentManager();
         staffManager = new StaffManager();
         campManager = new CampManager();
+        enquiryManager = new EnquiryManager();
+        suggestionManager = new SuggestionManager();
     }
 
     /**
@@ -85,7 +93,22 @@ public abstract class App {
     public static StudentManager getStudentManager() {
         return studentManager;
     }
-
+    /**
+     * Acquires the enquiry manager
+     *
+     * @return the enquiry manager reference
+     */
+    public static EnquiryManager getEnquiryManager() {
+        return enquiryManager;
+    }
+    /**
+     * Acquires the suggestion manager
+     *
+     * @return the suggestion manager reference
+     */
+    public static SuggestionManager getSuggestionManager() {
+        return suggestionManager;
+    }
     /**
      * Acquires the staff manager
      *
@@ -103,4 +126,6 @@ public abstract class App {
     public static User getUser() {
         return App.user;
     }
+
+
 }

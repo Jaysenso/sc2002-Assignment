@@ -34,9 +34,15 @@ public final class SuggestionManager {
         this.suggestionDao = new SuggestionDaoImpl(DirectoryUtility.SUGGESTIONS_DATA_PATH);
     }
 
-    //get camp committee suggestions
     public ArrayList<Suggestion> getCampCommitteeSuggestions(String name){
-        return suggestionDao.readSuggestions(new DatabaseQuery(name, "created_by"));
+        ArrayList<Suggestion> filtered = new ArrayList<>();
+        ArrayList<Suggestion> suggestions = suggestionDao.getSuggestions();
+        for(Suggestion s : suggestions)
+        {
+            if(s.getCreatedBy().equals(name))
+                filtered.add(s);
+        }
+        return filtered;
     }
 
     public ArrayList<Suggestion> getCampSuggestions(Camp camp){

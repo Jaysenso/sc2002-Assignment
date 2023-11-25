@@ -4,13 +4,13 @@ import java.time.LocalDate;
 import java.time.format.FormatStyle;
 
 /**
- * The DateTimeFormatter class formats date times to the local Singapore context.
+ * The DTFormatter class formats date times to the local Singapore context.
  *
  * @author Isaac Chun
  * @version 1.0
  * @since 11/20/2023
  */
-public class DateTimeFormatter {
+public class DTFormatter {
     /**
      * Formats a local date to a nicer format
      *

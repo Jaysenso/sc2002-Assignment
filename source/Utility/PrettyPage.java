@@ -70,7 +70,7 @@ public class PrettyPage {
     /**
      * The size of our box
      */
-    private static final int SIZE = 150;
+    private static final int SIZE = 140;
     /**
      * The effective size of our box (excluding top left and top right and middle separation)
      */
@@ -397,9 +397,9 @@ public class PrettyPage {
         printTitle("Information for: " + campInfo.getName(), 1);
         Option[] options = {
                 new Option("Name", campInfo.getName()),
-                new Option("Start Date", DateTimeFormatter.formatDateTimeToLocal(campInfo.getStartDate())),
-                new Option("End Date", DateTimeFormatter.formatDateTimeToLocal(campInfo.getEndDate())),
-                new Option("Registration Close Date", DateTimeFormatter.formatDateTimeToLocal(campInfo.getClosingDate())),
+                new Option("Start Date", DTFormatter.formatDateTimeToLocal(campInfo.getStartDate())),
+                new Option("End Date", DTFormatter.formatDateTimeToLocal(campInfo.getEndDate())),
+                new Option("Registration Close Date", DTFormatter.formatDateTimeToLocal(campInfo.getClosingDate())),
                 new Option("User Group", campInfo.getFaculty().getClass().getSimpleName()),
                 new Option("Attendees ", attendees),
                 new Option("Camp Committee Members ", committeeMembers),
@@ -433,7 +433,7 @@ public class PrettyPage {
         Option[] options = {
                 new Option("Camp Name", enquiry.getCampName()),
                 new Option("Created by", enquiry.getCreatedBy()),
-                new Option("Created on", DateTimeFormatter.formatDateTimeToLocal(enquiry.getCreatedDate())),
+                new Option("Created on", DTFormatter.formatDateTimeToLocal(enquiry.getCreatedDate())),
                 new Option("Content", enquiry.getContent()),
                 new Option("Processed", String.valueOf(enquiry.getProcessed())),
                 new Option("Reply", reply),
@@ -530,7 +530,7 @@ public class PrettyPage {
         Option[] options = {
                 new Option("Camp Name", suggestion.getCampName()),
                 new Option("Created by", suggestion.getCreatedBy()),
-                new Option("Created on", DateTimeFormatter.formatDateTimeToLocal(suggestion.getCreatedDate())),
+                new Option("Created on", DTFormatter.formatDateTimeToLocal(suggestion.getCreatedDate())),
                 new Option("Content", suggestion.getContent()),
                 new Option("Processed", String.valueOf(suggestion.getProcessed())),
                 new Option("Approved", String.valueOf(suggestion.getApproved())),

@@ -20,10 +20,10 @@ public class StaffSuggestionViewModel extends BaseViewModel implements IViewMode
      *
      * @see StaffSuggestionView
      */
-    StaffSuggestionView staffSuggestionView;
-    SuggestionManager suggestionManager;
-    User campCommittee = (Staff) App.getUser();
-    Camp selectedCamp;
+    private final StaffSuggestionView staffSuggestionView;
+    private final SuggestionManager suggestionManager;
+    private final User campCommittee = (Staff) App.getUser();
+    private final Camp selectedCamp;
 
     /**
      * A default constructor.
@@ -32,7 +32,7 @@ public class StaffSuggestionViewModel extends BaseViewModel implements IViewMode
      */
     public StaffSuggestionViewModel(Camp selectedCamp) {
         this.selectedCamp = selectedCamp;
-        suggestionManager = new SuggestionManager();
+        suggestionManager = App.getSuggestionManager();
         staffSuggestionView = new StaffSuggestionView();
     }
 
@@ -55,13 +55,13 @@ public class StaffSuggestionViewModel extends BaseViewModel implements IViewMode
     @Override
     public void handleInputs() {
 
-        while(true){
+        while (true) {
             ArrayList<Suggestion> suggestions = suggestionManager.getCampSuggestions(selectedCamp);
-            if(suggestions.isEmpty()){
-                PrettyPage.printTitle("No Suggestions",1);
+            if (suggestions.isEmpty()) {
+                PrettyPage.printTitle("No Suggestions", 1);
             }
             //print suggestions
-            for(int i =0;i<suggestions.size();i++){
+            for (int i = 0; i < suggestions.size(); i++) {
                 System.out.print(i + ": ");
                 System.out.println(suggestions.get(i).getCreatedBy());
             }
@@ -73,12 +73,12 @@ public class StaffSuggestionViewModel extends BaseViewModel implements IViewMode
             switch (choice) {
                 case 1: {
                     //view suggestion
-                    if(suggestions.isEmpty()){
+                    if (suggestions.isEmpty()) {
                         System.out.println("No suggestions");
                         break;
                     }
-                    int index = InputHandler.tryGetInt(1,suggestions.size(),"Select Suggestion","Invalid Suggestion");
-                    Suggestion selectedSuggestion = suggestions.get(index-1);
+                    int index = InputHandler.tryGetInt(1, suggestions.size(), "Select Suggestion", "Invalid Suggestion");
+                    Suggestion selectedSuggestion = suggestions.get(index - 1);
                     showSuggestionDetails(selectedSuggestion);
                     break;
                 }
@@ -102,9 +102,9 @@ public class StaffSuggestionViewModel extends BaseViewModel implements IViewMode
         System.out.flush(); //NOTE: Does not work in IntelliJ IDEA as it is not a real terminal.
     }
 
-    public void showSuggestionDetails(Suggestion suggestion){
+    public void showSuggestionDetails(Suggestion suggestion) {
         boolean isLooping = true;
-        while (isLooping){
+        while (isLooping) {
 
             //print details here
             System.out.println(suggestion.getCreatedDate());
@@ -112,15 +112,15 @@ public class StaffSuggestionViewModel extends BaseViewModel implements IViewMode
             System.out.println(suggestion.getApproved());
             System.out.println(suggestion.getProcessed());
 
-            Option[] options ={
+            Option[] options = {
                     new Option("1", "Approve suggestion"),
                     new Option("2", "Back"),
             };
             PrettyPage.printLinesWithHeader(options, "Choose your option");
 
-            int choice = InputHandler.tryGetInt(1,2,"Choose option: ","Invalid Option");
-            switch (choice){
-                case 1:{
+            int choice = InputHandler.tryGetInt(1, 2, "Choose option: ", "Invalid Option");
+            switch (choice) {
+                case 1: {
                     String input = "";
                     do {
                         System.out.print("Approve? y/n:");
@@ -136,7 +136,7 @@ public class StaffSuggestionViewModel extends BaseViewModel implements IViewMode
                     suggestionManager.editSuggestion(suggestion);
                     break;
                 }
-                case 2:{
+                case 2: {
                     isLooping = false;
                     break;
                 }

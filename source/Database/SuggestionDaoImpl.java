@@ -242,11 +242,14 @@ public class SuggestionDaoImpl extends BaseDaoImpl implements SuggestionDao {
      */
     @Override
     public boolean updateSuggestion(Suggestion suggestion) {
-        int pos = suggestionList.indexOf(suggestion);
-        //if the suggestion list contains this suggestion
-        if (pos != -1) {
-            //Then just copy it in for saving
-            suggestionList.set(pos, suggestion);
+        int i = 0;
+        for (; i < suggestionList.size(); i++) {
+            if (suggestionList.get(i).equals(suggestion)) {
+                break;
+            }
+        }
+        if (i != suggestionList.size()) {
+            suggestionList.set(i, suggestion);
             refresh();
             return true;
         }

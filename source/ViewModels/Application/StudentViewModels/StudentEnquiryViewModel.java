@@ -39,7 +39,7 @@ public class StudentEnquiryViewModel extends BaseViewModel implements IViewModel
     /**
      * Student is a downcast object of user
      */
-    Student student = (Student) App.getUser();
+    private final Student student = (Student) App.getUser();
 
     /**
      * enquiries arraylist stores a reference of all the enquiries the student has made
@@ -89,7 +89,7 @@ public class StudentEnquiryViewModel extends BaseViewModel implements IViewModel
                 case 2: {
                     //delete
                     int index = InputHandler.tryGetInt(1, enquiries.size(), "Enter Enquiry No.", "Invalid Enquiry");
-                    enquiryManager.deleteStudentEnquiry(enquiries.get(index-1));
+                    enquiryManager.deleteStudentEnquiry(enquiries.get(index - 1));
                     break;
                 }
                 case 3: {

@@ -135,7 +135,7 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
     }
 
     /**
-     * A function to handle the sublogic of viewing registered camps
+     * A function to handle the sub logic of viewing registered camps
      */
     public void viewRegisteredCamps() {
         ArrayList<Camp> registeredCamps = student.getRegisteredCamps();

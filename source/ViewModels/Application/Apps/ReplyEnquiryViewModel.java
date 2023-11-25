@@ -29,14 +29,12 @@ public class ReplyEnquiryViewModel extends BaseViewModel implements IViewModel {
      *
      * @see ReplyEnquiryView
      */
-    private ReplyEnquiryView replyEnquiryView;
+    private final ReplyEnquiryView replyEnquiryView;
 
-    private EnquiryManager enquiryManager = new EnquiryManager();
+    private final EnquiryManager enquiryManager;
 
-    private ArrayList<Enquiry> enquiries;
-
-    private Camp selectedCamp;
-    private User user = App.getUser();
+    private final Camp selectedCamp;
+    private final User user = App.getUser();
 
     /**
      * A default constructor.
@@ -45,6 +43,7 @@ public class ReplyEnquiryViewModel extends BaseViewModel implements IViewModel {
      */
     public ReplyEnquiryViewModel(Camp selectedCamp) {
         this.selectedCamp = selectedCamp;
+        enquiryManager = App.getEnquiryManager();
         replyEnquiryView = new ReplyEnquiryView();
     }
 
@@ -68,7 +67,7 @@ public class ReplyEnquiryViewModel extends BaseViewModel implements IViewModel {
     public void handleInputs() {
         int choice;
         while (true) {
-            enquiries = enquiryManager.getCampEnquiries(selectedCamp.getCampInfo().getName());
+            ArrayList<Enquiry> enquiries = enquiryManager.getCampEnquiries(selectedCamp.getCampInfo().getName());
             PrettyPage.printEnquiries(enquiries);
             replyEnquiryView.display();
             choice = InputHandler.tryGetInt(1, 2, "Input choice: ", "Invalid choice!");

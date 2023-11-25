@@ -6,10 +6,13 @@ import source.Controllers.Filters.CampFilterByStaff;
 import source.Controllers.Filters.FilterManager;
 import source.Database.App;
 import source.Entity.Camp;
-import source.Entity.Staff;
+import source.Entity.CampInfo;
+import source.Faculty.Faculty;
+import source.Faculty.NTU;
 import source.Utility.InputHandler;
 import source.Utility.Option;
 import source.Utility.PrettyPage;
+import source.Utility.StringsUtility;
 import source.ViewModels.Application.Apps.SortViewModel;
 import source.ViewModels.BaseViewModel;
 import source.ViewModels.IViewModel;
@@ -17,8 +20,8 @@ import source.ViewModels.ViewManager;
 import source.Views.Application.StaffView.StaffCampView;
 import source.Views.Application.StaffView.StaffOperationsView;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * The StaffCampViewModel class handles the staffCampViewModel's logics and present the relevant operations that staff can use in the camp list view.
@@ -39,10 +42,6 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
      */
     private final StaffOperationsView staffOperationsView;
     /**
-     * The downcasted staff object of the user
-     */
-    private Staff staff = (Staff) App.getUser();
-    /**
      * A function to handle all inputs over here.
      */
     private ArrayList<Camp> sortedCamps;
@@ -51,7 +50,7 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
      *
      * @see FilterManager
      */
-    private FilterManager filterManager = new FilterManager();
+    private FilterManager filterManager;
 
     /**
      * The Camp Manager object serves as a DB and abstracts the relevant methods to read/write camp list
@@ -62,7 +61,7 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
     /**
      * The enquiry manager reference
      */
-    private EnquiryManager enquiryManager = new EnquiryManager();
+    private EnquiryManager enquiryManager;
 
     /**
      * A default constructor.
@@ -73,6 +72,7 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
         staffOperationsView = new StaffOperationsView();
         staffCampView = new StaffCampView();
         campManager = App.getCampManager();
+        enquiryManager = App.getEnquiryManager();
         filterManager = new FilterManager();
         //Initially, the filtered camps are all the normal camps
         sortedCamps = campManager.getCamps();
@@ -105,15 +105,19 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
                 case 1: {
                     int index = InputHandler.tryGetInt(1, campManager.getCamps().size(), "Input camp choice : ", "Invalid Camp");
                     Camp selectedCamp = campManager.getCamps().get(index - 1);
-                    if (Objects.equals(App.getUser().getName(), selectedCamp.getCampInfo().getStaffInCharge())) {
+                    if (App.getUser().getName().equals(selectedCamp.getCampInfo().getStaffInCharge())) {
                         viewManager.changeView(new StaffInChargeOperationsViewModel(selectedCamp));
                     } else {
                         staffOperations(selectedCamp);
                     }
                     break;
                 }
-                case 2: {
-                    campManager.createCamp();
+                case 2: { //CREATE CAMP
+                    //Handle the creation of new camps by staff
+                    Camp camp = createNewCamp();
+                    //Create the camp in our manager
+                    campManager.createCamp(camp);
+                    //Then print out all the camps after creating that new camp
                     PrettyPage.printCamps(campManager.getCamps());
                     break;
                 }
@@ -171,5 +175,68 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
                 }
             }
         }
+    }
+
+    /**
+     * A function to handle the sub logic of viewing created camps
+     */
+    public void viewCreatedCamps() {
+
+    }
+
+    /**
+     * A function to handle the sub logic of creating a camp in this view model
+     *
+     * @return the newly created camp after getting user input
+     */
+    public Camp createNewCamp() {
+        //Input the camp name
+        System.out.print("Enter camp name: ");
+        String name = InputHandler.getString();
+
+        //Get our dates using our input handler
+        LocalDate startDate = InputHandler.tryGetDate("Enter start date in the format " + StringsUtility.DATE_FORMAT+ ": ", StringsUtility.DATE_ERROR);
+        LocalDate endDate = InputHandler.tryGetDate("Enter end date in the format " + StringsUtility.DATE_FORMAT+ ": ", StringsUtility.DATE_ERROR);
+        LocalDate regDate = InputHandler.tryGetDate("Enter closing registration date in the format " + StringsUtility.DATE_FORMAT+ ": ", StringsUtility.DATE_ERROR);
+
+        System.out.print("Enter location: ");
+        String location = InputHandler.getString();
+        int totalSlots = InputHandler.tryGetInt(1, 9999, "Enter number of attendee slots: ", StringsUtility.ATTENDEE_SLOTS_ERROR);
+        int commSlots = InputHandler.tryGetInt(1, totalSlots, "Enter number of Committee Member slots: ", StringsUtility.CAMP_COMMITTEE_OVERFLOW);
+
+        System.out.print("Enter a brief description: ");
+        String description = InputHandler.tryGetString();
+
+        PrettyPage.printLine(new Option("Note:", "A camp not created in your faculty is automatically created under NTU, everyone can see it."));
+        System.out.print("Do you want to create in your own faculty? (y/n): ");
+        String facultyInput = InputHandler.tryGetString(new String[]{
+                "y", "n"
+        });
+
+        //Faculty is either the user's own faculty, or ntu
+        Faculty faculty = (facultyInput.equals("y")) ? App.getUser().getFacultyInfo() : new NTU();
+
+        System.out.print("Set Visibility (true,false) : ");
+        boolean visibility = Boolean.valueOf(InputHandler.tryGetString(new String[]{
+                "true",
+                "false"
+        }));
+        String input = "";
+        CampInfo info = new CampInfo(
+                name,
+                location,
+                0,
+                totalSlots,
+                0,
+                commSlots,
+                description,
+                App.getUser().getName(),
+                startDate,
+                endDate,
+                regDate,
+                faculty
+        );
+        Camp newCamp = new Camp(info, visibility, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        return newCamp;
     }
 }

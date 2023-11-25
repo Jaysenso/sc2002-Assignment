@@ -165,6 +165,11 @@ public class Camp {
         this.visibility = visibility;
     }
 
+    public ArrayList<Enquiry> getEnquiryList() {
+        return this.enquiryList;
+    }
+
+
     @Override
     public boolean equals(Object obj) {
         // If the object is compared with itself then return true

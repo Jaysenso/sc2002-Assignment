@@ -41,7 +41,7 @@ public class EnquiryManager {
             enquiryDao.deleteEnquiry(enquiry);
         }
         else{
-            PrettyPage.printError("Your Enquiry has already been processed");
+            PrettyPage.printError("Your Enquiry has already been processed!");
         }
     }
 

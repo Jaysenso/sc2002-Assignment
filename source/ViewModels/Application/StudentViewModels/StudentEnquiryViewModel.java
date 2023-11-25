@@ -27,14 +27,14 @@ public class StudentEnquiryViewModel extends BaseViewModel implements IViewModel
      *
      * @see StudentEnquiryView
      */
-    private StudentEnquiryView studentEnquiryView;
+    private final StudentEnquiryView studentEnquiryView;
 
     /**
      * The enquiryManager object serves as an abstraction for all the relevant enquiry methods
      *
      * @see EnquiryManager
      */
-    EnquiryManager enquiryManager = new EnquiryManager();
+    private final EnquiryManager enquiryManager;
 
     /**
      * Student is a downcast object of user
@@ -54,6 +54,7 @@ public class StudentEnquiryViewModel extends BaseViewModel implements IViewModel
     public StudentEnquiryViewModel() {
         super();
         studentEnquiryView = new StudentEnquiryView();
+        enquiryManager = new EnquiryManager();
     }
 
     /**

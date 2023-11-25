@@ -32,7 +32,7 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
      */
     private final StudentCampView studentCampView;
     /**
-     * The downcasted object of the user.
+     * The down casted object of the user.
      *
      * @see StudentCampView
      */
@@ -106,7 +106,6 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
                     break;
                 }
                 case 2: {
-                    //Handle UI and inputs for sorting
                     viewManager.changeView(new SortViewModel(sortedCamps));
                     break;
                 }

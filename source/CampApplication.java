@@ -16,6 +16,5 @@ public class CampApplication {
     public static void main(String[] args) {
         CamsApp app = new CamsApp();
         app.run();
-
     }
 }

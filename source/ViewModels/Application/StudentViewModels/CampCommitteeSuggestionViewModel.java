@@ -3,7 +3,6 @@ package source.ViewModels.Application.StudentViewModels;
 import source.Controllers.SuggestionManager;
 import source.Database.App;
 import source.Entity.Camp;
-import source.Entity.Student;
 import source.Entity.Suggestion;
 import source.Entity.User;
 import source.Utility.InputHandler;
@@ -17,7 +16,7 @@ import source.Views.Application.StudentView.CampCommitteeSuggestionView;
 import java.util.ArrayList;
 
 /**
- * The SuggestionViewModel holds all the logic and necessary Ui elements for suggestions
+ * The CampCommitteeSuggestionViewModel holds all the logic and necessary Ui elements for suggestions
  *
  * @author Marcus
  * @version 1.0
@@ -29,10 +28,19 @@ public class CampCommitteeSuggestionViewModel extends BaseViewModel implements I
      *
      * @see CampCommitteeSuggestionView
      */
-    CampCommitteeSuggestionView campCommitteeSuggestionView;
-    SuggestionManager suggestionManager;
-    User campCommittee = (Student) App.getUser();
-    Camp selectedCamp;
+    private final CampCommitteeSuggestionView campCommitteeSuggestionView;
+    /**
+     * The suggestion manager reference
+     */
+    private final SuggestionManager suggestionManager;
+    /**
+     * The user from the app's contexts
+     */
+    private final User campCommittee = App.getUser();
+    /**
+     * The selected camp in this view model
+     */
+    private final Camp selectedCamp;
 
     /**
      * A default constructor.
@@ -63,31 +71,25 @@ public class CampCommitteeSuggestionViewModel extends BaseViewModel implements I
      */
     @Override
     public void handleInputs() {
-
-        while(true){
+        while (true) {
             ArrayList<Suggestion> suggestions = suggestionManager.getCampCommitteeSuggestions(campCommittee.getUserID());
-            if(suggestions.isEmpty()){
-                PrettyPage.printTitle("Make a suggestion",1);
+            if (suggestions.isEmpty()) {
+                PrettyPage.printTitle("You have not made any suggestions!", 1);
+            } else {
+                PrettyPage.printSuggestions(suggestions);
             }
-            //print suggestions
-            for(int i =0;i<suggestions.size();i++){
-                System.out.print(i + ": ");
-                System.out.println(suggestions.get(i).getCreatedBy());
-            }
-
+            //Display out the suggestions view
             campCommitteeSuggestionView.display();
-
             int choice = InputHandler.tryGetInt(1, 3, "Input choice: ", "Invalid choice!");
-
             switch (choice) {
                 case 1: {
-                    //view suggestion
-                    if(suggestions.isEmpty()){
-                        System.out.println("No suggestions");
+                    //View suggestion
+                    if (suggestions.isEmpty()) {
+                        //PrettyPage.printTitle("There are no suggestions!", 1);
                         break;
                     }
-                    int index = InputHandler.tryGetInt(1,suggestions.size(),"Select Suggestion","Invalid Suggestion");
-                    Suggestion selectedSuggestion = suggestions.get(index-1);
+                    int index = InputHandler.tryGetInt(1, suggestions.size(), "Select Suggestion: ", "Invalid Suggestion");
+                    Suggestion selectedSuggestion = suggestions.get(index - 1);
                     showSuggestionDetails(selectedSuggestion);
                     break;
                 }
@@ -116,38 +118,39 @@ public class CampCommitteeSuggestionViewModel extends BaseViewModel implements I
         System.out.flush(); //NOTE: Does not work in IntelliJ IDEA as it is not a real terminal.
     }
 
-    public void showSuggestionDetails(Suggestion suggestion){
+    public void showSuggestionDetails(Suggestion suggestion) {
         boolean isLooping = true;
-        while (isLooping){
+        while (isLooping) {
 
             //print details here
-            System.out.println(suggestion.getCreatedDate());
-            System.out.println(suggestion.getContent());
-            System.out.println(suggestion.getApproved());
-            System.out.println(suggestion.getProcessed());
+//            System.out.println(suggestion.getCreatedDate());
+//            System.out.println(suggestion.getContent());
+//            System.out.println(suggestion.getApproved());
+//            System.out.println(suggestion.getProcessed());
+            PrettyPage.printSuggestion(suggestion);
 
-            Option[] options ={
+            Option[] options = {
                     new Option("1", "Edit Suggestion"),
                     new Option("2", "Delete Suggestion"),
                     new Option("3", "Back"),
             };
             PrettyPage.printLinesWithHeader(options, "Choose your option");
 
-            int choice = InputHandler.tryGetInt(1,3,"Choose option: ","Invalid Option");
-            switch (choice){
-                case 1:{
+            int choice = InputHandler.tryGetInt(1, 3, "Choose option: ", "Invalid Option");
+            switch (choice) {
+                case 1: {
                     System.out.println("Enter new Content");
                     String newContent = InputHandler.getString();
                     suggestion.setContent(newContent);
                     suggestionManager.editSuggestion(suggestion);
                     break;
                 }
-                case 2:{
+                case 2: {
                     suggestionManager.deleteSuggestion(suggestion);
                     isLooping = false;
                     break;
                 }
-                case 3:{
+                case 3: {
                     isLooping = false;
                     break;
                 }

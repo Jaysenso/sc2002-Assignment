@@ -521,7 +521,6 @@ public class PrettyPage {
      * @param suggestion the suggestion to print
      */
     public static void printSuggestion(Suggestion suggestion) {
-        printTitle("Suggestion", 1);
         String repliedBy = suggestion.getRepliedBy();
         if (repliedBy.isEmpty())
             repliedBy = "N/A";
@@ -547,9 +546,7 @@ public class PrettyPage {
      * @param suggestions the suggestions to print
      */
     public static void printSuggestions(ArrayList<Suggestion> suggestions) {
-        printTitle("All Suggestions", 1);
         if (suggestions.isEmpty()) {
-            printTitle("There are no suggestions to view!", 1);
             return;
         }
         printLineDivided(new Option("N", "test"),

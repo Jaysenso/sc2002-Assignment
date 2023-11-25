@@ -127,12 +127,12 @@ public final class CampManager {
     public boolean registerAttendees(Student student, Camp selectedCamp) {
 
         DateRangeValidator checker = new DateRangeValidator(selectedCamp.getCampInfo().getStartDate(), selectedCamp.getCampInfo().getEndDate());
-
+        //check if student is already part of the camp
         if (student.isAttendee(selectedCamp)) {
             PrettyPage.printError("Error: You have already registered.");
             return false;
         }
-
+        //check if student has registered for camps that collide with the selectedCamp
         for (Camp camp : student.getRegisteredCamps()) {
             if (checker.isWithinRange(camp.getCampInfo().getStartDate()) || checker.isWithinRange(camp.getCampInfo().getEndDate())) {
                 PrettyPage.printError("Error : You are already registered for a camp on the same date.");
@@ -150,8 +150,10 @@ public final class CampManager {
             return false;
         }
 
+
         student.addRegisteredCamps(selectedCamp);
         selectedCamp.addAttendee(student);
+
         PrettyPage.printLine(new Option("Success", "You Have Registered Successfully for " +selectedCamp.getCampInfo().getName()));
         return true;
     }
@@ -193,14 +195,14 @@ public final class CampManager {
         }
 
         student.addRegisteredCamps(selectedCamp);
-        student.isCommittee(selectedCamp);
+        student.setIsCampCommittee(selectedCamp);
         selectedCamp.addCommittee(student);
         PrettyPage.printLine(new Option("Success", "You Have Registered Successfully for " +selectedCamp.getCampInfo().getName()));
         return true;
     }
 
     public boolean withdrawAttendees(Student attendee, Camp selectedCamp) {
-        if (attendee.isAttendee(selectedCamp)) {
+        if (!attendee.isAttendee(selectedCamp)) {
             PrettyPage.printError("You are not part of the camp!");
             return false;
 

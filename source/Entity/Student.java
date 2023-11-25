@@ -145,7 +145,7 @@ public class Student extends User {
 
 	public boolean isAttendee(Camp selectedCamp) {
 		for(Camp camp : this.registeredCamps){
-			if(camp == selectedCamp)
+			if(selectedCamp.equals(camp))
 				return true;
 		}
 		return false;

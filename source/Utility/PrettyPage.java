@@ -3,6 +3,7 @@ package source.Utility;
 import source.Entity.Camp;
 import source.Entity.CampInfo;
 import source.Entity.Enquiry;
+import source.Entity.Suggestion;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -448,7 +449,6 @@ public class PrettyPage {
      * @param enquiries the list of camps
      */
     public static void printEnquiries(ArrayList<Enquiry> enquiries) {
-
         printTitle("Your Enquiries", 1);
         if (enquiries.isEmpty()) {
             printTitle("You have not sent any enquiries before!", 1);
@@ -510,6 +510,73 @@ public class PrettyPage {
                             new SubOptions(campInfo.getEndDate().toString(), 0.175f),
                             new SubOptions(campInfo.getFaculty().getClass().getSimpleName(), 0.2f),
                             new SubOptions(campInfo.getCurrentSlots() + "/" + campInfo.getMaxSlots(), 0.1f)
+                    }
+            );
+        }
+    }
+
+    /**
+     * A method to print a suggestion using pretty formatting
+     *
+     * @param suggestion the suggestion to print
+     */
+    public static void printSuggestion(Suggestion suggestion) {
+        printTitle("Suggestion", 1);
+        String repliedBy = suggestion.getRepliedBy();
+        if (repliedBy.isEmpty())
+            repliedBy = "N/A";
+
+        LocalDate date = suggestion.getRepliedDate();
+        String repliedDate = (date == null) ? "N/A" : date.toString();
+        Option[] options = {
+                new Option("Camp Name", suggestion.getCampName()),
+                new Option("Created by", suggestion.getCreatedBy()),
+                new Option("Created on", DateTimeFormatter.formatDateTimeToLocal(suggestion.getCreatedDate())),
+                new Option("Content", suggestion.getContent()),
+                new Option("Processed", String.valueOf(suggestion.getProcessed())),
+                new Option("Approved", String.valueOf(suggestion.getApproved())),
+                new Option("Replied by", repliedBy),
+                new Option("Replied on", repliedDate)
+        };
+        printLines(options);
+    }
+
+    /**
+     * A method to print a list of suggestions using pretty formatting
+     *
+     * @param suggestions the suggestions to print
+     */
+    public static void printSuggestions(ArrayList<Suggestion> suggestions) {
+        printTitle("All Suggestions", 1);
+        if (suggestions.isEmpty()) {
+            printTitle("There are no suggestions to view!", 1);
+            return;
+        }
+        printLineDivided(new Option("N", "test"),
+                new SubOptions[]{
+                        new SubOptions("Camp Name", 0.3f),
+                        new SubOptions("Suggested by", 0.2f),
+                        new SubOptions("Created on", 0.175f),
+                        new SubOptions("Processed", 0.175f),
+                        new SubOptions("Approved", 0.175f),
+                });
+        for (int i = 0; i < suggestions.size(); i++) {
+            Suggestion s = suggestions.get(i);
+            String repliedBy = s.getRepliedBy();
+            if (repliedBy.isEmpty())
+                repliedBy = "N/A";
+
+            LocalDate date = s.getRepliedDate();
+            String repliedDate = (date == null) ? "N/A" : date.toString();
+
+            printLineDivided(
+                    new Option(String.valueOf(i + 1), ""),
+                    new SubOptions[]{
+                            new SubOptions(s.getCampName(), 0.3f),
+                            new SubOptions(s.getCreatedBy(), 0.2f),
+                            new SubOptions(s.getCreatedDate().toString(), 0.175f),
+                            new SubOptions(String.valueOf(s.getProcessed()), 0.175f),
+                            new SubOptions(String.valueOf(s.getApproved()), 0.175f)
                     }
             );
         }

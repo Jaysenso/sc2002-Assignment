@@ -149,7 +149,7 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
         switch (choice) {
             case 1: {
                 if (student.getRegisteredCamps().isEmpty()) {
-                    PrettyPage.printError("There are no camps to view!");
+                    PrettyPage.printTitle("There are no camps to view!",1);
                 } else {
                     int index = InputHandler.tryGetInt(1, registeredCamps.size(), "Input camp choice: ", "Invalid Camp Selected");
                     Camp selectedCamp = registeredCamps.get(index - 1);

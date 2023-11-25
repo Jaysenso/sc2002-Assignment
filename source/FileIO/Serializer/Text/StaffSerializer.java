@@ -1,5 +1,6 @@
 package source.FileIO.Serializer.Text;
 
+import source.Entity.Camp;
 import source.Entity.Staff;
 import source.Utility.SerializeBuilder;
 
@@ -20,7 +21,13 @@ public class StaffSerializer extends BaseSerializer implements TextDataSerialize
     /**
      * Holds the headers of our csv files.
      */
-    private final String[] headers = {"name", "userid", "email", "password", "faculty"};
+    private final String[] headers = {
+            "name",
+            "userid",
+            "email",
+            "password",
+            "faculty",
+            "created_camps"};
 
     /**
      * A default constructor.
@@ -57,13 +64,27 @@ public class StaffSerializer extends BaseSerializer implements TextDataSerialize
         for (int i = 0; i < objects.size(); i++) {
             //Build our string
             if (objects.get(i) instanceof Staff user) {
+                ArrayList<Camp> camps = user.getCreatedCamps();
+                String[] campNames = new String[camps.size()];
+                for (int j = 0; j < camps.size(); j++) {
+                    campNames[j] = camps.get(j).getCampInfo().getName();
+                }
+                //Build camp string
+                String serializedCamps = SerializeBuilder.buildSerializedString(campNames,
+                        '|');
+
+                if (serializedCamps.isEmpty()) {
+                    serializedCamps = "N/A";
+                }
+
                 String studentData = SerializeBuilder.buildSerializedString(
                         new String[]{
                                 user.getName(),
                                 user.getUserID(),
                                 user.getUserID() + "@e.ntu.edu.sg",
                                 user.getPassword(),
-                                user.getFacultyInfo().getClass().getSimpleName()
+                                user.getFacultyInfo().getClass().getSimpleName(),
+                                serializedCamps
                         },
                         delimiter
                 );

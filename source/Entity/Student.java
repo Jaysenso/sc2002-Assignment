@@ -17,10 +17,6 @@ public class Student extends User {
      */
     private ArrayList<Camp> registeredCamps;
     /**
-     * --
-     */
-    private ArrayList<Registration> registrations;
-    /**
      * The list of enquiries the student has
      */
     private ArrayList<Enquiry> enquiries;
@@ -39,7 +35,6 @@ public class Student extends User {
     public Student() {
         super();
         this.registeredCamps = new ArrayList<>();
-        this.registrations = new ArrayList<>();
         this.enquiries = new ArrayList<>();
         this.isCampCommittee = null;
         this.accumulatedPoints = 0;
@@ -60,7 +55,6 @@ public class Student extends User {
                    Faculty facultyInfo,
                    int accumulatedPoints) {
         super(name, userID, password, facultyInfo);
-        this.registrations = new ArrayList<Registration>();
         this.registeredCamps = new ArrayList<Camp>();
         this.enquiries = new ArrayList<Enquiry>();
         this.isCampCommittee = null;
@@ -68,7 +62,9 @@ public class Student extends User {
     }
 
     /**
-     * RegisteredCamps
+     * Adds a camp to his registered camps
+     *
+     * @param camp the camp to add
      */
     public void addRegisteredCamps(Camp camp) {
         //Prevent duplicates
@@ -79,21 +75,13 @@ public class Student extends User {
         this.registeredCamps.add(camp);
     }
 
+    /**
+     * Removes a camp from his registered camps
+     *
+     * @param camp the camp to remove
+     */
     public void removeRegisteredCamps(Camp camp) {
         this.registeredCamps.remove(camp);
-    }
-
-    /**
-     * Registrations
-     */
-    public void setRegistrations(ArrayList<Registration> registration) {
-
-        this.registrations = registration;
-    }
-
-    public ArrayList<Registration> getRegistrations() {
-
-        return registrations;
     }
 
     /**

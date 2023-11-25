@@ -1,6 +1,6 @@
-name,userid,email,password,faculty
-Madhukumar,HUKUMAR,HUKUMAR@e.ntu.edu.sg,pass123,SCSE
-Alexei,OURIN,OURIN@e.ntu.edu.sg,password,ADM
-Chattopadhyay,UPAM,UPAM@e.ntu.edu.sg,password,EEE
-Datta,ANWIT,ANWIT@e.ntu.edu.sg,password,SCSE
-Arvind,ARVIND,ARVIND@e.ntu.edu.sg,password,NBS
+name,userid,email,password,faculty,created_camps
+Madhukumar,HUKUMAR,HUKUMAR@e.ntu.edu.sg,pass123,N/A
+Alexei,OURIN,OURIN@e.ntu.edu.sg,password,ADM,N/A
+Chattopadhyay,UPAM,UPAM@e.ntu.edu.sg,password,EEE,N/A
+Datta,ANWIT,ANWIT@e.ntu.edu.sg,password,SCSE,N/A
+Arvind,ARVIND,ARVIND@e.ntu.edu.sg,password,NBS,N/A

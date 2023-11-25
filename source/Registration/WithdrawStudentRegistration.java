@@ -11,7 +11,7 @@ public class WithdrawStudentRegistration implements StudentRegistrationOperation
 
     @Override
     public void execute() {
-        registration.getStudent().getRegistrations().remove(registration);
+        //registration.getStudent().getRegistrations().remove(registration);
     }
     public void setRegistration(Registration registration) {
         this.registration = registration;

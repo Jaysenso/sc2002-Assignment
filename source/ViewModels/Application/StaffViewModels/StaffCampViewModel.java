@@ -2,11 +2,11 @@ package source.ViewModels.Application.StaffViewModels;
 
 import source.Controllers.CampManager;
 import source.Controllers.EnquiryManager;
-import source.Controllers.Filters.CampFilterByStaff;
-import source.Controllers.Filters.FilterManager;
+import source.Controllers.StaffManager;
 import source.Database.App;
 import source.Entity.Camp;
 import source.Entity.CampInfo;
+import source.Entity.Staff;
 import source.Faculty.Faculty;
 import source.Faculty.NTU;
 import source.Utility.InputHandler;
@@ -42,26 +42,17 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
      */
     private final StaffOperationsView staffOperationsView;
     /**
-     * A function to handle all inputs over here.
-     */
-    private ArrayList<Camp> sortedCamps;
-    /**
-     * The FilterManager object abstracts the various filter methods that user can use
-     *
-     * @see FilterManager
-     */
-    private FilterManager filterManager;
-
-    /**
      * The Camp Manager object serves as a DB and abstracts the relevant methods to read/write camp list
      *
      * @see CampManager
      */
-    private CampManager campManager;
+    private final CampManager campManager;
     /**
-     * The enquiry manager reference
+     * The Camp Manager object serves as a DB and abstracts the relevant methods to read/write staff list
+     *
+     * @see StaffManager
      */
-    private EnquiryManager enquiryManager;
+    private final StaffManager staffManager;
 
     /**
      * A default constructor.
@@ -72,10 +63,7 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
         staffOperationsView = new StaffOperationsView();
         staffCampView = new StaffCampView();
         campManager = App.getCampManager();
-        enquiryManager = App.getEnquiryManager();
-        filterManager = new FilterManager();
-        //Initially, the filtered camps are all the normal camps
-        sortedCamps = campManager.getCamps();
+        staffManager = App.getStaffManager();
     }
 
     /**
@@ -88,7 +76,6 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
     @Override
     public void init(ViewManager viewManager) {
         super.init(viewManager);
-        PrettyPage.printCamps(sortedCamps);
         handleInputs();
     }
 
@@ -99,6 +86,7 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
     public void handleInputs() {
         int choice;
         do {
+            PrettyPage.printCamps(campManager.getCamps());
             staffCampView.display();
             choice = InputHandler.tryGetInt(1, 5, "Input choice: ", "Invalid choice!");
             switch (choice) {
@@ -117,20 +105,22 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
                     Camp camp = createNewCamp();
                     //Create the camp in our manager
                     campManager.createCamp(camp);
+                    //Add it to our user
+                    Staff s = (App.getUser() instanceof Staff) ? (Staff) App.getUser() : null;
+                    if (s != null) {
+                        s.addCreatedCamp(camp);
+                        staffManager.updateStaff(s);
+                    }
                     //Then print out all the camps after creating that new camp
                     PrettyPage.printCamps(campManager.getCamps());
                     break;
                 }
                 case 3: {
-                    ArrayList<Camp> staffCreatedCampList = filterManager.filter(new CampFilterByStaff(), campManager.getCamps());
-                    PrettyPage.printCamps(staffCreatedCampList);
-                    int index1 = InputHandler.tryGetInt(1, staffCreatedCampList.size(), "Input camp choice: ", "Invalid Camp");
-                    Camp selectedCamp = staffCreatedCampList.get(index1 - 1);
-                    viewManager.changeView(new StaffInChargeOperationsViewModel(selectedCamp));
+                    viewCreatedCamps();
                     break;
                 }
                 case 4: {
-                    viewManager.changeView(new SortViewModel(sortedCamps));
+                    viewManager.changeView(new SortViewModel(campManager.getCamps()));
                     break;
                 }
                 case 5: {
@@ -153,6 +143,8 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
      * A function that encloses staff operations
      */
     public void staffOperations(Camp selectedCamp) {
+        //Do it locally
+        EnquiryManager enquiryManager = App.getEnquiryManager();
         boolean isLooping = true;
         while (isLooping) {
             PrettyPage.printCampDetails(selectedCamp);
@@ -181,7 +173,42 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
      * A function to handle the sub logic of viewing created camps
      */
     public void viewCreatedCamps() {
+        //Get the staff object
+        Staff s = (App.getUser() instanceof Staff) ? (Staff) App.getUser() : null;
+        if (s == null) {
+            PrettyPage.printError("Invalid user!");
+        }
+        ArrayList<Camp> createdCamps = s.getCreatedCamps();
+        if (createdCamps.isEmpty()) {
+            PrettyPage.printTitle("You have not created any camps!", 1);
+        } else {
+            PrettyPage.printCamps(createdCamps);
+        }
 
+        Option[] options = {
+                new Option("1", "Select Camp"),
+                new Option("2", "Back"),
+        };
+        while (true) {
+            PrettyPage.printLinesWithHeader(options, "Choose your option");
+
+            int choice = InputHandler.tryGetInt(1, 2, "Input choice: ", "Invalid choice!");
+            switch (choice) {
+                case 1: {
+                    if (s.getCreatedCamps().isEmpty()) {
+                        PrettyPage.printTitle("There are no camps to view!", 1);
+                    } else {
+                        int index1 = InputHandler.tryGetInt(1, createdCamps.size(), "Input camp choice: ", "Invalid choice!");
+                        Camp selectedCamp = createdCamps.get(index1 - 1);
+                        viewManager.changeView(new StaffInChargeOperationsViewModel(selectedCamp));
+                    }
+                    break;
+                }
+                case 2: {
+                    return;
+                }
+            }
+        }
     }
 
     /**
@@ -195,9 +222,9 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
         String name = InputHandler.getString();
 
         //Get our dates using our input handler
-        LocalDate startDate = InputHandler.tryGetDate("Enter start date in the format " + StringsUtility.DATE_FORMAT+ ": ", StringsUtility.DATE_ERROR);
-        LocalDate endDate = InputHandler.tryGetDate("Enter end date in the format " + StringsUtility.DATE_FORMAT+ ": ", StringsUtility.DATE_ERROR);
-        LocalDate regDate = InputHandler.tryGetDate("Enter closing registration date in the format " + StringsUtility.DATE_FORMAT+ ": ", StringsUtility.DATE_ERROR);
+        LocalDate startDate = InputHandler.tryGetDate("Enter start date in the format " + StringsUtility.DATE_FORMAT + ": ", StringsUtility.DATE_ERROR);
+        LocalDate endDate = InputHandler.tryGetDate("Enter end date in the format " + StringsUtility.DATE_FORMAT + ": ", StringsUtility.DATE_ERROR);
+        LocalDate regDate = InputHandler.tryGetDate("Enter closing registration date in the format " + StringsUtility.DATE_FORMAT + ": ", StringsUtility.DATE_ERROR);
 
         System.out.print("Enter location: ");
         String location = InputHandler.getString();

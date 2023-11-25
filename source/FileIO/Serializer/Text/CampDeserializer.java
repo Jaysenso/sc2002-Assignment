@@ -1,10 +1,12 @@
 package source.FileIO.Serializer.Text;
 
+import source.Controllers.StaffManager;
 import source.Controllers.StudentManager;
 import source.Database.App;
 import source.Database.DatabaseQuery;
 import source.Entity.Camp;
 import source.Entity.CampInfo;
+import source.Entity.Staff;
 import source.Entity.Student;
 import source.Faculty.Faculty;
 
@@ -25,12 +27,14 @@ import java.util.HashMap;
 public class CampDeserializer implements TextDataDeserializer {
     /**
      * Deserializes the data to and creates camp objects based on a hash map of values.
+     *
      * @param parsedData the parsed data
      * @return list of camp objects
      */
     @Override
     public ArrayList deserialize(HashMap<String, ArrayList<String>> parsedData) {
         StudentManager manager = App.getStudentManager();
+        StaffManager staffManager = App.getStaffManager();
         ArrayList campList = new ArrayList();
         int len = parsedData.get("camp_name").size();
         if (len == 0)
@@ -78,6 +82,13 @@ public class CampDeserializer implements TextDataDeserializer {
                     new ArrayList<>(),
                     new ArrayList<>(),
                     new ArrayList<>());
+
+            //Handle the staff camp list
+            Staff staff = staffManager.readStaff(
+                    new DatabaseQuery(staffID, "name"));
+            if (staff != null) {
+                staff.addCreatedCamp(camp);
+            }
 
             //Handle the mapping of attendees and committee members
             String attendee = parsedData.get("attendees").get(i);

@@ -42,7 +42,8 @@ public class StaffDeserializer implements TextDataDeserializer {
                 throw new RuntimeException(e);
             }
             String password = parsedData.get("password").get(i);
-            staffList.add(new Staff(name, userid, password, f));
+            Staff s = new Staff(name, userid, password, f);
+            staffList.add(s);
         }
         return staffList;
     }

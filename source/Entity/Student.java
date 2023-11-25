@@ -18,14 +18,22 @@ public class Student extends User {
 
 	public Student() {
 		super();
+		this.registeredCamps = new ArrayList<>();
+		this.registrations = new ArrayList<>();
+		this.enquiries = new ArrayList<>();
+		this.campService = null;
+		this.isCampCommittee = null;
+		this.accumulatedPoints = 0;
 	}
 
-	public Student(String name, String userID, String password, Faculty facultyInfo) {
+	public Student(String name, String userID, String password, Faculty facultyInfo, int accumulatedPoints) {
 		super(name, userID, password, facultyInfo);
 		this.registrations = new ArrayList<Registration>();
 		this.registeredCamps = new ArrayList<Camp>();
 		this.enquiries = new ArrayList<Enquiry>();
+		this.campService = null;
 		this.isCampCommittee = null;
+		this.accumulatedPoints = accumulatedPoints;
 	}
 
 	@Override

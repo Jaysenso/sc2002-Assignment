@@ -156,4 +156,8 @@ public final class CampManager {
     public void setFiltertype(int filtertype) {
         this.filtertype = filtertype;
     }
+
+    public ArrayList<Camp> readCamps(DatabaseQuery query){
+        return campDao.readCamps(query);
+    }
 }

@@ -3,6 +3,7 @@ package source.ViewModels.Application.StudentViewModels;
 import source.Controllers.CampManager;
 import source.Controllers.FilterManager;
 import source.Database.App;
+import source.Database.DatabaseQuery;
 import source.Entity.Camp;
 import source.Entity.Student;
 import source.Utility.InputHandler;
@@ -10,7 +11,6 @@ import source.ViewModels.Application.Apps.FilterViewModel;
 import source.ViewModels.BaseViewModel;
 import source.ViewModels.IViewModel;
 import source.ViewModels.ViewManager;
-import source.Views.Application.StaffView.StaffCampView;
 import source.Views.Application.StudentView.StudentCampView;
 
 public class StudentCampViewModel extends BaseViewModel implements IViewModel {
@@ -94,6 +94,24 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
     @Override
     public void cleanup() {
         System.out.flush(); //NOTE: Does not work in IntelliJ IDEA as it is not a real terminal.
+    }
+
+
+    /**
+     * updates the applicable camps of the current logged-in user.
+     */
+    private void updateApplicableCamps() {
+        ArrayList<Camp> registeredCamps = new ArrayList<>();
+        ArrayList<Camp> campList = campManager.getCamps();
+        for(Camp camp : campList){
+            for(Student attendee : camp.getAttendees()) {
+                if(student == attendee) {
+                    registeredCamps.add(camp);
+                    break;
+                }
+            }
+        }
+        student.setRegisteredCamps(registeredCamps);
     }
 
 }

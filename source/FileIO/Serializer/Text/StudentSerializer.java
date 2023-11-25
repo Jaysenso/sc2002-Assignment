@@ -21,7 +21,15 @@ public class StudentSerializer extends BaseSerializer implements TextDataSeriali
     /**
      * Holds the headers of our csv files.
      */
-    private final String[] headers = {"name", "userid", "email", "password", "faculty"};
+    private final String[] headers = {
+            "name",
+            "userid",
+            "email",
+            "password",
+            "faculty",
+            "points",
+            "registered_camps",
+            "camp_committee_of"};
 
     /**
      * A default constructor.
@@ -62,6 +70,7 @@ public class StudentSerializer extends BaseSerializer implements TextDataSeriali
                                 user.getName(),
                                 user.getUserID(),
                                 user.getUserID() + "@e.ntu.edu.sg",
+
                                 user.getPassword(),
                                 user.getFacultyInfo().getClass().getSimpleName()
                         },

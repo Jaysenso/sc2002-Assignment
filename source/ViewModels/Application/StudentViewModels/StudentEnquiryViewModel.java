@@ -90,7 +90,7 @@ public class StudentEnquiryViewModel extends BaseViewModel implements IViewModel
                 case 2: {
                     //delete
                     int index = InputHandler.tryGetInt(1, enquiries.size(), "Enter Enquiry No.", "Invalid Enquiry");
-                    enquiryManager.deleteStudentEnquiry(enquiries.get(index));
+                    enquiryManager.deleteStudentEnquiry(enquiries.get(index-1));
                     break;
                 }
                 case 3: {
@@ -124,7 +124,7 @@ public class StudentEnquiryViewModel extends BaseViewModel implements IViewModel
             };
             PrettyPage.printEnquiry(enquiries.get(index - 1));
             PrettyPage.printLinesWithHeader(options, "Choose your option");
-            int option = InputHandler.tryGetInt(1, enquiries.size(), "Select Enquiry: ", "Enquiry not found");
+            int option = InputHandler.tryGetInt(1, 3, "Select Enquiry: ", "Enquiry not found");
             switch (option) {
                 case 1: {
                     System.out.println("Enter new Title");
@@ -142,6 +142,7 @@ public class StudentEnquiryViewModel extends BaseViewModel implements IViewModel
                     break;
                 }
                 case 3: {
+                    viewManager.returnToPreviousView();
                     isLooping = false;
                     break;
                 }

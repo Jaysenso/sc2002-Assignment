@@ -86,26 +86,24 @@ public class Camp {
 
     public boolean registerCommittees(Student committee){
 
-        if(committee.getIsCampCommittee() != null) {
+        if(isAttendee(committee)){
+            PrettyPage.printError("Error: You are already an Attendee for this camp. ");
+            return false;
+        }
+        if(committee.getIsCampCommittee() != null && committee.getIsCampCommittee() != this) {
+            PrettyPage.printError("Error: You are already Camp Committee for another camp.");
+            return false;
+        }
 
-            if(committee.getIsCampCommittee() == this) {
+        for(Student registeredCampCommittee : campCommitteeMembers){
+            if(committee == registeredCampCommittee){
                 PrettyPage.printError("Error: You are already Camp Committee for this camp.");
-                return false;
-            }
-
-            if(committee.getIsCampCommittee() != this) {
-                PrettyPage.printError("Error: You are already Camp Committee for another camp.");
                 return false;
             }
         }
 
         DateRangeValidator checker = new DateRangeValidator(this.campInfo.getStartDate(), this.campInfo.getEndDate());
         for (Camp camp : committee.getRegisteredCamps()) {
-
-            if(this.campInfo.equals(camp.campInfo)) {
-                PrettyPage.printError("Error: You have already registered.");
-                return false;
-            }
 
             if (checker.isWithinRange(camp.getCampInfo().getStartDate()) || checker.isWithinRange(camp.getCampInfo().getEndDate())) {
                 PrettyPage.printError("Error : You are already registered for a camp on the same date.");
@@ -153,17 +151,6 @@ public class Camp {
         this.visibility = (!this.visibility);
     }
 
-    public CampInfo getCampInfo() {
-        return this.campInfo;
-    }
-
-    public boolean getVisibility() {
-        return this.visibility;
-    }
-
-    public void setVisibility(boolean visibility) {
-        this.visibility = visibility;
-    }
 
     @Override
     public boolean equals(Object obj) {

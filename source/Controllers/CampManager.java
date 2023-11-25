@@ -1,10 +1,13 @@
 package source.Controllers;
 
+import source.Database.App;
 import source.Database.CampDaoImpl;
 import source.Database.Dao.CampDao;
 import source.Database.DatabaseQuery;
 import source.Entity.Camp;
 import source.Entity.CampInfo;
+import source.Entity.Staff;
+import source.Entity.User;
 import source.Faculty.Faculty;
 import source.Utility.DirectoryUtility;
 import source.Utility.InputHandler;
@@ -72,8 +75,8 @@ public final class CampManager {
             }catch (Exception e) {
                 PrettyPage.printError("Invalid Confirmation");
             }
-        }while(!input.equals("Y") && !input.equals("F"));
-        if(input.equals("Y")){
+        }while(!input.equals("1") && !input.equals("2"));
+        if(input.equals("2")){
             System.out.println("Camp is now Visible");
             visibility = true;
         }
@@ -90,7 +93,7 @@ public final class CampManager {
                 0,
                 commSlots,
                 description,
-                "abdul",
+                App.getUser().getName(),
                 startDate,
                 endDate,
                 regDate,

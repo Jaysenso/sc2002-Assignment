@@ -17,7 +17,7 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
     /**
      * The student view object shows the UI when the user is logged in as a Student, presenting the user with options a student can take.
      *
-     * @see StaffCampView
+     * @see StudentCampView
      */
     StudentCampView studentCampView;
     Student student = (Student) App.getUser();
@@ -27,7 +27,7 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
     /**
      * A default constructor.
      *
-     * @see StaffCampView
+     * @see StudentCampView
      */
     public StudentCampViewModel () {
         studentCampView = new StudentCampView();
@@ -44,7 +44,8 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
     @Override
     public void init(ViewManager viewManager) {
         super.init(viewManager);
-        filterManager.viewAll(campManager.getFiltertype());
+        student.setRegisteredCamps(); //initialize student's registered camp array list
+        filterManager.showCamps(campManager.getCamps());
         studentCampView.display();
         handleInputs();
     }

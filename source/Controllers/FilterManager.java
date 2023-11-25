@@ -2,6 +2,10 @@ package source.Controllers;
 
 import source.Database.App;
 import source.Entity.Camp;
+import source.Entity.Staff;
+import source.Entity.Student;
+import source.Entity.User;
+import source.Faculty.SCSE;
 import source.Utility.PrettyPage;
 
 import java.util.ArrayList;
@@ -40,53 +44,62 @@ public class FilterManager {
     }
 
     public void viewAll(int filtertype){
+        ArrayList<Camp> camps = campManager.getCamps();
         switch (filtertype) {
             case 1: {
-                ascendAlphabetical(campManager.getCamps());
-                PrettyPage.printCamps(campManager.getCamps());
+                ascendAlphabetical(camps);
                 break;
             }
             case 2: {
-                descendAlphabetical(campManager.getCamps());
-                PrettyPage.printCamps(campManager.getCamps());
+                descendAlphabetical(camps);
                 break;
             }
             case 3: {
-                ascendAttendee(campManager.getCamps());
-                PrettyPage.printCamps(campManager.getCamps());
+                ascendAttendee(camps);
                 break;
             }
             case 4: {
-                descendAttendee(campManager.getCamps());
-                PrettyPage.printCamps(campManager.getCamps());
+                descendAttendee(camps);
             }
             case 5: {
-                ascendCommittee(campManager.getCamps());
-                PrettyPage.printCamps(campManager.getCamps());
+                ascendCommittee(camps);
                 break;
             }
             case 6: {
-                descendCommittee(campManager.getCamps());
-                PrettyPage.printCamps(campManager.getCamps());
+                descendCommittee(camps);
                 break;
             }
             case 7: {
-                ascendDate(campManager.getCamps());
-                PrettyPage.printCamps(campManager.getCamps());
+                ascendDate(camps);
                 break;
             }
             case 8: {
-                descendDate(campManager.getCamps());
-                PrettyPage.printCamps(campManager.getCamps());
+                descendDate(camps);
                 break;
             }
         }
+        showCamps(camps);
+    }
+    public void showCamps(ArrayList<Camp> camps){
+        PrettyPage.printCamps(camps);
     }
 
+    public static ArrayList<Camp> visibilityFilter(ArrayList<Camp> camps, User user){
+        //if instance of staff, visibility does not apply
+        if(user instanceof Staff){
+            return camps;
+        }
 
-
-
-
-
-
+        Student student = (Student) user;
+        //if instance of student
+        //shallow copy
+        ArrayList<Camp> filteredCamps = new ArrayList<>();
+        for(Camp c : camps){
+            if(c.getVisibility() && c.getCampInfo().getFaculty().getClass().equals(student.getFacultyInfo().getClass())){
+                filteredCamps.add(c);
+            }
+        }
+        // re-reference camps to filteredCamps
+        return filteredCamps;
+    }
 }

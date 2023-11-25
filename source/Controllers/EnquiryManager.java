@@ -54,10 +54,9 @@ public class EnquiryManager {
     public void replyEnquiry(Enquiry enquiry, User user) {
         LocalDate createdDate = LocalDate.now();
         String userType;
-        if(user instanceof Staff){
+        if (user instanceof Staff) {
             userType = "Staff In charge";
-        }
-        else{
+        } else {
             userType = "Camp Committee Member";
         }
         enquiry.setRepliedDate(createdDate);

@@ -12,7 +12,6 @@ import source.Utility.PrettyPage;
 import java.security.KeyException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * The StudentDaoImpl implements the functions of StudentDao using the DAO Design Pattern.
@@ -83,6 +82,7 @@ public class StudentDaoImpl extends BaseDaoImpl implements StudentDao {
     /**
      * Creates a student in this database by appending the student into the student list.
      *
+     * @param student the student
      * @return true always.
      */
     @Override
@@ -95,6 +95,7 @@ public class StudentDaoImpl extends BaseDaoImpl implements StudentDao {
     /**
      * Searches the database to see if the student name exists (it is assumed that student names are unique according to the FAQ).
      *
+     * @param query the query into the database
      * @return the student object associated with that student name, null if there is no found entry.
      */
     @Override
@@ -123,6 +124,7 @@ public class StudentDaoImpl extends BaseDaoImpl implements StudentDao {
      * Searches the database to see if the student name exists (it is assumed that student names are unique according to the FAQ).
      * MUST SATISFY ALL THE QUERIES
      *
+     * @param queries into the database
      * @return the student object associated with that student name, null if there is no found entry.
      */
     @Override
@@ -235,6 +237,7 @@ public class StudentDaoImpl extends BaseDaoImpl implements StudentDao {
     /**
      * Updates the student in this database by searching the database and replacing that entry.
      *
+     * @param student the student
      * @return true if there was a successful update, false if object was not found in database.
      */
     @Override
@@ -253,6 +256,7 @@ public class StudentDaoImpl extends BaseDaoImpl implements StudentDao {
     /**
      * Deletes the student in this database by searching the database and replacing that entry.
      *
+     * @param query the query
      * @return true if there was a successful deletion, else false.
      */
     @Override
@@ -267,6 +271,7 @@ public class StudentDaoImpl extends BaseDaoImpl implements StudentDao {
     /**
      * Deletes the student in this database by removing the student and saving to the file instantly.
      *
+     * @param student the student
      * @return true if there was a successful deletion, else false.
      */
     @Override

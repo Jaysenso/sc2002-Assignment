@@ -10,8 +10,20 @@ import source.Utility.PrettyPage;
 
 import java.util.ArrayList;
 
+/**
+ * This class provides implementation of filtering the camps by staff, allowing staff to see particular camps.
+ *
+ * @author Isaac Chun
+ * @version 1.0
+ * @see Staff
+ * @since 11/22/2023
+ */
 public class CampFilterByStaff implements CampFilterOperation {
-
+    /**
+     * A generic filter function
+     *
+     * @param camps list of camps
+     */
     @Override
     public ArrayList<Camp> filter(ArrayList<Camp> camps) {
         if (!(App.getUser() instanceof Staff)) {
@@ -27,7 +39,7 @@ public class CampFilterByStaff implements CampFilterOperation {
             Faculty campFaculty = c.getCampInfo().getFaculty();
             //Else check the faculty of this camp
             if (campFaculty.getClass() == ntu.getClass() || campFaculty.getClass() == f.getClass()) {
-                //If its either ntu or equals to the student, add it to the list
+                //If its either ntu or equals to the staff, add it to the list
                 filteredCamps.add(c);
             }
         }

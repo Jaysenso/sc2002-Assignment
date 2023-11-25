@@ -1,10 +1,5 @@
 package source.Entity;
 
-import source.Database.App;
-import source.Utility.DateRangeValidator;
-import source.Utility.Option;
-import source.Utility.PrettyPage;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -89,7 +84,9 @@ public class Camp {
         return this.enquiryList;
     }
 
-    public void setEnquiryList(ArrayList<Enquiry> enquiryList) { this.enquiryList = enquiryList;}
+    public void setEnquiryList(ArrayList<Enquiry> enquiryList) {
+        this.enquiryList = enquiryList;
+    }
 
     //toggle visibility
     public void toggleVisibility() {
@@ -139,7 +136,8 @@ public class Camp {
         updateCampInfoCurrentSlots();
     }
 
-    public void updateCampInfoCurrentSlots(){
-        this.campInfo.updateCurrentSlot(attendees,campCommitteeMembers);
+    public void updateCampInfoCurrentSlots() {
+        int currentSlots = attendees.size() + campCommitteeMembers.size();
+        this.campInfo.setCurrentSlots(currentSlots);
     }
 }

@@ -18,6 +18,12 @@ import java.util.List;
  * @since 11/4/2023
  */
 public class ObjectDeserializer {
+    /**
+     * Deserializes a file at file path
+     *
+     * @param filePath the file path
+     * @return list of objects.
+     */
     public List deserialize(String filePath) {
         List data = null;
         FileInputStream fis = null;

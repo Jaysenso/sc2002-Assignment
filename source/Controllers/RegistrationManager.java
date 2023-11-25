@@ -1,8 +1,8 @@
 package source.Controllers;
 
-import source.Entity.Student;
 import source.Entity.Camp;
 import source.Entity.Registration;
+import source.Entity.Student;
 import source.Registration.StudentRegistrationOperations;
 
 public class RegistrationManager {
@@ -10,12 +10,12 @@ public class RegistrationManager {
     private Camp camp;
     private Registration registration;
 
-    public RegistrationManager(Student student, Camp camp){
+    public RegistrationManager(Student student, Camp camp) {
         this.student = student;
         this.camp = camp;
     }
 
-    public void useStudentRegistrationOperation(StudentRegistrationOperations studentRegistrationOperations){
+    public void useStudentRegistrationOperation(StudentRegistrationOperations studentRegistrationOperations) {
         studentRegistrationOperations.execute();
     }
 

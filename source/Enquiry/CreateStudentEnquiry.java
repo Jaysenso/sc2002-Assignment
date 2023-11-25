@@ -1,17 +1,17 @@
 package source.Enquiry;
+
 import source.Controllers.EnquiryManager;
-import source.Entity.Enquiry;
 
 import java.util.Scanner;
 
 public class CreateStudentEnquiry implements StudentEnquiryOperations {
     private EnquiryManager enquiryManager;
 
-    public CreateStudentEnquiry(EnquiryManager enquiryManager){
+    public CreateStudentEnquiry(EnquiryManager enquiryManager) {
         this.enquiryManager = enquiryManager;
     }
 
-    public void execute(){
+    public void execute() {
         Scanner createEnquiryScanner = new Scanner(System.in);
 
         System.out.println("Enter the title of your enquiry:\n");

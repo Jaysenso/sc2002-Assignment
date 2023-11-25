@@ -15,6 +15,12 @@ import java.util.ArrayList;
  * @since 11/4/2023
  */
 public class TextDataReader implements IReadable {
+    /**
+     * Reads data from the text data
+     *
+     * @param filePath the filePath
+     * @return array list of strings
+     */
     public ArrayList<String> read(String filePath) {
         ArrayList<String> data = new ArrayList<String>();
         String line = "";

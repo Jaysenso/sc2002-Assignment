@@ -50,18 +50,38 @@ public class TextDataFile extends DataFile {
         this.data = data;
     }
 
+    /**
+     * Acquires the raw data of the file in text format.
+     *
+     * @return the list of strings in raw data
+     */
     public ArrayList<String> getRawData() {
         return this.rawData;
     }
 
+    /**
+     * Sets the raw data in this file
+     *
+     * @param rawData the new raw data of this file
+     */
     public void setRawData(ArrayList<String> rawData) {
         this.rawData = rawData;
     }
 
+    /**
+     * Acquires the parsed data in hashmap format
+     *
+     * @return the parsed data
+     */
     public HashMap<String, ArrayList<String>> getData() {
         return this.data;
     }
 
+    /**
+     * Sets the parsed data in this file
+     *
+     * @param data the new parsed data of this file
+     */
     public void setData(HashMap<String, ArrayList<String>> data) {
         this.data = data;
     }

@@ -42,6 +42,7 @@ public class StaffSerializer extends BaseSerializer implements TextDataSerialize
      * Serializes a list of objects into a string ready to be put into our other classes.
      *
      * @param objects An arraylist of objects to serialize
+     * @return list of strings in serialized format
      */
     @Override
     public ArrayList<String> serialize(List objects) {

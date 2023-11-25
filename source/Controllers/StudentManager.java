@@ -39,6 +39,8 @@ public final class StudentManager {
 
     /**
      * A function to update the database given a student.
+     *
+     * @param student the student object to update
      */
     public void updateStudent(Student student) {
         studentDao.updateStudent(student);

@@ -1,9 +1,5 @@
 package source.FileIO.Serializer.Text;
 
-import source.Controllers.CampManager;
-import source.Database.App;
-import source.Database.DatabaseQuery;
-import source.Entity.Camp;
 import source.Entity.Student;
 import source.Faculty.Faculty;
 
@@ -23,6 +19,9 @@ import java.util.HashMap;
 public class StudentDeserializer implements TextDataDeserializer {
     /**
      * Deserializes the data to and creates student objects based on a hash map of values.
+     *
+     * @param parsedData the parsed data
+     * @return list of student objects
      */
     @Override
     public ArrayList deserialize(HashMap<String, ArrayList<String>> parsedData) {

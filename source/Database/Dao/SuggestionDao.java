@@ -19,6 +19,7 @@ public interface SuggestionDao {
      * Creates a suggestion in the subsequent database
      *
      * @param suggestion the suggestion to add
+     * @return true if managed to create, false if not
      */
     boolean createSuggestion(Suggestion suggestion);
 
@@ -61,6 +62,7 @@ public interface SuggestionDao {
      * Updates a suggestion in the subsequent database
      *
      * @param suggestion the suggestion to add
+     * @return true if managed to update, false if not
      */
     boolean updateSuggestion(Suggestion suggestion);
 
@@ -68,11 +70,14 @@ public interface SuggestionDao {
      * Deletes a suggestion in the subsequent database
      *
      * @param query query to check in our header
+     * @return true if managed to delete, false if not
      */
     boolean deleteSuggestion(DatabaseQuery query);
 
     /**
      * Deletes a suggestion in the subsequent database
+     *
+     * @return true if managed to delete, false if not
      */
     boolean deleteSuggestion(Suggestion suggestion);
 

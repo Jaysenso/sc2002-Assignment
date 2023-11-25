@@ -27,6 +27,7 @@ public interface CampDao {
      * Should be mainly used for name queries.
      *
      * @param query query to check in our header
+     * @return the camp object if it was found in our database
      */
     Camp readCamp(DatabaseQuery query);
 
@@ -36,6 +37,7 @@ public interface CampDao {
      * Should be mainly used for name queries.
      *
      * @param query query to check in our header
+     * @return the camp object if it was found in our database
      */
     Camp readCamp(DatabaseQuery[] query);
 
@@ -62,6 +64,7 @@ public interface CampDao {
      * Updates a camp in the subsequent database. Directly updates the file straight away.
      *
      * @param camp the camp to update
+     * @return true if managed to update, false if not
      */
     boolean updateCamp(Camp camp);
 
@@ -69,11 +72,13 @@ public interface CampDao {
      * Deletes a camp in the subsequent database
      *
      * @param query query to check in our header
+     * @return true if managed to delete, false if not
      */
     boolean deleteCamp(DatabaseQuery query);
 
     /**
      * Deletes a camp in the subsequent database
+     * @return true if managed to delete, false if not
      */
     boolean deleteCamp(Camp camp);
 

@@ -17,12 +17,15 @@ import java.util.regex.Pattern;
 public class InputHandler {
     /**
      * A static scanner that lasts throughout the lifetime of the application.
-     *
-     * @return int user input
      */
     private static Scanner scanner = new Scanner(System.in);
-
+    /**
+     * The regex to get a good email
+     */
     private final static String EMAIL_REGEX = "\\w+@[e.]*ntu.edu.sg";
+    /**
+     * The regex to get a good password
+     */
     private final static String PASSWORD_REGEX = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$";
 
     /**
@@ -148,5 +151,4 @@ public class InputHandler {
         }
         return "";
     }
-
 }

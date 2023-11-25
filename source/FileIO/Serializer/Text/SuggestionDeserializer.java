@@ -1,14 +1,8 @@
 package source.FileIO.Serializer.Text;
 
-import source.Controllers.CampManager;
-import source.Database.App;
-import source.Database.DatabaseQuery;
-import source.Entity.Camp;
 import source.Entity.Student;
 import source.Entity.Suggestion;
-import source.Faculty.Faculty;
 
-import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,6 +19,9 @@ import java.util.HashMap;
 public class SuggestionDeserializer implements TextDataDeserializer {
     /**
      * Deserializes the data to and creates suggestion objects based on a hash map of values.
+     *
+     * @param parsedData the parsed data
+     * @return list of suggestion objects
      */
     @Override
     public ArrayList deserialize(HashMap<String, ArrayList<String>> parsedData) {

@@ -9,6 +9,9 @@ package source.Utility;
  * @since 11/6/2023
  */
 public abstract class StringsUtility {
+    /**
+     * The string to indicate password mismatch
+     */
     public final static String PASSWORD_MISMATCH = "The password must contain at least one lowercase character, one uppercase character, one digit, one special character, and a length between 8 to 20";
 
 }

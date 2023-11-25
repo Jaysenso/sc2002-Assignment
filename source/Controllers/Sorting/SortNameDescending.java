@@ -6,8 +6,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+/**
+ * A class that contains the implementation of sorting the name of camps in asscending order.
+ *
+ * @author Isaac Chun
+ * @version 1.0
+ * @since 11/22/2023
+ */
 public class SortNameDescending implements CampSortOperation {
-
+    /**
+     * A sort function that works through abstractions
+     *
+     * @param campList list of camps
+     */
     @Override
     public void sort(ArrayList<Camp> campList) {
         campList.sort(Comparator.comparing(camp -> camp.getCampInfo().getName().toLowerCase()));

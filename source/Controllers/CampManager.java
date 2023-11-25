@@ -1,11 +1,12 @@
 package source.Controllers;
 
-import source.Controllers.Filters.FilterManager;
 import source.Database.App;
 import source.Database.CampDaoImpl;
 import source.Database.Dao.CampDao;
 import source.Database.DatabaseQuery;
-import source.Entity.*;
+import source.Entity.Camp;
+import source.Entity.CampInfo;
+import source.Entity.Student;
 import source.Faculty.Faculty;
 import source.Utility.*;
 
@@ -152,18 +153,18 @@ public final class CampManager {
 
         student.addRegisteredCamps(selectedCamp);
         selectedCamp.addAttendee(student);
-        PrettyPage.printLine(new Option("Success", "You Have Registered Successfully for " +selectedCamp.getCampInfo().getName()));
+        PrettyPage.printLine(new Option("Success", "You Have Registered Successfully for " + selectedCamp.getCampInfo().getName()));
         return true;
     }
 
     public boolean registerCommittees(Student student, Camp selectedCamp) {
 
-        if(student.isAttendee(selectedCamp)) {
+        if (student.isAttendee(selectedCamp)) {
             PrettyPage.printError("Error: You are already an Attendee for this camp.");
             return false;
         }
 
-        if (student.getIsCampCommittee() == selectedCamp)  {
+        if (student.getIsCampCommittee() == selectedCamp) {
             PrettyPage.printError("Error : You are already a camp committee for this camp.");
             return false;
         }
@@ -195,7 +196,7 @@ public final class CampManager {
         student.addRegisteredCamps(selectedCamp);
         student.isCommittee(selectedCamp);
         selectedCamp.addCommittee(student);
-        PrettyPage.printLine(new Option("Success", "You Have Registered Successfully for " +selectedCamp.getCampInfo().getName()));
+        PrettyPage.printLine(new Option("Success", "You Have Registered Successfully for " + selectedCamp.getCampInfo().getName()));
         return true;
     }
 
@@ -208,7 +209,7 @@ public final class CampManager {
             selectedCamp.withdrawAttendee(attendee);
             attendee.removeRegisteredCamps(selectedCamp);
             updateCamp(selectedCamp);
-            PrettyPage.printLine(new Option("Success", "You Have withdrew from " +selectedCamp.getCampInfo().getName()));
+            PrettyPage.printLine(new Option("Success", "You Have withdrew from " + selectedCamp.getCampInfo().getName()));
             return true;
         }
     }

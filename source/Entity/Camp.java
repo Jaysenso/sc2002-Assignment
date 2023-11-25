@@ -48,12 +48,12 @@ public class Camp {
         return this.attendees;
     }
 
-    public ArrayList<Student> getCampCommitteeMembers() {
-        return this.campCommitteeMembers;
-    }
-
     public void setAttendees(ArrayList<Student> attendees) {
         this.attendees = attendees;
+    }
+
+    public ArrayList<Student> getCampCommitteeMembers() {
+        return this.campCommitteeMembers;
     }
 
     public void setCampCommittee(ArrayList<Student> campCommitteeMembers) {
@@ -72,128 +72,6 @@ public class Camp {
         this.visibility = visibility;
     }
 
-    public boolean registerAttendees(Student student) {
-
-        DateRangeValidator checker = new DateRangeValidator(this.campInfo.getStartDate(), this.campInfo.getEndDate());
-        if (isAttendee(student)) {
-            PrettyPage.printError("Error: You have already registered.");
-            return false;
-        }
-
-        for (Camp camp : student.getRegisteredCamps()) {
-            if (checker.isWithinRange(camp.getCampInfo().getStartDate()) || checker.isWithinRange(camp.getCampInfo().getEndDate())) {
-                PrettyPage.printError("Error : You are already registered for a camp on the same date.");
-                return false;
-            }
-        }
-
-        if (this.getCampInfo().getCurrentSlots() >= this.getCampInfo().getMaxSlots()) {
-            PrettyPage.printError("Error : Camp is already full.");
-            return false;
-        }
-
-        if (LocalDate.now().isAfter(this.campInfo.getClosingDate())) {
-            PrettyPage.printError("Error : Registration period has closed.");
-            return false;
-        }
-
-        this.attendees.add(student);
-        this.campInfo.updateCurrentSlot(attendees, campCommitteeMembers);
-        student.addRegisteredCamps(this);
-        PrettyPage.printLine(new Option("Success", "You Have Registered Successfully for " + this.getCampInfo().getName()));
-        //update the file.
-        App.getUserManager().update();
-        return true;
-    }
-
-    public boolean registerCommittees(Student committee) {
-
-        if (isAttendee(committee)) {
-            PrettyPage.printError("Error: You are already an Attendee for this camp. ");
-            return false;
-        }
-        if (committee.getIsCampCommittee() != null && committee.getIsCampCommittee() != this) {
-            PrettyPage.printError("Error: You are already Camp Committee for another camp.");
-            return false;
-        }
-
-        for (Student registeredCampCommittee : campCommitteeMembers) {
-            if (committee == registeredCampCommittee) {
-                PrettyPage.printError("Error: You are already Camp Committee for this camp.");
-                return false;
-            }
-        }
-
-        DateRangeValidator checker = new DateRangeValidator(this.campInfo.getStartDate(), this.campInfo.getEndDate());
-        for (Camp camp : committee.getRegisteredCamps()) {
-
-            if (checker.isWithinRange(camp.getCampInfo().getStartDate()) || checker.isWithinRange(camp.getCampInfo().getEndDate())) {
-                PrettyPage.printError("Error : You are already registered for a camp on the same date.");
-                return false;
-            }
-        }
-
-        if (this.getCampInfo().getCampCommitteeSlots() >= this.getCampInfo().getMaxCampCommitteeSlots()) {
-            PrettyPage.printError("Error : Camp Committee slots are full.");
-            return false;
-        }
-
-        if (committee.getIsCampCommittee() != null) {
-            PrettyPage.printError("Error : You are already a camp committee.");
-            return false;
-        }
-
-        if (LocalDate.now().isAfter(this.campInfo.getClosingDate())) {
-            PrettyPage.printError("Error : Registration period has closed.");
-            return false;
-        }
-
-        this.campCommitteeMembers.add(committee);
-        this.campInfo.updateCampCommitteeSlots(campCommitteeMembers.size());
-        committee.setIsCampCommittee(this);
-        committee.addRegisteredCamps(this);
-        PrettyPage.printError("Registered Successfully.");
-        //update the file.
-        App.getUserManager().update();
-        return true;
-    }
-
-    public boolean withdrawAttendees(Student attendee) {
-        if (!isAttendee(attendee)) {
-            PrettyPage.printError("You are not part of the camp!");
-            return false;
-
-        } else {
-            this.attendees.remove(attendee);
-            this.campInfo.updateCurrentSlot(attendees, campCommitteeMembers);
-            attendee.removeRegisteredCamps(this);
-            PrettyPage.printError("You have withdrawn from the camp successfully.");
-            return true;
-        }
-    }
-
-    public boolean isAttendee(Student x) {
-        for (Student attendee : attendees) {
-            if (attendee.equals(x)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean isCommittee(Student x) {
-        for (Student attendee : campCommitteeMembers) {
-            if (attendee.equals(x)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public void addCommittee(Student attendee) {
-        this.campCommitteeMembers.add(attendee);
-    }
-
     public void addInquiry(Enquiry enquiry) {
         this.enquiryList.add(enquiry);
     }
@@ -203,16 +81,16 @@ public class Camp {
         return !date.isBefore(campInfo.getClosingDate());
     }
 
-    //toggle visibility
-    public void toggleVisibility() {
-        this.visibility = (!this.visibility);
-    }
-
-
     public ArrayList<Enquiry> getEnquiryList() {
         return this.enquiryList;
     }
 
+    public void setEnquiryList(ArrayList<Enquiry> enquiryList) { this.enquiryList = enquiryList;}
+
+    //toggle visibility
+    public void toggleVisibility() {
+        this.visibility = (!this.visibility);
+    }
 
     @Override
     public boolean equals(Object obj) {
@@ -240,5 +118,24 @@ public class Camp {
         this.attendees = camp.attendees;
         this.campCommitteeMembers = camp.campCommitteeMembers;
         this.enquiryList = camp.enquiryList;
+    }
+
+    public void addAttendee(Student student) {
+        this.attendees.add(student);
+        updateCampInfoCurrentSlots();
+    }
+
+    public void addCommittee(Student attendee) {
+        this.campCommitteeMembers.add(attendee);
+        updateCampInfoCurrentSlots();
+    }
+
+    public void withdrawAttendee(Student attendee) {
+        this.attendees.remove(attendee);
+        updateCampInfoCurrentSlots();
+    }
+
+    public void updateCampInfoCurrentSlots(){
+        this.campInfo.updateCurrentSlot(attendees,campCommitteeMembers);
     }
 }

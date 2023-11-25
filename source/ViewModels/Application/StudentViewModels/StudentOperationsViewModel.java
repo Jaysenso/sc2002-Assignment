@@ -96,8 +96,9 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
             switch (choice) {
                 //Register Camp
                 case 1: {
-                    boolean registerResult = selectedCamp.registerAttendees(student);
+                    boolean registerResult = campManager.registerAttendees(student,selectedCamp);
                     campManager.updateCamp(selectedCamp);
+                    App.getStudentManager().updateStudent(student);
                     PrettyPage.printCampDetails(selectedCamp);
                     studentOperationsView.display();
                     break;
@@ -115,19 +116,20 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
                 }
                 //Apply Camp Committee
                 case 3: {
-                    boolean registerResult = selectedCamp.registerCommittees(student);
+                    boolean registerResult = campManager.registerCommittees(student,selectedCamp);
                     campManager.updateCamp(selectedCamp);
+                    App.getStudentManager().updateStudent(student);
                     viewManager.returnToPreviousView();
                     break;
                 }
                 //Withdraw from Camp
                 case 4: {
-                    boolean withdrawResult = selectedCamp.withdrawAttendees(student);
-                    if(withdrawResult) {
-                        campManager.updateCamp(selectedCamp);
-                        PrettyPage.printCampDetails(selectedCamp);
-                        studentOperationsView.display();
-                    }
+                    boolean withdrawResult = campManager.withdrawAttendees(student,selectedCamp);
+                    campManager.updateCamp(selectedCamp);
+                    App.getStudentManager().updateStudent(student);
+                    PrettyPage.printCampDetails(selectedCamp);
+                    studentOperationsView.display();
+
                     break;
                 }
                 //Back

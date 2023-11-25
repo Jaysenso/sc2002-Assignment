@@ -70,6 +70,10 @@ public class CampInfo {
         this.currentSlots = currentSlots;
     }
 
+    public void updateCurrentSlots(ArrayList<Student> attendees, ArrayList<Student> campCommitteeMembers) {
+        this.currentSlots = attendees.size() + campCommitteeMembers.size();
+    }
+
     public int getMaxSlots() {
         return this.maxSlots;
     }
@@ -143,7 +147,6 @@ public class CampInfo {
     public void setFaculty(Faculty faculty) {
         this.faculty = faculty;
     }
-
 
     public void setMaxCampCommitteeSlots(int maxCampCommitteeSlots) {
         this.maxCampCommitteeSlots = maxCampCommitteeSlots;

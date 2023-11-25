@@ -87,7 +87,7 @@ public class CampCommitteeViewModel extends BaseViewModel implements IViewModel 
                 }
                 //Back
                 case 4: {
-                    viewManager.changeView(new StudentCampViewModel());
+                    viewManager.returnToPreviousView();
                     break;
                 }
             }

@@ -92,7 +92,7 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
     public void handleInputs() {
         int choice;
         do {
-            choice = InputHandler.tryGetInt(1, 4, "Input choice: ", "Invalid choice!");
+            choice = InputHandler.tryGetInt(1, 5, "Input choice: ", "Invalid choice!");
             switch (choice) {
                 //Register Camp
                 case 1: {
@@ -116,20 +116,23 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
                 //Apply Camp Committee
                 case 3: {
                     boolean registerResult = selectedCamp.registerCommittees(student);
-                    if (registerResult) {
+                    campManager.updateCamp(selectedCamp);
+                    viewManager.returnToPreviousView();
+                    break;
+                }
+                //Withdraw from Camp
+                case 4: {
+                    boolean withdrawResult = selectedCamp.withdrawAttendees(student);
+                    if(withdrawResult) {
                         campManager.updateCamp(selectedCamp);
-                        viewManager.changeView(new CampCommitteeViewModel(selectedCamp));
-                    } else {
                         PrettyPage.printCampDetails(selectedCamp);
                         studentOperationsView.display();
-                        handleInputs();
                     }
                     break;
                 }
                 //Back
-                case 4: {
+                case 5: {
                     viewManager.returnToPreviousView();
-                    break;
                 }
             }
         } while (true);

@@ -9,6 +9,9 @@ import source.ViewModels.BaseViewModel;
 import source.ViewModels.IViewModel;
 import source.ViewModels.ViewManager;
 import source.Views.Application.AppViews.FilterView;
+
+import java.util.ArrayList;
+
 /**
  * The FilterViewModel holds all the logic and necessary Ui elements for filter camp list.
  *

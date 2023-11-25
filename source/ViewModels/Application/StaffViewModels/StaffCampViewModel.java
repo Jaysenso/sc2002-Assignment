@@ -4,6 +4,7 @@ import source.Controllers.CampManager;
 import source.Controllers.FilterManager;
 import source.Database.App;
 import source.Entity.Camp;
+import source.Entity.Staff;
 import source.Utility.InputHandler;
 import source.Utility.PrettyPage;
 import source.ViewModels.Application.Apps.FilterViewModel;
@@ -11,6 +12,9 @@ import source.ViewModels.BaseViewModel;
 import source.ViewModels.IViewModel;
 import source.ViewModels.ViewManager;
 import source.Views.Application.StaffView.StaffCampView;
+
+import java.util.Objects;
+
 /**
  * The StaffCampViewModel class handles the staffCampViewModel's logics and present the relevant operations that staff can use in the camp list view.
  *
@@ -26,6 +30,7 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
      * @see StaffCampView
      */
     private StaffCampView staffCampView;
+    private Staff staff = (Staff) App.getUser();
 
     /**
      * The FilterManager object abstracts the various filter methods that user can use
@@ -79,7 +84,12 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
                 case 1: {
                     int index = InputHandler.tryGetInt(1, campManager.getCamps().size(), "Input camp choice : ", "Invalid Camp");
                     Camp selectedCamp = campManager.getCamps().get(index - 1);
-                    viewManager.changeView(new StaffOperationsViewModel(selectedCamp));
+                    if(Objects.equals(App.getUser().getName(), selectedCamp.getCampInfo().getStaffInCharge())){
+                        viewManager.changeView(new StaffInChargeOperationsViewModel(selectedCamp));
+                    }
+                    else{
+                        staffOperations();
+                    }
                     break;
                 }
                 case 2: {
@@ -107,5 +117,7 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
     public void cleanup() {
         System.out.flush(); //NOTE: Does not work in IntelliJ IDEA as it is not a real terminal.
     }
-
+    public void staffOperations(){
+        System.out.println("Basic Staff Ops");
+    }
 }

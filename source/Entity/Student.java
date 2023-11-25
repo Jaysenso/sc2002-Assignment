@@ -1,6 +1,8 @@
 package source.Entity;
 
 import source.Camp.CampService;
+import source.Controllers.CampManager;
+import source.Database.App;
 import source.Faculty.Faculty;
 
 import java.util.ArrayList;
@@ -50,11 +52,36 @@ public class Student extends User {
 //        enquiries.add(enquiry);
  //   }
 
+
+	/**
+	 *
+	 * RegisteredCamps
+	 */
+
+	public void setRegisteredCamps() {
+		ArrayList<Camp>campList = App.getCampManager().getCamps();
+
+		for(Camp camp : campList){
+			for(Student attendee : camp.getAttendees()) {
+				if(this == attendee) {
+					registeredCamps.add(camp);
+				}
+			}
+		}
+	}
+
+	public void addRegisteredCamps(Camp camp){
+		this.registeredCamps.add(camp);
+	}
+
+	public void removeRegisteredCamps(Camp camp) {
+		this.registeredCamps.remove(camp);
+	}
+
 	/**
 	 * 
 	 * Registrations
 	 */
-
     public void setRegistrations(ArrayList<Registration> registration) {
 
 		this.registrations = registration;
@@ -91,10 +118,6 @@ public class Student extends User {
 	public boolean getVisibility() {
 
 		return visibility;
-	}
-
-	public void updateRegisteredCamps(Camp camp) {
-		this.registeredCamps.add(camp);
 	}
 
 	/**

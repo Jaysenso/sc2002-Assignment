@@ -8,7 +8,7 @@ import source.Utility.PrettyPage;
 import source.ViewModels.BaseViewModel;
 import source.ViewModels.IViewModel;
 import source.ViewModels.ViewManager;
-import source.Views.Application.StaffView.StaffOperationsView;
+import source.Views.Application.StaffView.StaffInChargeOperationsView;
 
 /**
  * The StaffOperationsViewModel holds all the logic and necessary UI elements for staff.
@@ -17,13 +17,13 @@ import source.Views.Application.StaffView.StaffOperationsView;
  * @version 1.0
  * @since 11/12/2023
  */
-public class StaffOperationsViewModel extends BaseViewModel implements IViewModel {
+public class StaffInChargeOperationsViewModel extends BaseViewModel implements IViewModel {
     /**
      * The staffOperationsView object shows the UI when the user is logged in as a Staff, presenting the user with options a staff can take.
      *
-     * @see StaffOperationsView
+     * @see StaffInChargeOperationsView
      */
-    StaffOperationsView staffOperationsView;
+    StaffInChargeOperationsView staffOperationsView;
 
     /**
      * The selectedCamp object stores the camp that the staff selects
@@ -45,10 +45,10 @@ public class StaffOperationsViewModel extends BaseViewModel implements IViewMode
      * @param selectedCamp the selected camp
      *
      * @see StaffCampViewModel
-     * @see StaffOperationsView
+     * @see StaffInChargeOperationsView
      */
-    public StaffOperationsViewModel(Camp selectedCamp) {
-        staffOperationsView = new StaffOperationsView();
+    public StaffInChargeOperationsViewModel(Camp selectedCamp) {
+        staffOperationsView = new StaffInChargeOperationsView();
         campManager = App.getCampManager();
         this.selectedCamp = selectedCamp;
     }

@@ -10,7 +10,8 @@ public class StudentOperationsView implements IView {
                 new Option("1", "Register Camp"),
                 new Option("2", "Make Enquiry"),
                 new Option("3", "Apply Camp Committee"),
-                new Option("4", "Back"),
+                new Option("4", "Withdraw from Camp"),
+                new Option("5", "Back"),
         };
         PrettyPage.printLinesWithHeader(options, "Choose your option");
     }

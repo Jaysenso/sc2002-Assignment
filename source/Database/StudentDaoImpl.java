@@ -242,11 +242,14 @@ public class StudentDaoImpl extends BaseDaoImpl implements StudentDao {
      */
     @Override
     public boolean updateStudent(Student student) {
-        int pos = studentList.indexOf(student);
-        //if the student list contains this student
-        if (pos != -1) {
-            //Then just copy it in for saving
-            studentList.set(pos, student);
+        int i = 0;
+        for (; i < studentList.size(); i++) {
+            if (studentList.get(i).equals(student)) {
+                break;
+            }
+        }
+        if (i != studentList.size()) {
+            studentList.set(i, student);
             refresh();
             return true;
         }

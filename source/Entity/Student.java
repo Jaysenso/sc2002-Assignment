@@ -78,9 +78,28 @@ public class Student extends User {
         this.registeredCamps.remove(camp);
     }
 
-    /**
-     * Registrations
-     */
+	/**
+	 *
+	 * RegisteredCamps
+	 */
+	public void addRegisteredCamps(Camp camp){
+		//Prevent duplicates
+		for(Camp c : registeredCamps)
+		{
+			if(c.equals(camp))
+				return;
+		}
+		this.registeredCamps.add(camp);
+	}
+
+	public void removeRegisteredCamps(Camp camp) {
+		this.registeredCamps.remove(camp);
+	}
+
+	/**
+	 * 
+	 * Registrations
+	 */
     public void setRegistrations(ArrayList<Registration> registration) {
 
         this.registrations = registration;

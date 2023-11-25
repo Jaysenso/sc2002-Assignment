@@ -127,29 +127,31 @@ public final class CampManager {
 
     public boolean registerAttendees(Student student, Camp selectedCamp) {
 
+        //Create a date range validator that ranges from the start and end date
         DateRangeValidator checker = new DateRangeValidator(selectedCamp.getCampInfo().getStartDate(), selectedCamp.getCampInfo().getEndDate());
-
+        //check if student is already part of the camp
         if (student.isAttendee(selectedCamp)) {
             PrettyPage.printError("Error: You have already registered.");
             return false;
         }
-
+        //check if student has registered for camps that collide with the selectedCamp
         for (Camp camp : student.getRegisteredCamps()) {
             if (checker.isWithinRange(camp.getCampInfo().getStartDate()) || checker.isWithinRange(camp.getCampInfo().getEndDate())) {
                 PrettyPage.printError("Error : You are already registered for a camp on the same date.");
                 return false;
             }
         }
-
+        //check if the selected camp has slots
         if (selectedCamp.getCampInfo().getCurrentSlots() >= selectedCamp.getCampInfo().getMaxSlots()) {
             PrettyPage.printError("Error : Camp is already full.");
             return false;
         }
-
+        //Check if student is registering for a camp that is past its registration period
         if (LocalDate.now().isAfter(selectedCamp.getCampInfo().getClosingDate())) {
             PrettyPage.printError("Error : Registration period has closed.");
             return false;
         }
+
 
         student.addRegisteredCamps(selectedCamp);
         selectedCamp.addAttendee(student);
@@ -194,14 +196,14 @@ public final class CampManager {
         }
 
         student.addRegisteredCamps(selectedCamp);
-        student.isCommittee(selectedCamp);
+        student.setIsCampCommittee(selectedCamp);
         selectedCamp.addCommittee(student);
         PrettyPage.printLine(new Option("Success", "You Have Registered Successfully for " + selectedCamp.getCampInfo().getName()));
         return true;
     }
 
     public boolean withdrawAttendees(Student attendee, Camp selectedCamp) {
-        if (attendee.isAttendee(selectedCamp)) {
+        if (!attendee.isAttendee(selectedCamp)) {
             PrettyPage.printError("You are not part of the camp!");
             return false;
 
@@ -220,7 +222,6 @@ public final class CampManager {
     }
 
     public boolean updateCamp(Camp camp) {
-
         return campDao.updateCamp(camp);
     }
 

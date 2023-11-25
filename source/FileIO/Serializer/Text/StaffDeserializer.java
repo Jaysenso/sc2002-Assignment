@@ -1,5 +1,6 @@
 package source.FileIO.Serializer.Text;
 
+import source.Database.Dao.CampDao;
 import source.Entity.Staff;
 import source.Faculty.Faculty;
 
@@ -17,6 +18,8 @@ import java.util.HashMap;
  * @since 11/4/2023
  */
 public class StaffDeserializer implements TextDataDeserializer {
+    private CampDao campDao;
+
     /**
      * Deserializes the data to and creates staff objects based on a hash map of values.
      */
@@ -39,7 +42,7 @@ public class StaffDeserializer implements TextDataDeserializer {
                 throw new RuntimeException(e);
             }
             String password = parsedData.get("password").get(i);
-            staffList.add(new Staff(name, userid, password, f));
+            staffList.add(new Staff(name, userid, password, f, campDao));
         }
         return staffList;
     }

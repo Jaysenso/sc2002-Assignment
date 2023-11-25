@@ -40,6 +40,10 @@ public class Enquiry {
      */
     private String title;
     /**
+     * The reply to this enquiry
+     */
+    private String reply;
+    /**
      * The local date timestamp of when the enquiry was created
      */
     private LocalDate createdDate;
@@ -58,18 +62,21 @@ public class Enquiry {
      * @param title       The title of the enquiry
      * @param createdDate The local date timestamp of when the enquiry was created
      * @param repliedDate The local date timestamp of when the enquiry was replied
+     * @param reply       The reply to this enquiry
      */
     public Enquiry(String campName,
                    String createdBy,
                    String repliedBy,
                    String content,
                    String title,
+                   String reply,
                    LocalDate createdDate,
                    LocalDate repliedDate) {
         this.campName = campName;
         this.createdBy = createdBy;
         this.repliedBy = repliedBy;
         this.content = content;
+        this.reply = reply;
         this.title = title;
         this.createdDate = createdDate;
         this.repliedDate = repliedDate;
@@ -189,5 +196,13 @@ public class Enquiry {
      */
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getReply() {
+        return reply;
+    }
+
+    public void setReply(String reply) {
+        this.reply = reply;
     }
 }

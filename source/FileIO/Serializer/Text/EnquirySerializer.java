@@ -30,6 +30,7 @@ public class EnquirySerializer extends BaseSerializer implements TextDataSeriali
             "created_on",
             "replied_by",
             "replied_on",
+            "reply",
             "processed"
     };
 
@@ -71,6 +72,7 @@ public class EnquirySerializer extends BaseSerializer implements TextDataSeriali
                 LocalDate repliedDate = enquiry.getRepliedDate();
                 String rDate = (repliedDate ==null) ? "N/A" : repliedDate.toString();
                 String rBy = (enquiry.getRepliedBy().isEmpty()) ? "N/A" : enquiry.getRepliedBy();
+                String reply = (enquiry.getReply().isEmpty()) ? "N/A" : enquiry.getReply();
                 String studentData = SerializeBuilder.buildSerializedString(
                         new String[]{
                                 enquiry.getCampName(),
@@ -80,6 +82,7 @@ public class EnquirySerializer extends BaseSerializer implements TextDataSeriali
                                 enquiry.getCreatedDate().toString(),
                                 rBy,
                                 rDate,
+                                reply,
                                 String.valueOf(enquiry.getProcessed())
                         },
                         delimiter

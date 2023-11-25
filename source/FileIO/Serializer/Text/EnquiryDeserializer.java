@@ -34,20 +34,26 @@ public class EnquiryDeserializer implements TextDataDeserializer {
             String title = parsedData.get("title").get(i);
             String repliedBy = parsedData.get("replied_by").get(i);
             String processed = parsedData.get("processed").get(i);
-            if(repliedBy.equals("N/A"))
+            String reply = parsedData.get("reply").get(i);
+            if (repliedBy.equals("N/A"))
                 repliedBy = "";
             LocalDate createdDate = LocalDate.parse(parsedData.get("created_on").get(i));
             String rDate = parsedData.get("replied_on").get(i);
             LocalDate repliedDate = null;
-            if(!rDate.equals("N/A")) {
+            if (!rDate.equals("N/A")) {
                 repliedDate = LocalDate.parse(rDate);
             }
+            if (reply.equals("N/A")) {
+                reply = "";
+            }
+
             Enquiry enquiry = new Enquiry(
                     campName,
                     createdBy,
                     repliedBy,
                     content,
                     title,
+                    reply,
                     createdDate,
                     repliedDate
             );

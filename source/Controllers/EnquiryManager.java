@@ -31,7 +31,7 @@ public class EnquiryManager {
         String title = InputHandler.getString();
         System.out.print("Enter Enquiry Content: ");
         String content = InputHandler.getString();
-        return new Enquiry(campName, createdBy, "", content, title, createdDate, null);
+        return new Enquiry(campName, createdBy, "", content, title, "", createdDate, null);
     }
 
     public void deleteStudentEnquiry(Enquiry enquiry) {
@@ -50,11 +50,13 @@ public class EnquiryManager {
         return enquiryDao.readEnquiries(new DatabaseQuery(name, "camp_name"));
     }
 
-    public void replyEnquiry(Enquiry enquiry, User user){
+    public void replyEnquiry(Enquiry enquiry, User user) {
         LocalDate createdDate = LocalDate.now();
         enquiry.setRepliedDate(createdDate);
         enquiry.setRepliedBy(user.getUserID());
         enquiry.setProcessed(true);
+        System.out.println("Enter ");
+        String replyMessage = InputHandler.getString();
         enquiryDao.updateEnquiry(enquiry);
     }
 
@@ -85,9 +87,11 @@ public class EnquiryManager {
     public Enquiry readEnquiry(DatabaseQuery query) {
         return enquiryDao.readEnquiry(query);
     }
+
     public ArrayList<Enquiry> readEnquiries(DatabaseQuery query) {
         return enquiryDao.readEnquiries(query);
     }
+
     public ArrayList<Enquiry> readEnquiries(DatabaseQuery[] query) {
         return enquiryDao.readEnquiries(query);
     }

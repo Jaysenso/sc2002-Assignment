@@ -430,6 +430,7 @@ public class PrettyPage {
                 new Option("Created on", DateTimeFormatter.formatDateTimeToLocal(enquiry.getCreatedDate())),
                 new Option("Content", enquiry.getContent()),
                 new Option("Processed", String.valueOf(enquiry.getProcessed())),
+                new Option("Reply", enquiry.getReply()),
                 new Option("Replied by", repliedBy),
                 new Option("Replied on", repliedDate)
         };

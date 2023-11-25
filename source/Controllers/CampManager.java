@@ -4,14 +4,9 @@ import source.Database.App;
 import source.Database.CampDaoImpl;
 import source.Database.Dao.CampDao;
 import source.Database.DatabaseQuery;
-import source.Entity.Camp;
-import source.Entity.CampInfo;
-import source.Entity.Staff;
-import source.Entity.User;
+import source.Entity.*;
 import source.Faculty.Faculty;
-import source.Utility.DirectoryUtility;
-import source.Utility.InputHandler;
-import source.Utility.PrettyPage;
+import source.Utility.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
@@ -130,6 +125,45 @@ public final class CampManager {
         }
     }
 
+    public ArrayList<Camp> getCamps() {
+            User user = App.getUser();
+            return FilterManager.visibilityFilter(campList, user);
+        }
+
+//    public boolean registerAttendees(Student student, Camp selectedCamp) {
+//
+//        DateRangeValidator checker = new DateRangeValidator(selectedCamp.getCampInfo().getStartDate(), selectedCamp.getEndDate());
+//        if (isAttendee(student)) {
+//            PrettyPage.printError("Error: You have already registered.");
+//            return false;
+//        }
+//
+//        for (Camp camp : student.getRegisteredCamps()) {
+//            if (checker.isWithinRange(camp.getCampInfo().getStartDate()) || checker.isWithinRange(camp.getCampInfo().getEndDate())) {
+//                PrettyPage.printError("Error : You are already registered for a camp on the same date.");
+//                return false;
+//            }
+//        }
+//
+//        if (selectedCamp.getCampInfo().getCurrentSlots() >= selectedCamp.getCampInfo().getMaxSlots()) {
+//            PrettyPage.printError("Error : Camp is already full.");
+//            return false;
+//        }
+//
+//        if (LocalDate.now().isAfter(selectedCamp.getCampInfo().getClosingDate())) {
+//            PrettyPage.printError("Error : Registration period has closed.");
+//            return false;
+//        }
+//
+//        selectedCamp.attendees.add(student);
+//        this.campInfo.updateCurrentSlot(attendees, campCommitteeMembers);
+//        student.addRegisteredCamps(this);
+//        PrettyPage.printLine(new Option("Success", "You Have Registered Successfully for " + selectedCamp.getCampInfo().getName()));
+//        //update the file.
+//        App.getUserManager().update();
+//        return true;
+//    }
+
     public Camp readCamp(DatabaseQuery query) {
         return campDao.readCamp(query);
     }
@@ -143,20 +177,9 @@ public final class CampManager {
         campDao.refresh();
     }
 
-    public ArrayList<Camp> getCamps() {
-        User user = App.getUser();
-        return FilterManager.visibilityFilter(campList, user);
-    }
-
     public void loadContext() {
         campDao.loadContext();
     }
-
-//    public ArrayList<Camp> filterCamps() {
-//        ArrayList<Camp> filteredCampList = new ArrayList<>();
-//        filteredCampList.addAll(campList);
-//        return fil
-//    }
 
     public int getFiltertype() {
         return filtertype;

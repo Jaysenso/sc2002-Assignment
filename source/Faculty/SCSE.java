@@ -11,4 +11,5 @@ public class SCSE implements Faculty {
     public SCSE(){
 
     }
+
 }

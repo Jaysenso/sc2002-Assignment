@@ -11,4 +11,5 @@ public class ADM implements Faculty {
     public ADM(){
 
     }
+
 }

@@ -1,5 +1,6 @@
 package source.Entity;
 
+import source.Database.App;
 import source.Utility.DateRangeValidator;
 import source.Utility.Option;
 import source.Utility.PrettyPage;
@@ -51,20 +52,32 @@ public class Camp {
         return this.campCommitteeMembers;
     }
 
-    public boolean registerAttendees(Student attendee){
+    public CampInfo getCampInfo() {
+        return this.campInfo;
+    }
+
+    public boolean getVisibility() {
+        return this.visibility;
+    }
+
+    public void setVisibility(boolean visibility) {
+        this.visibility = visibility;
+    }
+
+    public boolean registerAttendees(Student student){
+
         DateRangeValidator checker = new DateRangeValidator(this.campInfo.getStartDate(), this.campInfo.getEndDate());
-        for (Camp camp : attendee.getRegisteredCamps()) {
 
-            if(this.equals(camp)){
-                PrettyPage.printError("Error: You have already registered.");
-                return false;
-            }
+        if(isAttendee(student)){
+            PrettyPage.printError("Error: You have already registered.");
+            return false;
+        }
 
+        for (Camp camp : student.getRegisteredCamps()) {
             if (checker.isWithinRange(camp.getCampInfo().getStartDate()) || checker.isWithinRange(camp.getCampInfo().getEndDate())) {
                 PrettyPage.printError("Error : You are already registered for a camp on the same date.");
                 return false;
             }
-
         }
 
         if (this.getCampInfo().getCurrentSlots() >= this.getCampInfo().getMaxSlots()) {
@@ -77,9 +90,9 @@ public class Camp {
             return false;
         }
 
-        this.attendees.add(attendee);
+        this.attendees.add(student);
         this.campInfo.updateCurrentSlot(attendees.size());
-        attendee.updateRegisteredCamps(this);
+        student.addRegisteredCamps(this);
         PrettyPage.printLine(new Option("Success","You Have Registered Successfully for " + this.getCampInfo().getName()));
         return true;
     }
@@ -129,8 +142,41 @@ public class Camp {
         this.campCommitteeMembers.add(committee);
         this.campInfo.updateCampCommitteeSlots(campCommitteeMembers.size());
         committee.setIsCampCommittee(this);
+        committee.addRegisteredCamps(this);
         PrettyPage.printError("Registered Successfully.");
         return true;
+    }
+
+    public boolean withdrawAttendees(Student attendee) {
+        if (!isAttendee(attendee)) {
+            PrettyPage.printError("You are not part of the camp!");
+            return false;
+
+        } else {
+            this.attendees.remove(attendee);
+            this.campInfo.updateCurrentSlot(attendees.size());
+            attendee.removeRegisteredCamps(this);
+            PrettyPage.printError("Registered Successfully.");
+            return true;
+        }
+    }
+
+    public boolean isAttendee(Student x) {
+        for(Student attendee : attendees){
+            if(attendee.equals(x)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isCommittee(Student x) {
+        for(Student attendee : campCommitteeMembers){
+            if(attendee.equals(x)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void addCommittee(Student attendee){

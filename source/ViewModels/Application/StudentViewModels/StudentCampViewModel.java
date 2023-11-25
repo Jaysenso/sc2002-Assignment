@@ -63,7 +63,7 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
                     int index = InputHandler.tryGetInt(1, campManager.getCamps().size(), "Input camp choice : ", "Invalid Camp");
                     Camp selectedCamp = campManager.getCamps().get(index - 1);
 
-                    if(student.getIsCampCommittee() != null && student.getIsCampCommittee().equals(selectedCamp)) {
+                    if(selectedCamp.isCommittee(student)) {
                         viewManager.changeView(new CampCommitteeViewModel(selectedCamp));
                     }
                     else {

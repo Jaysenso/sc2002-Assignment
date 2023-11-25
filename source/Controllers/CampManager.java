@@ -69,7 +69,7 @@ public final class CampManager {
         boolean visibility;
         String input = "";
         do{
-            System.out.println("Hidden/Visible To All ");
+            System.out.println("VISIBILITY : (1) Hidden | (2) Visible");
             try{
                 input = InputHandler.getString();
             }catch (Exception e) {
@@ -135,7 +135,8 @@ public final class CampManager {
     }
 
     public ArrayList<Camp> getCamps() {
-        return campList;
+        User user = App.getUser();
+        return FilterManager.visibilityFilter(campList, user);
     }
 
     public void loadContext() {

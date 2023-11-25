@@ -180,7 +180,7 @@ public class SuggestionDaoImpl extends BaseDaoImpl implements SuggestionDao {
             //Iterate and try to find
             for (int i = 0; i < stringData.size(); i++) {
                 if (query.getQuery().equals(stringData.get(i)))
-                    suggestions.add(suggestions.get(i));
+                    suggestions.add(suggestionList.get(i));
             }
             return suggestions;
         } catch (KeyException e) {

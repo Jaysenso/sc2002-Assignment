@@ -10,7 +10,7 @@ public class CampCommitteeView implements IView {
     public void display() {
         Option[] options = {
                 new Option("1", "View Enquiries"),
-                new Option("2", "View Suggestions"),
+                new Option("2", "View my Suggestions"),
                 new Option("3", "Generate Camp Report"),
                 new Option("4", "Back"),
         };

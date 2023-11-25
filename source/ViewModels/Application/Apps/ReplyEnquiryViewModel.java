@@ -51,12 +51,8 @@ public class ReplyEnquiryViewModel extends BaseViewModel implements IViewModel {
     @Override
     public void init(ViewManager viewManager) {
         super.init(viewManager);
-        enquiries = enquiryManager.getCampEnquiries(selectedCamp.getCampInfo().getName());
-        PrettyPage.printEnquiries(enquiries);
-        replyEnquiryView.display();
         handleInputs();
     }
-
     /**
      * A function to handle all inputs over here.
      */
@@ -64,6 +60,9 @@ public class ReplyEnquiryViewModel extends BaseViewModel implements IViewModel {
     public void handleInputs() {
         int choice;
         while(true){
+            enquiries = enquiryManager.getCampEnquiries(selectedCamp.getCampInfo().getName());
+            PrettyPage.printEnquiries(enquiries);
+            replyEnquiryView.display();
             choice = InputHandler.tryGetInt(1, 2, "Input choice: ", "Invalid choice!");
             switch (choice) {
                 case 1: {

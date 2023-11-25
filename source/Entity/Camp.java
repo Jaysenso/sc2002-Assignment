@@ -140,4 +140,9 @@ public class Camp {
         int currentSlots = attendees.size() + campCommitteeMembers.size();
         this.campInfo.setCurrentSlots(currentSlots);
     }
+
+    public void updateCampInfoCommitteeSlots() {
+        int currentSlots =  campCommitteeMembers.size();
+        this.campInfo.setCurrentSlots(currentSlots);
+    }
 }

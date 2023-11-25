@@ -14,6 +14,7 @@ import source.Utility.PrettyPage;
 import source.ViewModels.BaseViewModel;
 import source.ViewModels.IViewModel;
 import source.ViewModels.ViewManager;
+import source.Views.Application.StudentView.CampCommitteeView;
 import source.Views.Application.StudentView.StudentOperationsView;
 
 import java.util.ArrayList;
@@ -105,8 +106,11 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
                 //Register Camp
                 case 1: {
                     boolean registerResult = campManager.registerAttendees(student,selectedCamp);
-                    campManager.updateCamp(selectedCamp);
-                    studentManager.updateStudent(student);
+
+                    if(registerResult) {
+                        campManager.updateCamp(selectedCamp);
+                        studentManager.updateStudent(student);
+                    }
                     PrettyPage.printCampDetails(selectedCamp);
                     studentOperationsView.display();
                     break;
@@ -125,16 +129,17 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
                 //Apply Camp Committee
                 case 3: {
                     boolean registerResult = campManager.registerCommittees(student,selectedCamp);
+
                     if(registerResult) {
-
-                        for(Camp camp : student.getRegisteredCamps()) {
-                            System.out.println(camp.getCampInfo().getName());
-                        }
-
                         campManager.updateCamp(selectedCamp);
                         studentManager.updateStudent(student);
+                        viewManager.returnToPreviousView();
                     }
-                    viewManager.returnToPreviousView();
+
+                    PrettyPage.printCampDetails(selectedCamp);
+                    printApplicableEnquiries();
+                    studentOperationsView.display();
+                    handleInputs();
                     break;
                 }
                 //Withdraw from Camp

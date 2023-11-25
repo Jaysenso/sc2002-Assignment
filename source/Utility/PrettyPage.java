@@ -69,7 +69,7 @@ public class PrettyPage {
     /**
      * The size of our box
      */
-    private static final int SIZE = 100;
+    private static final int SIZE = 150;
     /**
      * The effective size of our box (excluding top left and top right and middle separation)
      */
@@ -402,8 +402,8 @@ public class PrettyPage {
                 new Option("User Group", campInfo.getFaculty().getClass().getSimpleName()),
                 new Option("Attendees ", attendees),
                 new Option("Camp Committee Members ", committeeMembers),
-                new Option("Attendee Slots", campInfo.getCurrentSlots() + "/" + campInfo.getMaxSlots()),
-                new Option("Camp Committee", campInfo.getCampCommitteeSlots() + "/" + campInfo.getMaxCampCommitteeSlots()),
+                new Option("Current Total Slots", campInfo.getCurrentSlots() + "/" + campInfo.getMaxSlots()),
+                new Option("Current Camp Committee Slots", campInfo.getCampCommitteeSlots() + "/" + campInfo.getMaxCampCommitteeSlots()),
                 new Option("Description", campInfo.getDescription()),
                 new Option("Staff in Charge", campInfo.getStaffInCharge())
         };

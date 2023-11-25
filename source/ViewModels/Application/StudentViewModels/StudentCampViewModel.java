@@ -149,12 +149,12 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
         int choice = InputHandler.tryGetInt(1, 2, "Input choice: ", "Invalid choice!");
         switch (choice) {
             case 1: {
-                if (campManager.getCamps().isEmpty()) {
+                if (student.getRegisteredCamps().isEmpty()) {
                     PrettyPage.printError("There are no camps to view!");
                 } else {
                     int index = InputHandler.tryGetInt(1, registeredCamps.size(), "Input camp choice: ", "Invalid Camp Selected");
                     Camp selectedCamp = registeredCamps.get(index - 1);
-                    if (student.isCommittee(selectedCamp)) {
+                    if (student.getIsCampCommittee() != null && student.getIsCampCommittee().equals(selectedCamp)) {
                         viewManager.changeView(new CampCommitteeViewModel(selectedCamp));
                     } else {
                         viewManager.changeView(new StudentOperationsViewModel(selectedCamp));

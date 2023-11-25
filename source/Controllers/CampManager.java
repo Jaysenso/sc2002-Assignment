@@ -1,5 +1,6 @@
 package source.Controllers;
 
+import source.Controllers.Filters.FilterManager;
 import source.Database.App;
 import source.Database.CampDaoImpl;
 import source.Database.Dao.CampDao;
@@ -14,16 +15,9 @@ import java.util.ArrayList;
 
 public final class CampManager {
     private CampDao campDao;
-    private ArrayList<Camp> campList;
-    private int filtertype = 1;
 
-    //    public void createCamp(){
-//        String name = InputHandler.getString();
-//        String description = InputHandler.getString();
-//    }
     public CampManager() {
         this.campDao = new CampDaoImpl(DirectoryUtility.CAMP_LIST_PATH);
-        this.campList = campDao.getCamps();
     }
 
     public void createCamp() {
@@ -107,6 +101,11 @@ public final class CampManager {
         campDao.createCamp(new Camp(info, visibility, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
     }
 
+    public ArrayList<Camp> getCamps() {
+        return campDao.getCamps();
+    }
+
+
     public boolean deleteCamp(Camp camp) {
         String input = "";
         do {
@@ -124,11 +123,6 @@ public final class CampManager {
             return false;
         }
     }
-
-    public ArrayList<Camp> getCamps() {
-            User user = App.getUser();
-            return FilterManager.visibilityFilter(campList, user);
-        }
 
 //    public boolean registerAttendees(Student student, Camp selectedCamp) {
 //
@@ -181,15 +175,11 @@ public final class CampManager {
         campDao.loadContext();
     }
 
-    public int getFiltertype() {
-        return filtertype;
-    }
-
-    public void setFiltertype(int filtertype) {
-        this.filtertype = filtertype;
-    }
-
     public ArrayList<Camp> readCamps(DatabaseQuery query) {
         return campDao.readCamps(query);
+    }
+
+    public void showCamps() {
+        PrettyPage.printCamps(campDao.getCamps());
     }
 }

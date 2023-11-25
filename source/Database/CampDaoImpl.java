@@ -1,6 +1,5 @@
 package source.Database;
 
-import source.Controllers.FilterManager;
 import source.Database.Dao.CampDao;
 import source.Entity.Camp;
 import source.FileIO.Serializer.Text.CampDeserializer;
@@ -13,7 +12,6 @@ import source.Utility.PrettyPage;
 import java.security.KeyException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * The CampDaoImpl implements the functions of CampDao using the DAO Design Pattern.

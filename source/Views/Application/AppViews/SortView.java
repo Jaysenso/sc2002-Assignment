@@ -4,9 +4,10 @@ import source.Utility.Option;
 import source.Utility.PrettyPage;
 import source.Views.IView;
 
-public class FilterView implements IView {
+public class SortView implements IView {
     @Override
     public void display() {
+        PrettyPage.printTitle("Sorting", 1);
         Option[] options = {
                 new Option("1", "Name Ascending"),
                 new Option("2", "Name Descending"),

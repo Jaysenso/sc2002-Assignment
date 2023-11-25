@@ -2,17 +2,19 @@ package source.ViewModels.Application.StaffViewModels;
 
 import source.Controllers.CampManager;
 import source.Controllers.EnquiryManager;
-import source.Controllers.FilterManager;
+import source.Controllers.Filters.CampFilterByStaff;
+import source.Controllers.Filters.FilterManager;
 import source.Database.App;
 import source.Entity.Camp;
 import source.Entity.Staff;
 import source.Utility.InputHandler;
 import source.Utility.Option;
 import source.Utility.PrettyPage;
-import source.ViewModels.Application.Apps.FilterViewModel;
+import source.ViewModels.Application.Apps.SortViewModel;
 import source.ViewModels.BaseViewModel;
 import source.ViewModels.IViewModel;
 import source.ViewModels.ViewManager;
+import source.Views.Application.AppViews.SortView;
 import source.Views.Application.StaffView.StaffCampView;
 import source.Views.Application.StaffView.StaffOperationsView;
 
@@ -34,9 +36,10 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
      * @see StaffCampView
      */
     private StaffCampView staffCampView;
-    StaffOperationsView staffOperationsView;
+    private SortView sortView;
+    private StaffOperationsView staffOperationsView;
     private Staff staff = (Staff) App.getUser();
-
+    private ArrayList<Camp> sortedCamps;
     /**
      * The FilterManager object abstracts the various filter methods that user can use
      *
@@ -61,7 +64,11 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
     public StaffCampViewModel() {
         staffOperationsView = new StaffOperationsView();
         staffCampView = new StaffCampView();
+        sortView = new SortView();
         campManager = App.getCampManager();
+        filterManager = new FilterManager();
+        //Initially, the filtered camps are all the normal camps
+        sortedCamps = campManager.getCamps();
     }
 
     /**
@@ -74,6 +81,7 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
     @Override
     public void init(ViewManager viewManager) {
         super.init(viewManager);
+        PrettyPage.printCamps(sortedCamps);
         handleInputs();
     }
 
@@ -84,17 +92,15 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
     public void handleInputs() {
         int choice;
         do {
-            filterManager.viewAll(campManager.getFiltertype());
             staffCampView.display();
             choice = InputHandler.tryGetInt(1, 5, "Input choice: ", "Invalid choice!");
             switch (choice) {
                 case 1: {
                     int index = InputHandler.tryGetInt(1, campManager.getCamps().size(), "Input camp choice : ", "Invalid Camp");
                     Camp selectedCamp = campManager.getCamps().get(index - 1);
-                    if(Objects.equals(App.getUser().getName(), selectedCamp.getCampInfo().getStaffInCharge())){
+                    if (Objects.equals(App.getUser().getName(), selectedCamp.getCampInfo().getStaffInCharge())) {
                         viewManager.changeView(new StaffInChargeOperationsViewModel(selectedCamp));
-                    }
-                    else{
+                    } else {
                         staffOperations(selectedCamp);
                     }
                     break;
@@ -106,15 +112,15 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
                     break;
                 }
                 case 3: {
-                    ArrayList<Camp> staffCreatedCampList = filterManager.filterStaffCamps(campManager.getCamps(), staff);
-                    filterManager.showCamps(staffCreatedCampList);
-                    int index1 = InputHandler.tryGetInt(1, staffCreatedCampList.size(), "Input camp choice : ", "Invalid Camp");
+                    ArrayList<Camp> staffCreatedCampList = filterManager.filter(new CampFilterByStaff(), campManager.getCamps());
+                    PrettyPage.printCamps(staffCreatedCampList);
+                    int index1 = InputHandler.tryGetInt(1, staffCreatedCampList.size(), "Input camp choice: ", "Invalid Camp");
                     Camp selectedCamp = staffCreatedCampList.get(index1 - 1);
                     viewManager.changeView(new StaffInChargeOperationsViewModel(selectedCamp));
                     break;
                 }
                 case 4: {
-                    viewManager.changeView(new FilterViewModel());
+                    viewManager.changeView(new SortViewModel(sortedCamps));
                     break;
                 }
                 case 5: {
@@ -133,24 +139,24 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
         System.out.flush(); //NOTE: Does not work in IntelliJ IDEA as it is not a real terminal.
     }
 
-    public void staffOperations(Camp selectedCamp){
+    public void staffOperations(Camp selectedCamp) {
         boolean isLooping = true;
-        while(isLooping){
+        while (isLooping) {
             PrettyPage.printCampDetails(selectedCamp);
             staffOperationsView.display();
-            int choice = InputHandler.tryGetInt(1,2, "Choose option: ", "Invalid Key");
-            switch (choice){
-                case 1:{
+            int choice = InputHandler.tryGetInt(1, 2, "Choose option: ", "Invalid Key");
+            switch (choice) {
+                case 1: {
                     PrettyPage.printEnquiries(enquiryManager.getCampEnquiries(selectedCamp.getCampInfo().getName()));
                     Option[] options = {
                             new Option("1", "Back"),
                     };
                     PrettyPage.printLinesWithHeader(options, "Go Back");
-                    int back = InputHandler.tryGetInt(1,1, "Go Back? : ", "Invalid Key");
-                    if(back==1) isLooping = false;
+                    int back = InputHandler.tryGetInt(1, 1, "Go Back? : ", "Invalid Key");
+                    if (back == 1) isLooping = false;
                     break;
                 }
-                case 2:{
+                case 2: {
                     isLooping = false;
                     break;
                 }

@@ -11,7 +11,7 @@ public class StaffCampView implements IView {
                 new Option("1", "Select Camp"),
                 new Option("2", "Create Camp"),
                 new Option("3", "View Created Camps"),
-                new Option("4", "Filter Camp List"),
+                new Option("4", "Sort Camp List"),
                 new Option("5", "Back"),
         };
         PrettyPage.printLinesWithHeader(options, "Choose your option");

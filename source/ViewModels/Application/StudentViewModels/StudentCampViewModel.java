@@ -1,17 +1,17 @@
 package source.ViewModels.Application.StudentViewModels;
 
 import source.Controllers.CampManager;
-import source.Controllers.FilterManager;
+import source.Controllers.Sorting.*;
 import source.Database.App;
-import source.Database.DatabaseQuery;
 import source.Entity.Camp;
 import source.Entity.Student;
 import source.Utility.InputHandler;
 import source.Utility.PrettyPage;
-import source.ViewModels.Application.Apps.FilterViewModel;
+import source.ViewModels.Application.Apps.SortViewModel;
 import source.ViewModels.BaseViewModel;
 import source.ViewModels.IViewModel;
 import source.ViewModels.ViewManager;
+import source.Views.Application.AppViews.SortView;
 import source.Views.Application.StudentView.StudentCampView;
 
 import java.util.ArrayList;
@@ -22,10 +22,11 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
      *
      * @see StudentCampView
      */
-    StudentCampView studentCampView;
+    private StudentCampView studentCampView;
+    private SortView sortView;
     Student student = (Student) App.getUser();
-    private FilterManager filterManager = new FilterManager();
     private CampManager campManager;
+    private ArrayList<Camp> sortedCamps;
 
     /**
      * A default constructor.
@@ -35,6 +36,8 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
     public StudentCampViewModel() {
         studentCampView = new StudentCampView();
         campManager = App.getCampManager();
+        //Initially, the filtered camps are all the normal camps
+        sortedCamps = campManager.getCamps();
     }
 
     /**
@@ -47,8 +50,8 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
     @Override
     public void init(ViewManager viewManager) {
         super.init(viewManager);
-        updateApplicableCamps();
-        filterManager.showCamps(campManager.getCamps());
+        //Show the filtered version
+        PrettyPage.printCamps(sortedCamps);
         handleInputs();
     }
 
@@ -59,6 +62,7 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
     public void handleInputs() {
         int choice;
         do {
+            //Display the student camp view
             studentCampView.display();
             choice = InputHandler.tryGetInt(1, 4, "Input choice: ", "Invalid choice!");
             switch (choice) {
@@ -66,7 +70,7 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
                     if (campManager.getCamps().isEmpty()) {
                         PrettyPage.printError("There are no camps to view!");
                     } else {
-                        int index = InputHandler.tryGetInt(1, campManager.getCamps().size(), "Input camp choice : ", "Invalid Camp");
+                        int index = InputHandler.tryGetInt(1, campManager.getCamps().size(), "Input camp choice: ", "Invalid Camp Selected");
                         Camp selectedCamp = campManager.getCamps().get(index - 1);
 
                         if (selectedCamp.isCommittee(student)) {
@@ -78,7 +82,8 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
                     break;
                 }
                 case 2: {
-                    viewManager.changeView(new FilterViewModel());
+                    //Handle UI and inputs for sorting
+                    viewManager.changeView(new SortViewModel(sortedCamps));
                     break;
                 }
                 case 3: {
@@ -100,24 +105,6 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
     @Override
     public void cleanup() {
         System.out.flush(); //NOTE: Does not work in IntelliJ IDEA as it is not a real terminal.
-    }
-
-
-    /**
-     * updates the applicable camps of the current logged-in user.
-     */
-    private void updateApplicableCamps() {
-        ArrayList<Camp> registeredCamps = new ArrayList<>();
-        ArrayList<Camp> campList = campManager.getCamps();
-        for (Camp camp : campList) {
-            for (Student attendee : camp.getAttendees()) {
-                if (student == attendee) {
-                    registeredCamps.add(camp);
-                    break;
-                }
-            }
-        }
-        student.setRegisteredCamps(registeredCamps);
     }
 
 }

@@ -14,6 +14,7 @@ public class Student extends User {
 	private CampService campService;
 	private boolean visibility = false;
 	private Camp isCampCommittee;
+	private int accumulatedPoints;
 
 
 	public Student() {
@@ -41,43 +42,10 @@ public class Student extends User {
 		return "Student Name: " + getName();
 	}
 
-//    public boolean createRegistration(Camp selectedCamp, String roleType) {
-//		try{
-//			for(Registration registration : registrations) {
-//				registration.getCamp().getCampInfo().getStartDate()
-//			}
-//
-//			if(selectedCamp.getCampInfo().getCurrentSlots() >= s)
-//		}
-//
-//        Registration registration = new Registration(this, camp, roleType);
-//        registrations.add(registration);
-//    }
-//
-//    public void createEnquiry(Camp camp, String content, String title) {
-
-//        Enquiry enquiry = new Enquiry(this, camp, content, title);
-//        enquiries.add(enquiry);
- //   }
-
-
 	/**
 	 *
 	 * RegisteredCamps
 	 */
-
-	public void setRegisteredCamps() {
-		ArrayList<Camp>campList = App.getCampManager().getCamps();
-
-		for(Camp camp : campList){
-			for(Student attendee : camp.getAttendees()) {
-				if(this == attendee) {
-					registeredCamps.add(camp);
-				}
-			}
-		}
-	}
-
 	public void addRegisteredCamps(Camp camp){
 		this.registeredCamps.add(camp);
 	}
@@ -166,4 +134,32 @@ public class Student extends User {
 	public void setRegisteredCamps(ArrayList<Camp> registeredCamps) {
 		this.registeredCamps = registeredCamps;
 	}
+
+	public int getAccumulatedPoints() {
+		return accumulatedPoints;
+	}
+
+	public void setAccumulatedPoints(int accumulatedPoints) {
+		this.accumulatedPoints = accumulatedPoints;
+	}
+
+	//    public boolean createRegistration(Camp selectedCamp, String roleType) {
+//		try{
+//			for(Registration registration : registrations) {
+//				registration.getCamp().getCampInfo().getStartDate()
+//			}
+//
+//			if(selectedCamp.getCampInfo().getCurrentSlots() >= s)
+//		}
+//
+//        Registration registration = new Registration(this, camp, roleType);
+//        registrations.add(registration);
+//    }
+//
+//    public void createEnquiry(Camp camp, String content, String title) {
+
+//        Enquiry enquiry = new Enquiry(this, camp, content, title);
+//        enquiries.add(enquiry);
+	//   }
+
 }

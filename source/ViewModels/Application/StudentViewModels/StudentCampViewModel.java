@@ -13,6 +13,8 @@ import source.ViewModels.IViewModel;
 import source.ViewModels.ViewManager;
 import source.Views.Application.StudentView.StudentCampView;
 
+import java.util.ArrayList;
+
 public class StudentCampViewModel extends BaseViewModel implements IViewModel {
     /**
      * The student view object shows the UI when the user is logged in as a Student, presenting the user with options a student can take.

@@ -4,7 +4,17 @@ import source.Utility.Option;
 import source.Utility.PrettyPage;
 import source.Views.IView;
 
+/**
+ * The SortView class provides the implementation for the sorting UI
+ *
+ * @author Isaac Chun
+ * @version 1.0
+ * @since 11/17/2023
+ */
 public class SortView implements IView {
+    /**
+     * Holds the implementation to display UI
+     */
     @Override
     public void display() {
         PrettyPage.printTitle("Sorting", 1);

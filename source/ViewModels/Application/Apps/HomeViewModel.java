@@ -26,14 +26,12 @@ public class HomeViewModel extends BaseViewModel implements IViewModel {
      *
      * @see HomeView
      */
-    HomeView homeView;
+    private final HomeView homeView;
 
     /**
      * A default constructor.
-     *
-     * @see HomeView
      */
-    public HomeViewModel(boolean userGroup) {
+    public HomeViewModel() {
         homeView = new HomeView();
     }
 
@@ -87,6 +85,4 @@ public class HomeViewModel extends BaseViewModel implements IViewModel {
     public void cleanup() {
         System.out.flush(); //NOTE: Does not work in IntelliJ IDEA as it is not a real terminal.
     }
-
-
 }

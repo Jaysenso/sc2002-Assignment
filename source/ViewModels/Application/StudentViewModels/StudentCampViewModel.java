@@ -3,7 +3,6 @@ package source.ViewModels.Application.StudentViewModels;
 import source.Controllers.CampManager;
 import source.Controllers.Filters.CampFilterByStudent;
 import source.Controllers.Filters.FilterManager;
-import source.Controllers.Sorting.*;
 import source.Database.App;
 import source.Entity.Camp;
 import source.Entity.Student;
@@ -14,23 +13,42 @@ import source.ViewModels.Application.Apps.SortViewModel;
 import source.ViewModels.BaseViewModel;
 import source.ViewModels.IViewModel;
 import source.ViewModels.ViewManager;
-import source.Views.Application.AppViews.SortView;
 import source.Views.Application.StudentView.StudentCampView;
 
 import java.util.ArrayList;
 
+/**
+ * The StudentCampViewModel holds all the logic and necessary UI elements for student camp view.
+ *
+ * @author Isaac Chun
+ * @version 1.0
+ * @since 11/12/2023
+ */
 public class StudentCampViewModel extends BaseViewModel implements IViewModel {
     /**
      * The student view object shows the UI when the user is logged in as a Student, presenting the user with options a student can take.
      *
      * @see StudentCampView
      */
-    private StudentCampView studentCampView;
-    private SortView sortView;
+    private final StudentCampView studentCampView;
+    /**
+     * The downcasted object of the user.
+     *
+     * @see StudentCampView
+     */
     Student student = (Student) App.getUser();
-    private CampManager campManager;
-    private ArrayList<Camp> sortedCamps;
-    private FilterManager filterManager;
+    /**
+     * The camp manager reference
+     */
+    private final CampManager campManager;
+    /**
+     * The sorted camps that are displayed in this view model
+     */
+    private final ArrayList<Camp> sortedCamps;
+    /**
+     * The filter manager that does filtering of objects
+     */
+    private final FilterManager filterManager;
 
     /**
      * A default constructor.
@@ -117,8 +135,10 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
         System.out.flush(); //NOTE: Does not work in IntelliJ IDEA as it is not a real terminal.
     }
 
-    public void viewRegisteredCamps(){
-
+    /**
+     * A function to handle the sublogic of viewing registered camps
+     */
+    public void viewRegisteredCamps() {
         ArrayList<Camp> registeredCamps = student.getRegisteredCamps();
         PrettyPage.printCamps(registeredCamps);
         Option[] options = {

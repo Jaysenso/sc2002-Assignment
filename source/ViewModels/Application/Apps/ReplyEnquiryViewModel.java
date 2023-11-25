@@ -15,6 +15,13 @@ import source.Views.Application.AppViews.ReplyEnquiryView;
 
 import java.util.ArrayList;
 
+/**
+ * The ReplyEnquiryModel holds all the logic and necessary UI elements for replying enquiries
+ *
+ * @author Isaac Chun
+ * @version 1.0
+ * @since 11/12/2023
+ */
 public class ReplyEnquiryViewModel extends BaseViewModel implements IViewModel {
 
     /**
@@ -22,14 +29,14 @@ public class ReplyEnquiryViewModel extends BaseViewModel implements IViewModel {
      *
      * @see ReplyEnquiryView
      */
-    ReplyEnquiryView replyEnquiryView;
+    private ReplyEnquiryView replyEnquiryView;
 
-    EnquiryManager enquiryManager = new EnquiryManager();
+    private EnquiryManager enquiryManager = new EnquiryManager();
 
-    ArrayList<Enquiry> enquiries;
+    private ArrayList<Enquiry> enquiries;
 
-    Camp selectedCamp;
-    User user = App.getUser();
+    private Camp selectedCamp;
+    private User user = App.getUser();
 
     /**
      * A default constructor.
@@ -53,13 +60,14 @@ public class ReplyEnquiryViewModel extends BaseViewModel implements IViewModel {
         super.init(viewManager);
         handleInputs();
     }
+
     /**
      * A function to handle all inputs over here.
      */
     @Override
     public void handleInputs() {
         int choice;
-        while(true){
+        while (true) {
             enquiries = enquiryManager.getCampEnquiries(selectedCamp.getCampInfo().getName());
             PrettyPage.printEnquiries(enquiries);
             replyEnquiryView.display();
@@ -67,7 +75,7 @@ public class ReplyEnquiryViewModel extends BaseViewModel implements IViewModel {
             switch (choice) {
                 case 1: {
                     int index = InputHandler.tryGetInt(1, enquiries.size(), "Select Enquiry: ", "Invalid Enquiry");
-                    Enquiry selectedEnquiry = enquiries.get(index-1);
+                    Enquiry selectedEnquiry = enquiries.get(index - 1);
                     replyToEnquiry(selectedEnquiry);
                     break;
                 }
@@ -88,9 +96,9 @@ public class ReplyEnquiryViewModel extends BaseViewModel implements IViewModel {
         System.out.flush(); //NOTE: Does not work in IntelliJ IDEA as it is not a real terminal.
     }
 
-    public void replyToEnquiry(Enquiry selectedEnquiry){
+    public void replyToEnquiry(Enquiry selectedEnquiry) {
 
-        Option [] options = {
+        Option[] options = {
                 new Option("1", "Reply to enquiry"),
                 new Option("2", "Back"),
         };
@@ -98,14 +106,14 @@ public class ReplyEnquiryViewModel extends BaseViewModel implements IViewModel {
         PrettyPage.printEnquiry(selectedEnquiry);
         PrettyPage.printLinesWithHeader(options, "Select Option: ");
 
-        int choice = InputHandler.tryGetInt(1,2, "Input Choice: ", "Invalid Option");
-        switch (choice){
-            case 1:{
+        int choice = InputHandler.tryGetInt(1, 2, "Input Choice: ", "Invalid Option");
+        switch (choice) {
+            case 1: {
                 enquiryManager.replyEnquiry(selectedEnquiry, user);
                 System.out.println("Enquiry Replied");
                 break;
             }
-            case 2:{
+            case 2: {
 
                 break;
             }

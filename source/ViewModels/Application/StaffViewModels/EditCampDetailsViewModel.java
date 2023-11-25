@@ -30,8 +30,16 @@ public class EditCampDetailsViewModel extends BaseViewModel implements IViewMode
      * @see EditCampDetailsView
      */
     EditCampDetailsView editCampDetailsView;
-    CampManager campManager;
-    Camp selectedCamp;
+    /**
+     * The Camp Manager object serves as a DB and abstracts the relevant methods to read/write camp list
+     *
+     * @see CampManager
+     */
+    private final CampManager campManager;
+    /**
+     * The selected camp in this view model
+     */
+    private final Camp selectedCamp;
 
     /**
      * A default constructor.

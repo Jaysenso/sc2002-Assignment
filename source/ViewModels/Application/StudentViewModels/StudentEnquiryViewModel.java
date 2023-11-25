@@ -17,7 +17,7 @@ import java.util.ArrayList;
 /**
  * The StudentEnquiryViewModel holds all the logic and necessary UI for read/write the student 's enquiries
  *
- * @author Marcus
+ * @author Ho Jian Feng
  * @version 1.0
  * @since 11/17/2023
  */
@@ -37,9 +37,7 @@ public class StudentEnquiryViewModel extends BaseViewModel implements IViewModel
     EnquiryManager enquiryManager = new EnquiryManager();
 
     /**
-     * Student is a downcasted object of user
-     *
-     * @see EnquiryManager
+     * Student is a downcast object of user
      */
     Student student = (Student) App.getUser();
 
@@ -48,7 +46,7 @@ public class StudentEnquiryViewModel extends BaseViewModel implements IViewModel
      *
      * @see Enquiry
      */
-    ArrayList<Enquiry> enquiries;
+    private ArrayList<Enquiry> enquiries;
 
     /**
      * A default constructor.
@@ -113,6 +111,9 @@ public class StudentEnquiryViewModel extends BaseViewModel implements IViewModel
         System.out.flush(); //NOTE: Does not work in IntelliJ IDEA as it is not a real terminal.
     }
 
+    /**
+     * A function to view enquiry
+     */
     public void viewEnquiry() {
         int index = InputHandler.tryGetInt(1, enquiries.size(), "Select Enquiry: ", "Enquiry not found");
         boolean isLooping = true;

@@ -144,7 +144,7 @@ public final class CampManager {
             PrettyPage.printError("Error : Camp is already full.");
             return false;
         }
-
+        //Check if student is registering for a camp that is past its registration period
         if (LocalDate.now().isAfter(selectedCamp.getCampInfo().getClosingDate())) {
             PrettyPage.printError("Error : Registration period has closed.");
             return false;

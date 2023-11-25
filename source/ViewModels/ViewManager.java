@@ -4,7 +4,7 @@ import java.util.Stack;
 
 /**
  * The ViewManager class handles the movement between view models like a state machine, ensuring easy transition
- * between viewmodels with error handling.
+ * between view models with error handling.
  *
  * @author Isaac Chun
  * @version 1.0
@@ -64,6 +64,9 @@ public class ViewManager {
         currentView.init(this);
     }
 
+    /**
+     * Returns to the previous view stored in our stack
+     */
     public void returnToPreviousView() {
         //if view manager is not running, there is no previous view!
         if (!isRunning)

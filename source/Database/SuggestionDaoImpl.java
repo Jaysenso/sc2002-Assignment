@@ -82,6 +82,7 @@ public class SuggestionDaoImpl extends BaseDaoImpl implements SuggestionDao {
     /**
      * Creates a suggestion in this database by appending the suggestion into the suggestion list.
      *
+     * @param suggestion the suggestion to create
      * @return true always.
      */
     @Override
@@ -94,6 +95,7 @@ public class SuggestionDaoImpl extends BaseDaoImpl implements SuggestionDao {
     /**
      * Searches the database to see if the suggestion name exists (it is assumed that suggestion names are unique according to the FAQ).
      *
+     * @param query the query into our database
      * @return the suggestion object associated with that suggestion name, null if there is no found entry.
      */
     @Override
@@ -122,6 +124,7 @@ public class SuggestionDaoImpl extends BaseDaoImpl implements SuggestionDao {
      * Searches the database to see if the suggestion name exists (it is assumed that suggestion names are unique according to the FAQ).
      * MUST SATISFY ALL THE QUERIES
      *
+     * @param queries the queries into our database
      * @return the suggestion object associated with that suggestion name, null if there is no found entry.
      */
     @Override
@@ -234,6 +237,7 @@ public class SuggestionDaoImpl extends BaseDaoImpl implements SuggestionDao {
     /**
      * Updates the suggestion in this database by searching the database and replacing that entry.
      *
+     * @param suggestion the suggestion
      * @return true if there was a successful update, false if object was not found in database.
      */
     @Override
@@ -252,6 +256,7 @@ public class SuggestionDaoImpl extends BaseDaoImpl implements SuggestionDao {
     /**
      * Deletes the suggestion in this database by searching the database and replacing that entry.
      *
+     * @param query the query into our database
      * @return true if there was a successful deletion, else false.
      */
     @Override
@@ -266,6 +271,7 @@ public class SuggestionDaoImpl extends BaseDaoImpl implements SuggestionDao {
     /**
      * Deletes the suggestion in this database by removing the suggestion and saving to the file instantly.
      *
+     * @param suggestion the suggestion
      * @return true if there was a successful deletion, else false.
      */
     @Override

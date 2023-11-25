@@ -46,6 +46,4 @@ public final class DateRangeValidator {
         return (testDate.isEqual(startDate) || testDate.isEqual(endDate))
                 || (testDate.isBefore(endDate) && testDate.isAfter(startDate));
     }
-
 }
-

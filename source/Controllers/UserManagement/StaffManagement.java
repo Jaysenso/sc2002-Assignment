@@ -39,6 +39,7 @@ public class StaffManagement implements IManagement {
         //Initialize the student manager to be the app's static reference
         staffManager = App.getStaffManager();
     }
+
     /**
      * Update the user in the associated databases
      */

@@ -1,18 +1,15 @@
 package source.Enquiry;
-import source.Controllers.EnquiryManager;
-import source.Entity.Enquiry;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import source.Controllers.EnquiryManager;
 
 public class SelectStudentEnquiry implements StudentEnquiryOperations {
     private final EnquiryManager enquiryManager;
 
-    public SelectStudentEnquiry(EnquiryManager enquiryManager){
+    public SelectStudentEnquiry(EnquiryManager enquiryManager) {
         this.enquiryManager = enquiryManager;
     }
 
-    public void execute(){
+    public void execute() {
 //        Scanner selectEnquiryScanner = new Scanner(System.in);
 //        do {
 //            System.out.println(

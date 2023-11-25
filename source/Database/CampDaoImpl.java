@@ -58,9 +58,6 @@ public class CampDaoImpl extends BaseDaoImpl implements CampDao {
         TextDataDeserializer deserializer = new CampDeserializer();
         ArrayList dataList = deserializer.deserialize(textDataFile.getData());
 
-        //Additional steps on getting our enquiry and attendees
-
-
         for (Object o : dataList) {
             //if o is actually an instance of Camp, then add it to our list
             if (o instanceof Camp) {
@@ -85,6 +82,7 @@ public class CampDaoImpl extends BaseDaoImpl implements CampDao {
     /**
      * Creates a Camp in this database by appending the Camp into the Camp list.
      *
+     * @param camp the camp to create
      * @return true always.
      */
     @Override
@@ -97,6 +95,7 @@ public class CampDaoImpl extends BaseDaoImpl implements CampDao {
     /**
      * Searches the database to see if the Camp name exists (it is assumed that Camp names are unique according to the FAQ).
      *
+     * @param query the database query
      * @return the Camp object associated with that Camp name, null if there is no found entry.
      */
     @Override
@@ -125,6 +124,7 @@ public class CampDaoImpl extends BaseDaoImpl implements CampDao {
      * Searches the database to see if the Camp name exists (it is assumed that Camp names are unique according to the FAQ).
      * MUST SATISFY ALL THE QUERIES
      *
+     * @param queries the queries to our database
      * @return the Camp object associated with that Camp name, null if there is no found entry.
      */
     @Override
@@ -238,6 +238,7 @@ public class CampDaoImpl extends BaseDaoImpl implements CampDao {
     /**
      * Updates the Camp in this database by searching the database and replacing that entry.
      *
+     * @param camp the camp to update
      * @return true if there was a successful update, false if object was not found in database.
      */
     @Override
@@ -256,6 +257,7 @@ public class CampDaoImpl extends BaseDaoImpl implements CampDao {
     /**
      * Deletes the Camp in this database by searching the database and replacing that entry.
      *
+     * @param query the query into our database
      * @return true if there was a successful deletion, else false.
      */
     @Override
@@ -270,6 +272,7 @@ public class CampDaoImpl extends BaseDaoImpl implements CampDao {
     /**
      * Deletes the Camp in this database by removing the Camp and saving to the file instantly.
      *
+     * @param camp the camp to delete
      * @return true if there was a successful deletion, else false.
      */
     @Override

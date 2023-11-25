@@ -16,6 +16,11 @@ import java.util.List;
  * @since 11/4/2023
  */
 public class ObjectSerializer {
+    /**
+     * Serializes a list of objects into a file
+     * @param filePath file path
+     * @param data list of objects
+     */
     public void serialize(String filePath, List data) {
         FileOutputStream fos = null;
         ObjectOutputStream out = null;

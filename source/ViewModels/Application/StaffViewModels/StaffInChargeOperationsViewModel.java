@@ -6,7 +6,6 @@ import source.Entity.Camp;
 import source.Utility.InputHandler;
 import source.Utility.PrettyPage;
 import source.ViewModels.Application.Apps.ReplyEnquiryViewModel;
-import source.ViewModels.Application.StudentViewModels.StudentEnquiryViewModel;
 import source.ViewModels.BaseViewModel;
 import source.ViewModels.IViewModel;
 import source.ViewModels.ViewManager;
@@ -27,19 +26,20 @@ public class StaffInChargeOperationsViewModel extends BaseViewModel implements I
      */
     StaffInChargeOperationsView staffOperationsView;
 
-
     /**
      * The Camp Manager object serves as a DB and abstracts the relevant methods to read/write camp list
      *
      * @see CampManager
      */
-    CampManager campManager;
-    Camp selectedCamp;
+    private final CampManager campManager;
+    /**
+     * The selected camp in this view model
+     */
+    private final Camp selectedCamp;
 
     /**
      * An overloaded constructor that initializes a selected camp and a manager
      * NOTE: This view model should only be accessed by the StaffCampViewModel
-     *
      *
      * @see StaffCampViewModel
      * @see StaffInChargeOperationsView
@@ -88,7 +88,7 @@ public class StaffInChargeOperationsViewModel extends BaseViewModel implements I
                 break;
             }
             case 4: {
-                if(campManager.deleteCamp(selectedCamp))
+                if (campManager.deleteCamp(selectedCamp))
                     System.out.println("Camp Deleted");
                 viewManager.returnToPreviousView();
                 break;

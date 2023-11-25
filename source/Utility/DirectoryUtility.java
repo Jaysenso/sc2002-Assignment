@@ -26,7 +26,7 @@ public final class DirectoryUtility {
      */
     public final static String ENQUIRY_LIST_PATH = "data/enquiries.csv";
     /**
-     * The parth to our suggestions data file
+     * The path to our suggestions data file
      */
     public final static String SUGGESTIONS_DATA_PATH = "data/suggestions.csv";
 }

@@ -4,7 +4,6 @@ import source.Database.DatabaseQuery;
 import source.Entity.Student;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * The StudentDAO interface provides operations that follow the CRUD operations for persistent data storage. Also provides a method to get an entire list of students
@@ -19,6 +18,7 @@ public interface StudentDao {
      * Creates a student in the subsequent database (perhaps for sign up feature~)
      *
      * @param student the student to add
+     * @return true if managed to create, false if not
      */
     boolean createStudent(Student student);
 
@@ -61,6 +61,7 @@ public interface StudentDao {
      * Updates a student in the subsequent database
      *
      * @param student the student to add
+     * @return true if managed to update, false if not.
      */
     boolean updateStudent(Student student);
 
@@ -68,11 +69,13 @@ public interface StudentDao {
      * Deletes a student in the subsequent database
      *
      * @param query query to check in our header
+     * @return true if managed to delete, false if not
      */
     boolean deleteStudent(DatabaseQuery query);
 
     /**
      * Deletes a student in the subsequent database
+     * @return true if managed to delete, false if not
      */
     boolean deleteStudent(Student student);
 

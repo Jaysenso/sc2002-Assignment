@@ -16,7 +16,7 @@ import java.util.ArrayList;
 /**
  * The SuggestionManager class abstracts the relevant suggestion operations CampCommitteeMember/staff can use.
  *
- * @author J'sen Ong
+ * @author Pan Haolun
  * @version 1.0
  * @since 11/20/2023
  */

@@ -18,7 +18,7 @@ public class StaffManager {
     /**
      * The staff data access object that contains direct implementations to our database..
      */
-    private StaffDao staffDao;
+    private final StaffDao staffDao;
 
     /**
      * A default constructor.
@@ -39,9 +39,10 @@ public class StaffManager {
 
     /**
      * A function to update the database given a staff.
+     *
+     * @param staff the staff object to update
      */
     public void updateStaff(Staff staff) {
         staffDao.updateStaff(staff);
     }
-
 }

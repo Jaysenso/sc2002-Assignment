@@ -1,16 +1,16 @@
 package source.Enquiry;
+
 import source.Entity.Enquiry;
-import source.Entity.Student;
 
 public class DeleteStudentEnquiry implements StudentEnquiryOperations {
     private Enquiry enquiry;
 
-    public DeleteStudentEnquiry(Enquiry enquiry){
+    public DeleteStudentEnquiry(Enquiry enquiry) {
         this.enquiry = enquiry;
     }
 
     @Override
-    public void execute(){
+    public void execute() {
 
         //enquiry.getStudent().getEnquiries().remove(enquiry);
     }

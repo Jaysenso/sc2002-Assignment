@@ -9,23 +9,25 @@ package source.Utility;
  */
 public class SubOptions {
     /**
-     * The description of this suboption
+     * The description of this sub option
      */
     private final String description;
     /**
      * The proportion of space to take up in the given box
      */
     private final double proportion;
+
     /**
      * An overloaded constructor that initializes the descriptino and proportion
      *
      * @param description the description
-     * @param proportion the proportion of space (0.0 to 1.0f)
+     * @param proportion  the proportion of space (0.0 to 1.0f)
      */
     public SubOptions(String description, double proportion) {
         this.description = description;
         this.proportion = proportion;
     }
+
     /**
      * Returns the description of this sub option
      *

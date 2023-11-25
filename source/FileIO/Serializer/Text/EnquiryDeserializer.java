@@ -2,7 +2,6 @@ package source.FileIO.Serializer.Text;
 
 import source.Entity.Enquiry;
 import source.Entity.Staff;
-import source.Faculty.Faculty;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -20,6 +19,9 @@ import java.util.HashMap;
 public class EnquiryDeserializer implements TextDataDeserializer {
     /**
      * Deserializes the data to and creates enquiry objects based on a hash map of values.
+     *
+     * @param parsedData the parsed data
+     * @return list of enquiry objects
      */
     @Override
     public ArrayList deserialize(HashMap<String, ArrayList<String>> parsedData) {

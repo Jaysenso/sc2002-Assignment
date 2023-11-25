@@ -14,7 +14,6 @@ import source.ViewModels.Application.Apps.SortViewModel;
 import source.ViewModels.BaseViewModel;
 import source.ViewModels.IViewModel;
 import source.ViewModels.ViewManager;
-import source.Views.Application.AppViews.SortView;
 import source.Views.Application.StaffView.StaffCampView;
 import source.Views.Application.StaffView.StaffOperationsView;
 
@@ -29,16 +28,23 @@ import java.util.Objects;
  * @since 11/17/2023
  */
 public class StaffCampViewModel extends BaseViewModel implements IViewModel {
-
     /**
      * The StaffCampView object shows the UI for when the staff view all camps
      *
      * @see StaffCampView
      */
-    private StaffCampView staffCampView;
-    private SortView sortView;
-    private StaffOperationsView staffOperationsView;
+    private final StaffCampView staffCampView;
+    /**
+     * The StaffOperationsView object shows the UI for staff operations
+     */
+    private final StaffOperationsView staffOperationsView;
+    /**
+     * The downcasted staff object of the user
+     */
     private Staff staff = (Staff) App.getUser();
+    /**
+     * A function to handle all inputs over here.
+     */
     private ArrayList<Camp> sortedCamps;
     /**
      * The FilterManager object abstracts the various filter methods that user can use
@@ -53,7 +59,9 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
      * @see CampManager
      */
     private CampManager campManager;
-
+    /**
+     * The enquiry manager reference
+     */
     private EnquiryManager enquiryManager = new EnquiryManager();
 
     /**
@@ -64,7 +72,6 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
     public StaffCampViewModel() {
         staffOperationsView = new StaffOperationsView();
         staffCampView = new StaffCampView();
-        sortView = new SortView();
         campManager = App.getCampManager();
         filterManager = new FilterManager();
         //Initially, the filtered camps are all the normal camps
@@ -138,6 +145,9 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
         System.out.flush(); //NOTE: Does not work in IntelliJ IDEA as it is not a real terminal.
     }
 
+    /**
+     * A function that encloses staff operations
+     */
     public void staffOperations(Camp selectedCamp) {
         boolean isLooping = true;
         while (isLooping) {

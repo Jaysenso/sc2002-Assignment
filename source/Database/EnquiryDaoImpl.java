@@ -12,7 +12,6 @@ import source.Utility.PrettyPage;
 import java.security.KeyException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * The EnquiryDaoImpl implements the functions of EnquiryDao using the DAO Design Pattern.
@@ -83,11 +82,12 @@ public class EnquiryDaoImpl extends BaseDaoImpl implements EnquiryDao {
     /**
      * Creates an enquiry in this database by appending the Enquiry into the Enquiry list.
      *
+     * @param enquiry the enquiry to create
      * @return true always.
      */
     @Override
-    public boolean createEnquiry(Enquiry Enquiry) {
-        enquiryList.add(Enquiry);
+    public boolean createEnquiry(Enquiry enquiry) {
+        enquiryList.add(enquiry);
         refresh();
         return true;
     }
@@ -95,7 +95,7 @@ public class EnquiryDaoImpl extends BaseDaoImpl implements EnquiryDao {
     /**
      * Searches the database to see if the Enquiry name exists (it is assumed that Enquiry names are unique according to the FAQ).
      *
-     * @param query the datbase query object
+     * @param query the database query object
      * @return the Enquiry object associated with that Enquiry name, null if there is no found entry.
      */
     @Override
@@ -125,6 +125,7 @@ public class EnquiryDaoImpl extends BaseDaoImpl implements EnquiryDao {
      * Should be mainly used for name queries.
      *
      * @param queries queries to check that gives us the first result that satisfies the requirements.
+     * @return the enquiry object if found
      */
     @Override
     public Enquiry readEnquiry(DatabaseQuery[] queries) {
@@ -240,15 +241,16 @@ public class EnquiryDaoImpl extends BaseDaoImpl implements EnquiryDao {
     /**
      * Updates the Enquiry in this database by searching the database and replacing that entry.
      *
+     * @param enquiry the enquiry to update
      * @return true if there was a successful update, false if object was not found in database.
      */
     @Override
-    public boolean updateEnquiry(Enquiry Enquiry) {
-        int pos = enquiryList.indexOf(Enquiry);
+    public boolean updateEnquiry(Enquiry enquiry) {
+        int pos = enquiryList.indexOf(enquiry);
         //if the Enquiry list contains this Enquiry
         if (pos != -1) {
             //Then just copy it in for saving
-            enquiryList.set(pos, Enquiry);
+            enquiryList.set(pos, enquiry);
             refresh();
             return true;
         }
@@ -258,6 +260,7 @@ public class EnquiryDaoImpl extends BaseDaoImpl implements EnquiryDao {
     /**
      * Deletes the Enquiry in this database by searching the database and replacing that entry.
      *
+     * @param query the query into our database
      * @return true if there was a successful deletion, else false.
      */
     @Override
@@ -272,11 +275,12 @@ public class EnquiryDaoImpl extends BaseDaoImpl implements EnquiryDao {
     /**
      * Deletes the Enquiry in this database by removing the Enquiry and saving to the file instantly.
      *
+     * @param enquiry the enquiry
      * @return true if there was a successful deletion, else false.
      */
     @Override
-    public boolean deleteEnquiry(Enquiry Enquiry) {
-        boolean removed = enquiryList.remove(Enquiry);
+    public boolean deleteEnquiry(Enquiry enquiry) {
+        boolean removed = enquiryList.remove(enquiry);
         if (removed) {
             refresh();
             return true;

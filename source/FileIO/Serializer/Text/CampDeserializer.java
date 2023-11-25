@@ -25,6 +25,8 @@ import java.util.HashMap;
 public class CampDeserializer implements TextDataDeserializer {
     /**
      * Deserializes the data to and creates camp objects based on a hash map of values.
+     * @param parsedData the parsed data
+     * @return list of camp objects
      */
     @Override
     public ArrayList deserialize(HashMap<String, ArrayList<String>> parsedData) {
@@ -57,8 +59,6 @@ public class CampDeserializer implements TextDataDeserializer {
             } catch (InvocationTargetException | NoSuchMethodException e) {
                 throw new RuntimeException(e);
             }
-
-
             //Make our camp object
             Camp camp = new Camp(new CampInfo(
                     campName,
@@ -119,7 +119,6 @@ public class CampDeserializer implements TextDataDeserializer {
             camp.getCampInfo().setCampCommitteeSlots(committeeList.size());
             camp.setAttendees(attendeeList);
             camp.setCampCommittee(committeeList);
-
             campList.add(camp);
         }
         return campList;

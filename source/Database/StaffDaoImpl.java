@@ -12,7 +12,6 @@ import source.Utility.PrettyPage;
 import java.security.KeyException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * The StaffDaoImpl implements the functions of StaffDao using the DAO Design Pattern.
@@ -83,6 +82,7 @@ public class StaffDaoImpl extends BaseDaoImpl implements StaffDao {
     /**
      * Creates a staff in this database by appending the staff into the staff list.
      *
+     * @param staff the staff to create
      * @return true always.
      */
     @Override
@@ -95,6 +95,7 @@ public class StaffDaoImpl extends BaseDaoImpl implements StaffDao {
     /**
      * Searches the database to see if the staff name exists (it is assumed that staff names are unique according to the FAQ).
      *
+     * @param query the database query
      * @return the staff object associated with that staff name, null if there is no found entry.
      */
     @Override
@@ -123,6 +124,7 @@ public class StaffDaoImpl extends BaseDaoImpl implements StaffDao {
      * Searches the database to see if the staff name exists (it is assumed that staff names are unique according to the FAQ).
      * MUST SATISFY ALL THE QUERIES
      *
+     * @param queries the list of queries
      * @return the staff object associated with that staff name, null if there is no found entry.
      */
     @Override
@@ -235,6 +237,7 @@ public class StaffDaoImpl extends BaseDaoImpl implements StaffDao {
     /**
      * Updates the staff in this database by searching the database and replacing that entry.
      *
+     * @param staff the staff
      * @return true if there was a successful update, false if object was not found in database.
      */
     @Override
@@ -253,6 +256,7 @@ public class StaffDaoImpl extends BaseDaoImpl implements StaffDao {
     /**
      * Deletes the staff in this database by searching the database and replacing that entry.
      *
+     * @param query query into our database
      * @return true if there was a successful deletion, else false.
      */
     @Override
@@ -267,6 +271,7 @@ public class StaffDaoImpl extends BaseDaoImpl implements StaffDao {
     /**
      * Deletes the staff in this database by removing the staff and saving to the file instantly.
      *
+     * @param staff the staff
      * @return true if there was a successful deletion, else false.
      */
     @Override

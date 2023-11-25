@@ -7,8 +7,6 @@ import java.time.LocalDate;
  *
  * @author Edwin Lim
  * @version 1.0
- * @see Student
- * @see Camp
  * @see LocalDate
  * @since 11/4/2023
  */
@@ -84,6 +82,8 @@ public class Enquiry {
 
     /**
      * A setter method to update the processed status of this enquiry.
+     *
+     * @param processed the new processed status of the enquiry
      */
     public void setProcessed(boolean processed) {
 
@@ -92,6 +92,8 @@ public class Enquiry {
 
     /**
      * A getter method to acquire the processed status of this enquiry.
+     *
+     * @return true if processed, false if not.
      */
     public boolean getProcessed() {
 
@@ -100,6 +102,8 @@ public class Enquiry {
 
     /**
      * A setter method to update the content of this enquiry.
+     *
+     * @param content the new content of the enquiry
      */
     public void setContent(String content) {
 
@@ -108,6 +112,8 @@ public class Enquiry {
 
     /**
      * A getter method to acquire the content of this enquiry.
+     *
+     * @return content of the enquiry
      */
     public String getContent() {
 
@@ -116,6 +122,8 @@ public class Enquiry {
 
     /**
      * A getter method to acquire the creation date of this enquiry.
+     *
+     * @return the user id of who created this enquiry
      */
     public String getCreatedBy() {
         return createdBy;
@@ -123,13 +131,18 @@ public class Enquiry {
 
     /**
      * A setter method to set the user id of the person who created this enquiry.
+     *
+     * @param createdBy update who created this enquiry
      */
+
     public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
     }
 
     /**
      * A getter method to acquire the used id of the person who replied to this enquiry.
+     *
+     * @return the user id of who replied to this enquiry
      */
     public String getRepliedBy() {
         return repliedBy;
@@ -137,6 +150,8 @@ public class Enquiry {
 
     /**
      * A setter method to set the user id of the person who replied to this enquiry.
+     *
+     * @param repliedBy update who replied to this enquiry
      */
     public void setRepliedBy(String repliedBy) {
         this.repliedBy = repliedBy;
@@ -144,6 +159,8 @@ public class Enquiry {
 
     /**
      * A getter method to acquire the creation date of this enquiry.
+     *
+     * @return the creation date of this enquiryl
      */
     public LocalDate getCreatedDate() {
         return createdDate;
@@ -151,6 +168,8 @@ public class Enquiry {
 
     /**
      * A setter method to set the creation date of this enquiry.
+     *
+     * @param createdDate the created date of this enquiry
      */
     public void setCreatedDate(LocalDate createdDate) {
         this.createdDate = createdDate;
@@ -158,6 +177,8 @@ public class Enquiry {
 
     /**
      * A getter method to acquire the replied date of this enquiry.
+     *
+     * @return the replied date of this enquiry
      */
     public LocalDate getRepliedDate() {
         return repliedDate;
@@ -165,6 +186,8 @@ public class Enquiry {
 
     /**
      * A setter method to set the replied date of this enquiry.
+     *
+     * @param repliedDate update the replied date of this enquiry
      */
     public void setRepliedDate(LocalDate repliedDate) {
         this.repliedDate = repliedDate;
@@ -172,6 +195,8 @@ public class Enquiry {
 
     /**
      * A getter method to acquire the camp name this enquiry belongs to
+     *
+     * @return the camp name this enquiry belongs to
      */
     public String getCampName() {
         return campName;
@@ -179,6 +204,8 @@ public class Enquiry {
 
     /**
      * A setter method to update the camp name of the enquiry
+     *
+     * @param campName update the name this enquiry belongs to
      */
     public void setCampName(String campName) {
         this.campName = campName;
@@ -186,6 +213,8 @@ public class Enquiry {
 
     /**
      * A getter method to acquire the title of this enquiry
+     *
+     * @return the title of the enquiry
      */
     public String getTitle() {
         return title;
@@ -193,15 +222,27 @@ public class Enquiry {
 
     /**
      * A setter method to update the title of this enquiry
+     *
+     * @param title update the title of this
      */
     public void setTitle(String title) {
         this.title = title;
     }
 
+    /**
+     * A setter method to update the title of this enquiry
+     *
+     * @return the reply to this enquiry
+     */
     public String getReply() {
         return reply;
     }
 
+    /**
+     * A setter method to update the title of this enquiry
+     *
+     * @param reply update the reply to this enquiry
+     */
     public void setReply(String reply) {
         this.reply = reply;
     }

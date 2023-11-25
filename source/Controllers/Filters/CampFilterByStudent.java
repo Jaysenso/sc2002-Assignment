@@ -9,8 +9,21 @@ import source.Utility.PrettyPage;
 
 import java.util.ArrayList;
 
+/**
+ * The SuggestionDeserializer class deserializes a hashmap of parsed data a list of Student objects to be used.
+ * NOTE: Requires a file read to go through the Parser!
+ *
+ * @author Isaac Chun
+ * @version 1.0
+ * @see Student
+ * @since 11/22/2023
+ */
 public class CampFilterByStudent implements CampFilterOperation {
-
+    /**
+     * A generic filter function
+     *
+     * @param camps list of camps
+     */
     @Override
     public ArrayList<Camp> filter(ArrayList<Camp> camps) {
         if (!(App.getUser() instanceof Student)) {

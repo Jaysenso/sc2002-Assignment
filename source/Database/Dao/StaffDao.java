@@ -4,7 +4,6 @@ import source.Database.DatabaseQuery;
 import source.Entity.Staff;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * The StaffDAO interface provides operations that follow the CRUD operations for persistent data storage.
@@ -20,6 +19,7 @@ public interface StaffDao {
      * Creates a staff in the subsequent database (perhaps for sign up feature~)
      *
      * @param staff the staff to add
+     * @return true if managed to create, false if not
      */
     boolean createStaff(Staff staff);
 
@@ -28,6 +28,7 @@ public interface StaffDao {
      * Should be mainly used for name queries.
      *
      * @param query query to check in our header
+     * @return staff object if managed to find in our database
      */
     Staff readStaff(DatabaseQuery query);
 
@@ -36,6 +37,7 @@ public interface StaffDao {
      * Should be mainly used for name queries.
      *
      * @param queries query to check in our header
+     * @return staff object if managed to find in our database
      */
     Staff readStaff(DatabaseQuery[] queries);
 
@@ -61,6 +63,7 @@ public interface StaffDao {
      * Updates a staff in the subsequent database. Directly updates the file straight away.
      *
      * @param staff the staff to update
+     * @return true if managed to update, false if not
      */
     boolean updateStaff(Staff staff);
 
@@ -68,11 +71,14 @@ public interface StaffDao {
      * Deletes a staff in the subsequent database
      *
      * @param query query to check in our header
+     * @return true if managed to delete, false if not
      */
     boolean deleteStaff(DatabaseQuery query);
 
     /**
      * Deletes a staff in the subsequent database
+     *
+     * @return true if managed to delete, false if not
      */
     boolean deleteStaff(Staff staff);
 

@@ -4,7 +4,17 @@ import source.Utility.Option;
 import source.Utility.PrettyPage;
 import source.Views.IView;
 
+/**
+ * The LoginView class provides the implementation for the login UI
+ *
+ * @author Isaac Chun
+ * @version 1.0
+ * @since 11/17/2023
+ */
 public class LoginView implements IView {
+    /**
+     * Holds the implementation to display UI
+     */
     @Override
     public void display() {
         Option[] options = {

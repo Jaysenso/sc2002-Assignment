@@ -20,7 +20,7 @@ public class StartViewModel extends BaseViewModel implements IViewModel {
      *
      * @see StartView
      */
-    StartView startView;
+    private final StartView startView;
 
     /**
      * A default constructor.

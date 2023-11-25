@@ -17,7 +17,6 @@ import source.ViewModels.BaseViewModel;
 import source.ViewModels.IViewModel;
 import source.ViewModels.ViewManager;
 import source.Views.Application.AppViews.LoginView;
-import source.Views.Application.AppViews.StartView;
 import source.Views.Application.ChangePasswordView;
 
 /**
@@ -31,22 +30,31 @@ public class LoginViewModel extends BaseViewModel implements IViewModel {
     /**
      * The login view object that contains the UI for when the user is prompted to log in.
      *
-     * @see StartView
+     * @see LoginView
      */
-    private LoginView loginView;
-
-    private ChangePasswordView changePasswordView;
+    private final LoginView loginView;
+    /**
+     * The change password view object that contains the change password UI
+     *
+     * @see LoginView
+     */
+    private final ChangePasswordView changePasswordView;
 
     /**
      * The authentication controller object that handles checking if the user has valid passwords and users
      * Should only exist in the LoginViewModel.
-     *
-     * @see AuthenticationController
      */
-    AuthenticationController authenticationController;
+    private final AuthenticationController authenticationController;
 
-    StudentManager studentManager;
-    StaffManager staffManager;
+    /**
+     * The student manager reference
+     */
+    private final StudentManager studentManager;
+
+    /**
+     * The staff manager reference
+     */
+    private final StaffManager staffManager;
 
     /**
      * A default constructor
@@ -60,6 +68,11 @@ public class LoginViewModel extends BaseViewModel implements IViewModel {
         changePasswordView = new ChangePasswordView();
     }
 
+    /**
+     * Initializes this view model
+     *
+     * @param viewManager the view manager reference
+     */
     @Override
     public void init(ViewManager viewManager) {
         super.init(viewManager);
@@ -67,6 +80,9 @@ public class LoginViewModel extends BaseViewModel implements IViewModel {
         handleInputs();
     }
 
+    /**
+     * A function to handle all inputs over here.
+     */
     @Override
     public void handleInputs() {
         int choice = InputHandler.tryGetInt(1, 3, "Input choice: ", "Invalid choice!");
@@ -89,11 +105,18 @@ public class LoginViewModel extends BaseViewModel implements IViewModel {
         }
     }
 
+    /**
+     * A function that is called when the ViewManager swaps view, any clean up code such as
+     * flushing the console output or cleaning up any lists or data
+     */
     @Override
     public void cleanup() {
-
+        System.out.flush(); //NOTE: Does not work in IntelliJ IDEA as it is not a real terminal.
     }
 
+    /**
+     * A function to handle the login of student
+     */
     public void handleStudentLogin() {
         while (true) {
             //Get the email input
@@ -127,12 +150,15 @@ public class LoginViewModel extends BaseViewModel implements IViewModel {
                 App.setUser(student);
                 App.getUserManager().setManagement(new StudentManagement(student));
                 //Transition to view models
-                viewManager.changeView(new HomeViewModel(false));
+                viewManager.changeView(new HomeViewModel());
                 break;
             }
         }
     }
 
+    /**
+     * A function to handle the login of staff
+     */
     public void handleStaffLogin() {
         //Access our database through our dao
 
@@ -167,12 +193,15 @@ public class LoginViewModel extends BaseViewModel implements IViewModel {
                 App.setUser(staff);
                 App.getUserManager().setManagement(new StaffManagement(staff));
 
-                viewManager.changeView(new HomeViewModel(true));
+                viewManager.changeView(new HomeViewModel());
                 break;
             }
         }
     }
 
+    /**
+     * A function to check if the user needs to change password
+     */
     public boolean checkIfChangePassword(User user) {
         if (user.getPassword().equals("password")) {
             //need to reset the password

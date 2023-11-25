@@ -13,6 +13,9 @@ import source.Views.IView;
  * @since 11/17/2023
  */
 public class EditCampDetailsView implements IView {
+    /**
+     * Holds the implementation to display UI
+     */
     @Override
     public void display() {
         Option[] options = {

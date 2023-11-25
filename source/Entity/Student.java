@@ -1,196 +1,214 @@
 package source.Entity;
 
-import source.Camp.CampService;
 import source.Faculty.Faculty;
 
 import java.util.ArrayList;
 
+/**
+ * The Student class holds all information about its registered camps, its enquiries and all other information such as points.
+ *
+ * @author Isaac Chun
+ * @version 1.4
+ * @since 11/23/2023
+ */
 public class Student extends User {
-	private ArrayList<Camp> registeredCamps;
-	private ArrayList<Registration> registrations;
-	private ArrayList<Enquiry> enquiries;
-	private CampService campService;
-	private boolean visibility = false;
-	private Camp isCampCommittee;
-	private int accumulatedPoints;
+    /**
+     * The list of camps the student is registered in
+     */
+    private ArrayList<Camp> registeredCamps;
+    /**
+     * --
+     */
+    private ArrayList<Registration> registrations;
+    /**
+     * The list of enquiries the student has
+     */
+    private ArrayList<Enquiry> enquiries;
+    /**
+     * The camp the student is a committee of
+     */
+    private Camp isCampCommittee;
+    /**
+     * The number of points a student has
+     */
+    private int accumulatedPoints;
 
+    /**
+     * A default constructor.
+     */
+    public Student() {
+        super();
+        this.registeredCamps = new ArrayList<>();
+        this.registrations = new ArrayList<>();
+        this.enquiries = new ArrayList<>();
+        this.isCampCommittee = null;
+        this.accumulatedPoints = 0;
+    }
 
-	public Student() {
-		super();
-		this.registeredCamps = new ArrayList<>();
-		this.registrations = new ArrayList<>();
-		this.enquiries = new ArrayList<>();
-		this.campService = null;
-		this.isCampCommittee = null;
-		this.accumulatedPoints = 0;
-	}
+    /**
+     * An overloaded constructor that initializes the values of Student and its super class.
+     *
+     * @param name              the name of the student
+     * @param userID            the userID of the student
+     * @param password          the password of the student
+     * @param facultyInfo       the faculty of the student
+     * @param accumulatedPoints the points of the student
+     */
+    public Student(String name,
+                   String userID,
+                   String password,
+                   Faculty facultyInfo,
+                   int accumulatedPoints) {
+        super(name, userID, password, facultyInfo);
+        this.registrations = new ArrayList<Registration>();
+        this.registeredCamps = new ArrayList<Camp>();
+        this.enquiries = new ArrayList<Enquiry>();
+        this.isCampCommittee = null;
+        this.accumulatedPoints = accumulatedPoints;
+    }
 
-	public Student(String name, String userID, String password, Faculty facultyInfo, int accumulatedPoints) {
-		super(name, userID, password, facultyInfo);
-		this.registrations = new ArrayList<Registration>();
-		this.registeredCamps = new ArrayList<Camp>();
-		this.enquiries = new ArrayList<Enquiry>();
-		this.campService = null;
-		this.isCampCommittee = null;
-		this.accumulatedPoints = accumulatedPoints;
-	}
+    /**
+     * RegisteredCamps
+     */
+    public void addRegisteredCamps(Camp camp) {
+        //Prevent duplicates
+        for (Camp c : registeredCamps) {
+            if (c.equals(camp))
+                return;
+        }
+        this.registeredCamps.add(camp);
+    }
 
-	@Override
-	public String toString() {
-		return "Student Name: " + getName();
-	}
+    public void removeRegisteredCamps(Camp camp) {
+        this.registeredCamps.remove(camp);
+    }
 
-	/**
-	 *
-	 * RegisteredCamps
-	 */
-	public void addRegisteredCamps(Camp camp){
-		//Prevent duplicates
-		for(Camp c : registeredCamps)
-		{
-			if(c.equals(camp))
-				return;
-		}
-		this.registeredCamps.add(camp);
-	}
-
-	public void removeRegisteredCamps(Camp camp) {
-		this.registeredCamps.remove(camp);
-	}
-
-	/**
-	 * 
-	 * Registrations
-	 */
+    /**
+     * Registrations
+     */
     public void setRegistrations(ArrayList<Registration> registration) {
 
-		this.registrations = registration;
+        this.registrations = registration;
     }
 
-	public ArrayList<Registration> getRegistrations() {
+    public ArrayList<Registration> getRegistrations() {
 
-		return registrations;
+        return registrations;
     }
 
-	/**
-	 * 
-	 * Enquiries
-	 */
+    /**
+     * A method that sets the enquiries of the student.
+     *
+     * @param enquiries an array list of enquiries
+     */
     public void setEnquiries(ArrayList<Enquiry> enquiries) {
 
-		this.enquiries = enquiries;
+        this.enquiries = enquiries;
     }
 
-	public ArrayList<Enquiry> getEnquiries() {
+    /**
+     * Acquires all the enquiries made by the student.
+     *
+     * @return enquiries list
+     */
+    public ArrayList<Enquiry> getEnquiries() {
 
-		return enquiries;
+        return enquiries;
     }
 
-	/**
-	 * 
-	 * Visibility
-	 */
-	public void setVisibility(boolean visibility) {
+    /**
+     * Sets the camp reference to which this student is a camp committee of
+     *
+     * @param camp the camp
+     */
+    public void setIsCampCommittee(Camp camp) {
+        this.isCampCommittee = camp;
+    }
 
-		this.visibility = visibility;
-	}
+    /**
+     * Acquires the camp that this student is a camp committee of
+     */
+    public Camp getIsCampCommittee() {
+        return isCampCommittee;
+    }
 
-	public boolean getVisibility() {
+    /**
+     * Acquires the list of camps that this student is registered for
+     *
+     * @return list of registered camps
+     */
+    public ArrayList<Camp> getRegisteredCamps() {
+        return registeredCamps;
+    }
 
-		return visibility;
-	}
+    /**
+     * Sets the registered camps of this student
+     *
+     * @param registeredCamps the new registered campssl
+     */
+    public void setRegisteredCamps(ArrayList<Camp> registeredCamps) {
+        this.registeredCamps = registeredCamps;
+    }
 
-	/**
-	 * 
-	 * IsCampCommittee
-	 */
-	public void setIsCampCommittee(Camp camp) {
-		this.isCampCommittee = camp;
-	}
+    /**
+     * Acquires the number of points this student has
+     *
+     * @return the number of points the student has
+     */
+    public int getAccumulatedPoints() {
+        return accumulatedPoints;
+    }
 
-	public Camp getIsCampCommittee() {
-		return isCampCommittee;
-	}	
+    /**
+     * Sets the number of accumulated points the student has
+     *
+     * @param accumulatedPoints the new points
+     */
+    public void setAccumulatedPoints(int accumulatedPoints) {
+        this.accumulatedPoints = accumulatedPoints;
+    }
 
-	/**
-	 * 
-	 * Source.Camp.CampService
-	 */
-	public void UseCampService(CampService campService) {
+    /**
+     * Checks if the user is an attendee of a given camp
+     *
+     * @return true if user is an attendee, false if not
+     */
+    public boolean isAttendee(Camp selectedCamp) {
+        for (Camp camp : this.registeredCamps) {
+            if (camp.equals(selectedCamp))
+                return true;
+        }
+        return false;
+    }
 
-		campService.execute();
-	}
+    /**
+     * Checks if the user is a camp committee of a given camp
+     *
+     * @return true if user is a camp committee member, false if not
+     */
+    public boolean isCommittee(Camp selectedCamp) {
+        return this.isCampCommittee.equals(selectedCamp);
+    }
 
-	public void setCampService(CampService campService) {
-
-		this.campService = campService;
-	}
-
-	public CampService getCampService() {
-
-		return campService;
-	}
-
-	public ArrayList<Camp> getRegisteredCamps() {
-		return registeredCamps;
-	}
-
-	public void setRegisteredCamps(ArrayList<Camp> registeredCamps) {
-		this.registeredCamps = registeredCamps;
-	}
-
-	public int getAccumulatedPoints() {
-		return accumulatedPoints;
-	}
-
-	public void setAccumulatedPoints(int accumulatedPoints) {
-		this.accumulatedPoints = accumulatedPoints;
-	}
-
-	public boolean isAttendee(Camp selectedCamp) {
-		for(Camp camp : this.registeredCamps){
-			if(selectedCamp.equals(camp))
-				return true;
-		}
-		return false;
-	}
-
-	public boolean isCommittee(Camp selectedCamp) {
-		return this.isCampCommittee == selectedCamp;
-	}
-	//    public boolean createRegistration(Camp selectedCamp, String roleType) {
-//		try{
-//			for(Registration registration : registrations) {
-//				registration.getCamp().getCampInfo().getStartDate()
-//			}
-//
-//			if(selectedCamp.getCampInfo().getCurrentSlots() >= s)
-//		}
-//
-//        Registration registration = new Registration(this, camp, roleType);
-//        registrations.add(registration);
-//    }
-//
-//    public void createEnquiry(Camp camp, String content, String title) {
-
-//        Enquiry enquiry = new Enquiry(this, camp, content, title);
-//        enquiries.add(enquiry);
-	//   }
-
-	@Override
-	public boolean equals(Object obj) {
-		// If the object is compared with itself then return true
-		if (obj == this) {
-			return true;
-		}
+    /**
+     * Over riden equals function
+     *
+     * @return true if equals by name as it is the unique identifier
+     */
+    @Override
+    public boolean equals(Object obj) {
+        // If the object is compared with itself then return true
+        if (obj == this) {
+            return true;
+        }
 
         /* Check if o is an instance of Student or not
           "null instanceof [type]" also returns false */
-		if (!(obj instanceof Student)) {
-			return false;
-		}
-		Student s = (Student) obj;
-		// Compare the data members and return accordingly
-		return getName().equals(s.getName());
-	}
+        if (!(obj instanceof Student)) {
+            return false;
+        }
+        Student s = (Student) obj;
+        // Compare the data members and return accordingly
+        return getName().equals(s.getName());
+    }
 }

@@ -81,6 +81,7 @@ public class CampCommitteeViewModel extends BaseViewModel implements IViewModel 
                 }
                 //View Suggestions
                 case 2: {
+                    viewManager.changeView(new CampCommitteeSuggestionViewModel(selectedCamp));
                     break;
                 }
                 //Generate Camp Report

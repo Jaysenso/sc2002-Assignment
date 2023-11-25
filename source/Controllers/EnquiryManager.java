@@ -9,6 +9,7 @@ import source.Entity.Student;
 import source.Entity.User;
 import source.Utility.DirectoryUtility;
 import source.Utility.InputHandler;
+import source.Utility.PrettyPage;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -36,7 +37,12 @@ public class EnquiryManager {
     }
 
     public void deleteStudentEnquiry(Enquiry enquiry) {
-        enquiryDao.deleteEnquiry(enquiry);
+        if(!enquiry.getProcessed()){
+            enquiryDao.deleteEnquiry(enquiry);
+        }
+        else{
+            PrettyPage.printError("Your Enquiry has already been processed");
+        }
     }
 
     public void editStudentEnquiry(Enquiry enquiry) {

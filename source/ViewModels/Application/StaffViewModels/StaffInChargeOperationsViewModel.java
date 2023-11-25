@@ -80,7 +80,7 @@ public class StaffInChargeOperationsViewModel extends BaseViewModel implements I
                 break;
             }
             case 2: {
-                System.out.println("View Suggestions");
+                viewManager.changeView(new StaffSuggestionViewModel(selectedCamp));
                 break;
             }
             case 3: {

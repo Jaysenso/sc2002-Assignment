@@ -39,7 +39,11 @@ public class SuggestionDeserializer implements TextDataDeserializer {
             boolean isProcessed = Boolean.valueOf(parsedData.get("isProcessed").get(i));
             boolean isApproved = Boolean.valueOf(parsedData.get("isApproved").get(i));
             LocalDate createdDate = LocalDate.parse(parsedData.get("created_date").get(i));
-            LocalDate repliedDate = LocalDate.parse(parsedData.get("replied_date").get(i));
+            LocalDate repliedDate = null;
+            String rDate = (parsedData.get("replied_date").get(i));
+            if(!rDate.equals("N/A")){
+                repliedDate = LocalDate.parse(rDate);
+            }
             Suggestion s = new Suggestion(
                     campName,
                     createdBy,

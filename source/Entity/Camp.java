@@ -101,6 +101,7 @@ public class Camp {
         this.campInfo.updateCurrentSlot(attendees, campCommitteeMembers);
         student.addRegisteredCamps(this);
         PrettyPage.printLine(new Option("Success", "You Have Registered Successfully for " + this.getCampInfo().getName()));
+        //update the file.
         App.getUserManager().update();
         return true;
     }
@@ -152,6 +153,8 @@ public class Camp {
         committee.setIsCampCommittee(this);
         committee.addRegisteredCamps(this);
         PrettyPage.printError("Registered Successfully.");
+        //update the file.
+        App.getUserManager().update();
         return true;
     }
 

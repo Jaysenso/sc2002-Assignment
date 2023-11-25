@@ -39,7 +39,7 @@ public class StudentDeserializer implements TextDataDeserializer {
                 throw new RuntimeException(e);
             }
             String password = parsedData.get("password").get(i);
-            studentList.add(new Student(name, userid, password, f));
+            studentList.add(new Student(name, userid, password, f, 0));
         }
         return studentList;
     }

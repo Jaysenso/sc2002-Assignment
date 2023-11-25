@@ -2,7 +2,9 @@ package source.Entity;
 
 import source.Faculty.Faculty;
 
+import java.lang.reflect.Array;
 import java.time.LocalDate;
+import java.util.*;
 
 public class CampInfo {
     private String name;
@@ -45,8 +47,9 @@ public class CampInfo {
         this.faculty = faculty;
     }
 
-    public void updateCurrentSlot(int currentSlots){
-        this.currentSlots = currentSlots;
+    public void updateCurrentSlot(ArrayList<Student> attendees, ArrayList<Student> campCommitteeMembers){
+       int currentSlots = attendees.size() + campCommitteeMembers.size();
+       setCurrentSlots(currentSlots);
     }
 
     public void updateCampCommitteeSlots(int currentSlots) {this.campCommitteeSlots = currentSlots;}
@@ -68,7 +71,7 @@ public class CampInfo {
     }
 
     public int getMaxSlots() {
-        return maxSlots;
+        return this.maxSlots;
     }
 
     public void setMaxSlots(int maxSlots) {

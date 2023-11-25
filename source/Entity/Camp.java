@@ -91,7 +91,7 @@ public class Camp {
         }
 
         this.attendees.add(student);
-        this.campInfo.updateCurrentSlot(attendees.size());
+        this.campInfo.updateCurrentSlot(attendees,campCommitteeMembers);
         student.addRegisteredCamps(this);
         PrettyPage.printLine(new Option("Success","You Have Registered Successfully for " + this.getCampInfo().getName()));
         return true;
@@ -154,7 +154,7 @@ public class Camp {
 
         } else {
             this.attendees.remove(attendee);
-            this.campInfo.updateCurrentSlot(attendees.size());
+            this.campInfo.updateCurrentSlot(attendees,campCommitteeMembers);
             attendee.removeRegisteredCamps(this);
             PrettyPage.printError("Registered Successfully.");
             return true;

@@ -49,7 +49,19 @@ public final class CampManager {
         String location = InputHandler.getString();
         System.out.println("Enter number of Attendee slots: ");
         int totalSlots = InputHandler.getInt();
-        int commSlots = InputHandler.tryGetInt(0, 10, "Enter number of Committee Member slots: ", "invalid");
+
+        int commSlots;
+        do {
+            int commSlots_userInput = InputHandler.tryGetInt(0, 10, "Enter number of Committee Member slots: ", "invalid");
+            if(commSlots_userInput > totalSlots) {
+                PrettyPage.printError("The number of Committee Members cannot be greater than the total Attendee slots");
+            }
+            else {
+                commSlots = commSlots_userInput;
+                break;
+            }
+        }while(true);
+
         System.out.println("Enter a brief description: ");
         String description = InputHandler.getString();
 
@@ -155,5 +167,9 @@ public final class CampManager {
 
     public void setFiltertype(int filtertype) {
         this.filtertype = filtertype;
+    }
+
+    public ArrayList<Camp> readCamps(DatabaseQuery query){
+        return campDao.readCamps(query);
     }
 }

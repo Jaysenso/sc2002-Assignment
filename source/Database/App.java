@@ -43,9 +43,6 @@ public abstract class App {
      */
     public static void initialize() {
         userManager = new UserManager(user);
-        studentManager = new StudentManager();
-        staffManager = new StaffManager();
-        campManager = new CampManager();
     }
 
     /**
@@ -64,6 +61,9 @@ public abstract class App {
      * @return the camp manager reference
      */
     public static CampManager getCampManager() {
+        if(campManager == null)
+            campManager = new CampManager();
+
         return campManager;
     }
 
@@ -83,6 +83,8 @@ public abstract class App {
      * @return the student manager reference
      */
     public static StudentManager getStudentManager() {
+        if(studentManager == null)
+            studentManager = new StudentManager();
         return studentManager;
     }
 
@@ -92,6 +94,8 @@ public abstract class App {
      * @return the staff manager reference
      */
     public static StaffManager getStaffManager() {
+        if(staffManager == null)
+            staffManager = new StaffManager();
         return staffManager;
     }
 

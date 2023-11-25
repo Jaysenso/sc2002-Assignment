@@ -11,6 +11,7 @@ import source.Utility.PrettyPage;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Objects;
 
 public class FilterManager {
 
@@ -100,6 +101,17 @@ public class FilterManager {
             }
         }
         // re-reference camps to filteredCamps
+        return filteredCamps;
+    }
+
+    public ArrayList<Camp> filterStaffCamps(ArrayList<Camp> camps, User user){
+        ArrayList<Camp> filteredCamps = new ArrayList<>();
+        Staff staff = (Staff) App.getUser();
+        for(Camp c : camps){
+            if(Objects.equals(c.getCampInfo().getStaffInCharge(), staff.getName())){
+                filteredCamps.add(c);
+            }
+        }
         return filteredCamps;
     }
 }

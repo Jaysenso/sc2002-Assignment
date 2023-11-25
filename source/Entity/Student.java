@@ -14,18 +14,27 @@ public class Student extends User {
 	private CampService campService;
 	private boolean visibility = false;
 	private Camp isCampCommittee;
+	private int accumulatedPoints;
 
 
 	public Student() {
 		super();
+		this.registeredCamps = new ArrayList<>();
+		this.registrations = new ArrayList<>();
+		this.enquiries = new ArrayList<>();
+		this.campService = null;
+		this.isCampCommittee = null;
+		this.accumulatedPoints = 0;
 	}
 
-	public Student(String name, String userID, String password, Faculty facultyInfo) {
+	public Student(String name, String userID, String password, Faculty facultyInfo, int accumulatedPoints) {
 		super(name, userID, password, facultyInfo);
 		this.registrations = new ArrayList<Registration>();
 		this.registeredCamps = new ArrayList<Camp>();
 		this.enquiries = new ArrayList<Enquiry>();
+		this.campService = null;
 		this.isCampCommittee = null;
+		this.accumulatedPoints = accumulatedPoints;
 	}
 
 	@Override
@@ -33,43 +42,10 @@ public class Student extends User {
 		return "Student Name: " + getName();
 	}
 
-//    public boolean createRegistration(Camp selectedCamp, String roleType) {
-//		try{
-//			for(Registration registration : registrations) {
-//				registration.getCamp().getCampInfo().getStartDate()
-//			}
-//
-//			if(selectedCamp.getCampInfo().getCurrentSlots() >= s)
-//		}
-//
-//        Registration registration = new Registration(this, camp, roleType);
-//        registrations.add(registration);
-//    }
-//
-//    public void createEnquiry(Camp camp, String content, String title) {
-
-//        Enquiry enquiry = new Enquiry(this, camp, content, title);
-//        enquiries.add(enquiry);
- //   }
-
-
 	/**
 	 *
 	 * RegisteredCamps
 	 */
-
-	public void setRegisteredCamps() {
-		ArrayList<Camp>campList = App.getCampManager().getCamps();
-
-		for(Camp camp : campList){
-			for(Student attendee : camp.getAttendees()) {
-				if(this == attendee) {
-					registeredCamps.add(camp);
-				}
-			}
-		}
-	}
-
 	public void addRegisteredCamps(Camp camp){
 		this.registeredCamps.add(camp);
 	}
@@ -158,4 +134,32 @@ public class Student extends User {
 	public void setRegisteredCamps(ArrayList<Camp> registeredCamps) {
 		this.registeredCamps = registeredCamps;
 	}
+
+	public int getAccumulatedPoints() {
+		return accumulatedPoints;
+	}
+
+	public void setAccumulatedPoints(int accumulatedPoints) {
+		this.accumulatedPoints = accumulatedPoints;
+	}
+
+	//    public boolean createRegistration(Camp selectedCamp, String roleType) {
+//		try{
+//			for(Registration registration : registrations) {
+//				registration.getCamp().getCampInfo().getStartDate()
+//			}
+//
+//			if(selectedCamp.getCampInfo().getCurrentSlots() >= s)
+//		}
+//
+//        Registration registration = new Registration(this, camp, roleType);
+//        registrations.add(registration);
+//    }
+//
+//    public void createEnquiry(Camp camp, String content, String title) {
+
+//        Enquiry enquiry = new Enquiry(this, camp, content, title);
+//        enquiries.add(enquiry);
+	//   }
+
 }

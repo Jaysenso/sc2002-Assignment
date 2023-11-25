@@ -71,6 +71,11 @@ public class Student extends User {
      * RegisteredCamps
      */
     public void addRegisteredCamps(Camp camp) {
+        //Prevent duplicates
+        for (Camp c : registeredCamps) {
+            if (c.equals(camp))
+                return;
+        }
         this.registeredCamps.add(camp);
     }
 
@@ -78,28 +83,9 @@ public class Student extends User {
         this.registeredCamps.remove(camp);
     }
 
-	/**
-	 *
-	 * RegisteredCamps
-	 */
-	public void addRegisteredCamps(Camp camp){
-		//Prevent duplicates
-		for(Camp c : registeredCamps)
-		{
-			if(c.equals(camp))
-				return;
-		}
-		this.registeredCamps.add(camp);
-	}
-
-	public void removeRegisteredCamps(Camp camp) {
-		this.registeredCamps.remove(camp);
-	}
-
-	/**
-	 * 
-	 * Registrations
-	 */
+    /**
+     * Registrations
+     */
     public void setRegistrations(ArrayList<Registration> registration) {
 
         this.registrations = registration;
@@ -189,17 +175,40 @@ public class Student extends User {
      */
     public boolean isAttendee(Camp selectedCamp) {
         for (Camp camp : this.registeredCamps) {
-            if (camp == selectedCamp)
+            if (camp.equals(selectedCamp))
                 return true;
         }
         return false;
     }
+
     /**
      * Checks if the user is a camp committee of a given camp
      *
-     * @return true if user is lcamp committee member, false if not
+     * @return true if user is a camp committee member, false if not
      */
     public boolean isCommittee(Camp selectedCamp) {
         return this.isCampCommittee.equals(selectedCamp);
+    }
+
+    /**
+     * Over riden equals function
+     *
+     * @return true if equals by name as it is the unique identifier
+     */
+    @Override
+    public boolean equals(Object obj) {
+        // If the object is compared with itself then return true
+        if (obj == this) {
+            return true;
+        }
+
+        /* Check if o is an instance of Student or not
+          "null instanceof [type]" also returns false */
+        if (!(obj instanceof Student)) {
+            return false;
+        }
+        Student s = (Student) obj;
+        // Compare the data members and return accordingly
+        return getName().equals(s.getName());
     }
 }

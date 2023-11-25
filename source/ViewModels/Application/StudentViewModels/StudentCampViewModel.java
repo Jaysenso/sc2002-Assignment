@@ -44,7 +44,7 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
     @Override
     public void init(ViewManager viewManager) {
         super.init(viewManager);
-        student.setRegisteredCamps(); //initialize student's registered camp array list
+        updateApplicableCamps();
         filterManager.showCamps(campManager.getCamps());
         studentCampView.display();
         handleInputs();

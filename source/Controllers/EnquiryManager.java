@@ -46,6 +46,18 @@ public class EnquiryManager {
         return enquiryDao.readEnquiries(new DatabaseQuery(name, "created_by"));
     }
 
+    public ArrayList<Enquiry> getCampEnquiries(String name) {
+        return enquiryDao.readEnquiries(new DatabaseQuery(name, "camp_name"));
+    }
+
+    public void replyEnquiry(Enquiry enquiry, User user){
+        LocalDate createdDate = LocalDate.now();
+        enquiry.setRepliedDate(createdDate);
+        enquiry.setRepliedBy(user.getUserID());
+        enquiry.setProcessed(true);
+        enquiryDao.updateEnquiry(enquiry);
+    }
+
     public void deleteEnquiry(Enquiry enquiry, ArrayList<Enquiry> enquiryList) {
         try {
             // Check if the campList contains the specified camp

@@ -5,6 +5,8 @@ import source.Database.App;
 import source.Entity.Camp;
 import source.Utility.InputHandler;
 import source.Utility.PrettyPage;
+import source.ViewModels.Application.Apps.ReplyEnquiryViewModel;
+import source.ViewModels.Application.StudentViewModels.StudentEnquiryViewModel;
 import source.ViewModels.BaseViewModel;
 import source.ViewModels.IViewModel;
 import source.ViewModels.ViewManager;
@@ -25,12 +27,6 @@ public class StaffInChargeOperationsViewModel extends BaseViewModel implements I
      */
     StaffInChargeOperationsView staffOperationsView;
 
-    /**
-     * The selectedCamp object stores the camp that the staff selects
-     *
-     * @see Camp
-     */
-    Camp selectedCamp;
 
     /**
      * The Camp Manager object serves as a DB and abstracts the relevant methods to read/write camp list
@@ -38,19 +34,20 @@ public class StaffInChargeOperationsViewModel extends BaseViewModel implements I
      * @see CampManager
      */
     CampManager campManager;
+    Camp selectedCamp;
 
     /**
      * An overloaded constructor that initializes a selected camp and a manager
      * NOTE: This view model should only be accessed by the StaffCampViewModel
-     * @param selectedCamp the selected camp
+     *
      *
      * @see StaffCampViewModel
      * @see StaffInChargeOperationsView
      */
     public StaffInChargeOperationsViewModel(Camp selectedCamp) {
+        this.selectedCamp = selectedCamp;
         staffOperationsView = new StaffInChargeOperationsView();
         campManager = App.getCampManager();
-        this.selectedCamp = selectedCamp;
     }
 
     /**
@@ -79,7 +76,7 @@ public class StaffInChargeOperationsViewModel extends BaseViewModel implements I
         switch (choice) {
 
             case 1: {
-                System.out.println("View Enquiries");
+                viewManager.changeView(new ReplyEnquiryViewModel(selectedCamp));
                 break;
             }
             case 2: {

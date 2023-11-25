@@ -68,7 +68,7 @@ public class CampInfo {
     }
 
     public int getMaxSlots() {
-        return maxSlots;
+        return this.maxSlots;
     }
 
     public void setMaxSlots(int maxSlots) {

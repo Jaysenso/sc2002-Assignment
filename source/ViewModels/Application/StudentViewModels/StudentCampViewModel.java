@@ -1,6 +1,8 @@
 package source.ViewModels.Application.StudentViewModels;
 
 import source.Controllers.CampManager;
+import source.Controllers.Filters.CampFilterByStudent;
+import source.Controllers.Filters.FilterManager;
 import source.Controllers.Sorting.*;
 import source.Database.App;
 import source.Entity.Camp;
@@ -28,6 +30,7 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
     Student student = (Student) App.getUser();
     private CampManager campManager;
     private ArrayList<Camp> sortedCamps;
+    private FilterManager filterManager;
 
     /**
      * A default constructor.
@@ -39,6 +42,7 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
         campManager = App.getCampManager();
         //Initially, the filtered camps are all the normal camps
         sortedCamps = campManager.getCamps();
+        filterManager = new FilterManager();
     }
 
     /**
@@ -69,11 +73,11 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
             choice = InputHandler.tryGetInt(1, 5, "Input choice: ", "Invalid choice!");
             switch (choice) {
                 case 1: {
-                    if (campManager.getCamps().isEmpty()) {
+                    if (filteredCamps.isEmpty()) {
                         PrettyPage.printError("There are no camps to view!");
                     } else {
-                        int index = InputHandler.tryGetInt(1, campManager.getCamps().size(), "Input camp choice: ", "Invalid Camp Selected");
-                        Camp selectedCamp = campManager.getCamps().get(index - 1);
+                        int index = InputHandler.tryGetInt(1, filteredCamps.size(), "Input camp choice: ", "Invalid Camp Selected");
+                        Camp selectedCamp = filteredCamps.get(index - 1);
 
                         if (selectedCamp.isCommittee(student)) {
                             viewManager.changeView(new CampCommitteeViewModel(selectedCamp));

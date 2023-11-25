@@ -18,16 +18,12 @@ public class CampFilterByStaff implements CampFilterOperation {
             PrettyPage.printError("The current logged in user is not a Staff!");
         }
         //Access the student context from here, leads to bad coupling though
-        Student s = (Student) App.getUser();
-        Faculty f = s.getFacultyInfo();
-        Faculty ntu = new NTU();
+        Staff s = (Staff) App.getUser();
         ArrayList<Camp> filteredCamps = new ArrayList<>();
         //Then look through those camps and find if this student exists
         for (Camp c : camps) {
-            Faculty campFaculty = c.getCampInfo().getFaculty();
-            //Else check the faculty of this camp
-            if (campFaculty.getClass() == ntu.getClass() || campFaculty.getClass() == f.getClass()) {
-                //If its either ntu or equals to the student, add it to the list
+            String userID= c.getCampInfo().getStaffInCharge();
+            if (userID.equals(App.getUser().getName())) {
                 filteredCamps.add(c);
             }
         }

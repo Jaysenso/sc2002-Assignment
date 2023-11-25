@@ -1,8 +1,6 @@
 package source.Entity;
 
 import source.Camp.CampService;
-import source.Controllers.CampManager;
-import source.Database.App;
 import source.Faculty.Faculty;
 
 import java.util.ArrayList;
@@ -47,6 +45,12 @@ public class Student extends User {
 	 * RegisteredCamps
 	 */
 	public void addRegisteredCamps(Camp camp){
+		//Prevent duplicates
+		for(Camp c : registeredCamps)
+		{
+			if(c.equals(camp))
+				return;
+		}
 		this.registeredCamps.add(camp);
 	}
 
@@ -173,4 +177,20 @@ public class Student extends User {
 //        enquiries.add(enquiry);
 	//   }
 
+	@Override
+	public boolean equals(Object obj) {
+		// If the object is compared with itself then return true
+		if (obj == this) {
+			return true;
+		}
+
+        /* Check if o is an instance of Student or not
+          "null instanceof [type]" also returns false */
+		if (!(obj instanceof Student)) {
+			return false;
+		}
+		Student s = (Student) obj;
+		// Compare the data members and return accordingly
+		return getName().equals(s.getName());
+	}
 }

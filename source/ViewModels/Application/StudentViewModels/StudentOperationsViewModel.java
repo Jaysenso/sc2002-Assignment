@@ -2,8 +2,10 @@ package source.ViewModels.Application.StudentViewModels;
 
 import source.Controllers.CampManager;
 import source.Controllers.EnquiryManager;
+import source.Controllers.StudentManager;
 import source.Database.App;
 import source.Database.DatabaseQuery;
+import source.Entity.Camp;
 import source.Entity.Enquiry;
 import source.Entity.Student;
 import source.Utility.InputHandler;
@@ -13,7 +15,6 @@ import source.ViewModels.BaseViewModel;
 import source.ViewModels.IViewModel;
 import source.ViewModels.ViewManager;
 import source.Views.Application.StudentView.StudentOperationsView;
-import source.Entity.Camp;
 
 import java.util.ArrayList;
 
@@ -60,12 +61,19 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
     private Camp selectedCamp;
 
     /**
+     * The student manager referenced
+     *
+     * @see StudentManager
+     */
+    private StudentManager studentManager;
+    /**
      * A default constructor.
      *
      * @see StudentOperationsView
      */
     public StudentOperationsViewModel(Camp selectedCamp) {
         studentOperationsView = new StudentOperationsView();
+        this.studentManager = App.getStudentManager();
         this.selectedCamp = selectedCamp;
     }
 
@@ -133,7 +141,7 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
                 case 4: {
                     boolean withdrawResult = campManager.withdrawAttendees(student,selectedCamp);
                     campManager.updateCamp(selectedCamp);
-                    App.getStudentManager().updateStudent(student);
+                    studentManager.updateStudent(student);
                     PrettyPage.printCampDetails(selectedCamp);
                     studentOperationsView.display();
 

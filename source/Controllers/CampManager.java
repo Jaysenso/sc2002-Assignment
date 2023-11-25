@@ -1,11 +1,12 @@
 package source.Controllers;
 
-import source.Controllers.Filters.FilterManager;
 import source.Database.App;
 import source.Database.CampDaoImpl;
 import source.Database.Dao.CampDao;
 import source.Database.DatabaseQuery;
-import source.Entity.*;
+import source.Entity.Camp;
+import source.Entity.CampInfo;
+import source.Entity.Student;
 import source.Faculty.Faculty;
 import source.Utility.*;
 
@@ -126,6 +127,7 @@ public final class CampManager {
 
     public boolean registerAttendees(Student student, Camp selectedCamp) {
 
+        //Create a date range validator that ranges from the start and end date
         DateRangeValidator checker = new DateRangeValidator(selectedCamp.getCampInfo().getStartDate(), selectedCamp.getCampInfo().getEndDate());
         //check if student is already part of the camp
         if (student.isAttendee(selectedCamp)) {
@@ -139,7 +141,7 @@ public final class CampManager {
                 return false;
             }
         }
-
+        //check if the selected camp has slots
         if (selectedCamp.getCampInfo().getCurrentSlots() >= selectedCamp.getCampInfo().getMaxSlots()) {
             PrettyPage.printError("Error : Camp is already full.");
             return false;
@@ -221,7 +223,6 @@ public final class CampManager {
     }
 
     public boolean updateCamp(Camp camp) {
-
         return campDao.updateCamp(camp);
     }
 

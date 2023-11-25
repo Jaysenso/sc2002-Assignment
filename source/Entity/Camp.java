@@ -15,7 +15,11 @@ public class Camp {
     private ArrayList<Student> attendees;
     private ArrayList<Student> campCommitteeMembers;
 
-    public Camp(CampInfo campInfo, boolean visibility, ArrayList<Enquiry> enquiryList, ArrayList<Student> attendees, ArrayList<Student> campCommitteeMembers) {
+    public Camp(CampInfo campInfo,
+                boolean visibility,
+                ArrayList<Enquiry> enquiryList,
+                ArrayList<Student> attendees,
+                ArrayList<Student> campCommitteeMembers) {
         this.campInfo = campInfo;
         this.visibility = visibility;
         this.enquiryList = enquiryList;

@@ -151,35 +151,20 @@ public class Staff extends User{
         return reportBuilder.toString();
     }
 
-
-
     public List<Suggestion> viewSuggestions() {
         List<Suggestion> suggestions = new ArrayList<>();
         return suggestions;
     }
 
     public void approveSuggestion(String suggestionID, List<Suggestion> suggestions) {
-        Suggestion suggestion = findSuggestionById(suggestionID, suggestions);
-        if (suggestion != null && !suggestion.isApproved()) {
-            suggestion.setApproved(true);
-            System.out.println("Suggestion approved: " + suggestionID);
-        } else if (suggestion == null) {
-            System.out.println("Suggestion not found with ID: " + suggestionID);
-        } else if (suggestion.isApproved()) {
-            System.out.println("Suggestion with ID: " + suggestionID + " is already approved.");
-        }
+//        Suggestion suggestion = findSuggestionById(suggestionID, suggestions);
+//        if (suggestion != null && !suggestion.getApproved()) {
+//            suggestion.setApproved(true);
+//            System.out.println("Suggestion approved: " + suggestionID);
+//        } else if (suggestion == null) {
+//            System.out.println("Suggestion not found with ID: " + suggestionID);
+//        } else if (suggestion.getApproved()) {
+//            System.out.println("Suggestion with ID: " + suggestionID + " is already approved.");
+//        }
     }
-
-    private Suggestion findSuggestionById(String suggestionID, List<Suggestion> suggestions) {
-        for (Suggestion suggestion : suggestions) {
-            if (suggestion.getSuggestionID().equals(suggestionID)) {
-                return suggestion;
-            }
-        }
-        return null; // Suggestion not found
-    }
-
-
-
-
 }

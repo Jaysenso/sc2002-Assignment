@@ -1,13 +1,13 @@
 package source.Database.Dao;
 
 import source.Database.DatabaseQuery;
-import source.Entity.Student;
+import source.Entity.Suggestion;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
- * The SuggestionDAO interface provides operations that follow the CRUD operations for persistent data storage. Also provides a method to get an entire list of students
+ * The SuggestionDAO interface provides operations that follow the CRUD operations for
+ * persistent data storage. Also provides a method to get an entire list of suggestions
  * and delete them.
  *
  * @author Isaac Chun
@@ -16,72 +16,72 @@ import java.util.List;
  */
 public interface SuggestionDao {
     /**
-     * Creates a student in the subsequent database (perhaps for sign up feature~)
+     * Creates a suggestion in the subsequent database
      *
-     * @param student the student to add
+     * @param suggestion the suggestion to add
      */
-    boolean createStudent(Student student);
+    boolean createSuggestion(Suggestion suggestion);
 
     /**
-     * Reads a student from the subsequent database using the student name
+     * Reads a suggestion from the subsequent database using the suggestion name
      *
      * @param query query to check in our header
-     * @return a student object if found, null if not.
+     * @return a suggestion object if found, null if not.
      */
-    Student readStudent(DatabaseQuery query);
+    Suggestion readSuggestion(DatabaseQuery query);
 
     /**
-     * Reads a student from the subsequent database using the student name
+     * Reads a suggestion from the subsequent database using the suggestion name
      * MUST SATISFY ALL THE QUERIES
      *
      * @param queries query to check in our header
-     * @return a student object if found, null if not.
+     * @return a suggestion object if found, null if not.
      */
-    Student readStudent(DatabaseQuery[] queries);
+    Suggestion readSuggestion(DatabaseQuery[] queries);
 
     /**
-     * Reads all students that satisfies a particular property.
+     * Reads all suggestions that satisfies a particular property.
      * NOTE: List can be empty if no results are found
      *
      * @param query query to check in our header
-     * @return an arraylist of students if found, an empty list if not.
+     * @return an arraylist of suggestions if found, an empty list if not.
      */
-    ArrayList<Student> readStudents(DatabaseQuery query);
+    ArrayList<Suggestion> readSuggestions(DatabaseQuery query);
 
     /**
-     * Reads all students that satisfies a particular property.
+     * Reads all suggestions that satisfies a particular property.
      * NOTE: List can be empty if no results are found
      *
      * @param queries query to check in our header
-     * @return an arraylist of students if found, an empty list if not.
+     * @return an arraylist of suggestions if found, an empty list if not.
      */
-    ArrayList<Student> readStudents(DatabaseQuery[] queries);
+    ArrayList<Suggestion> readSuggestions(DatabaseQuery[] queries);
 
     /**
-     * Updates a student in the subsequent database
+     * Updates a suggestion in the subsequent database
      *
-     * @param student the student to add
+     * @param suggestion the suggestion to add
      */
-    boolean updateStudent(Student student);
+    boolean updateSuggestion(Suggestion suggestion);
 
     /**
-     * Deletes a student in the subsequent database
+     * Deletes a suggestion in the subsequent database
      *
      * @param query query to check in our header
      */
-    boolean deleteStudent(DatabaseQuery query);
+    boolean deleteSuggestion(DatabaseQuery query);
 
     /**
-     * Deletes a student in the subsequent database
+     * Deletes a suggestion in the subsequent database
      */
-    boolean deleteStudent(Student student);
+    boolean deleteSuggestion(Suggestion suggestion);
 
     /**
-     * Function to get the list of all student objects if needed
+     * Function to get the list of all suggestion objects if needed
      *
-     * @return the list of student stored in the database
+     * @return the list of suggestion stored in the database
      */
-    ArrayList<Student> getStudents();
+    ArrayList<Suggestion> getSuggestions();
 
     /**
      * Function to refresh the database by saving this context and then reading it again.

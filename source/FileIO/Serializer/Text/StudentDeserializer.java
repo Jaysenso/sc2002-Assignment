@@ -1,5 +1,9 @@
 package source.FileIO.Serializer.Text;
 
+import source.Controllers.CampManager;
+import source.Database.App;
+import source.Database.DatabaseQuery;
+import source.Entity.Camp;
 import source.Entity.Student;
 import source.Faculty.Faculty;
 
@@ -39,7 +43,28 @@ public class StudentDeserializer implements TextDataDeserializer {
                 throw new RuntimeException(e);
             }
             String password = parsedData.get("password").get(i);
-            studentList.add(new Student(name, userid, password, f, 0));
+            int accumulatedPoints = Integer.valueOf(parsedData.get("points").get(i));
+            //Store the list of registered camps
+            ArrayList<Camp> camps = new ArrayList<>();
+            //Handle the camps
+            String registeredCamps = parsedData.get("registered_camps").get(i);
+            if (!registeredCamps.equals("N/A")) {
+                String[] split = registeredCamps.split("\\|");
+                for (String s : split) {
+                    //Camp camp = campManager.readCamp(new DatabaseQuery(s, "camp_name"));
+                    //if (camp != null) {
+                    //    camps.add(camp);
+                    //}
+                }
+            }
+            //Get the camp name
+            String campName = parsedData.get("camp_committee_of").get(i);
+            //Camp camp =campManager.readCamp(new DatabaseQuery(campName, "camp_name"));
+            Student student = new Student(name, userid, password, f, accumulatedPoints);
+            //student.setRegisteredCamps(camps);
+            //student.setIsCampCommittee(camp);
+            //Add the final serialized result
+            studentList.add(student);
         }
         return studentList;
     }

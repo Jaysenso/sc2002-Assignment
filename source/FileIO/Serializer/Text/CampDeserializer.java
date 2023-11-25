@@ -1,5 +1,6 @@
 package source.FileIO.Serializer.Text;
 
+import source.Controllers.StudentManager;
 import source.Database.App;
 import source.Database.DatabaseQuery;
 import source.Entity.Camp;
@@ -27,6 +28,7 @@ public class CampDeserializer implements TextDataDeserializer {
      */
     @Override
     public ArrayList deserialize(HashMap<String, ArrayList<String>> parsedData) {
+        StudentManager manager = App.getStudentManager();
         ArrayList campList = new ArrayList();
         int len = parsedData.get("camp_name").size();
         if (len == 0)
@@ -56,6 +58,27 @@ public class CampDeserializer implements TextDataDeserializer {
                 throw new RuntimeException(e);
             }
 
+
+            //Make our camp object
+            Camp camp = new Camp(new CampInfo(
+                    campName,
+                    location,
+                    0,
+                    maxSlots,
+                    0,
+                    maxCommitteeSlots,
+                    description,
+                    staffID,
+                    startDate,
+                    endDate,
+                    closingDate,
+                    f
+            ),
+                    visibility,
+                    new ArrayList<>(),
+                    new ArrayList<>(),
+                    new ArrayList<>());
+
             //Handle the mapping of attendees and committee members
             String attendee = parsedData.get("attendees").get(i);
             String committee = parsedData.get("camp_committee").get(i);
@@ -71,9 +94,10 @@ public class CampDeserializer implements TextDataDeserializer {
                 //Handle attendees
                 for (String s : attendees) {
                     //Use the dao to get our student object
-                    Student student = App.getStudentManager().readStudent(
+                    Student student = manager.readStudent(
                             new DatabaseQuery(s, "name"));
                     if (student != null) {
+                        student.addRegisteredCamps(camp);
                         attendeeList.add(student);
                     }
                 }
@@ -82,33 +106,20 @@ public class CampDeserializer implements TextDataDeserializer {
                 //Handle committee members
                 for (String s : committeeMembers) {
                     //Use the dao to get our student object
-                    Student student = App.getStudentManager().readStudent(
+                    Student student = manager.readStudent(
                             new DatabaseQuery(s, "name"));
                     if (student != null) {
+                        student.setIsCampCommittee(camp);
                         committeeList.add(student);
                     }
                 }
             }
+            //Initialize all final lists
+            camp.getCampInfo().setCurrentSlots(attendeeList.size());
+            camp.getCampInfo().setCampCommitteeSlots(committeeList.size());
+            camp.setAttendees(attendeeList);
+            camp.setCampCommittee(committeeList);
 
-            //Make our camp object
-            Camp camp = new Camp(new CampInfo(
-                    campName,
-                    location,
-                    attendeeList.size(),
-                    maxSlots,
-                    committeeList.size(),
-                    maxCommitteeSlots,
-                    description,
-                    staffID,
-                    startDate,
-                    endDate,
-                    closingDate,
-                    f
-            ),
-                    visibility,
-                    new ArrayList<>(),
-                    attendeeList,
-                    committeeList);
             campList.add(camp);
         }
         return campList;

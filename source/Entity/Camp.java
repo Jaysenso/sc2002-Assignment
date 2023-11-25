@@ -52,6 +52,14 @@ public class Camp {
         return this.campCommitteeMembers;
     }
 
+    public void setAttendees(ArrayList<Student> attendees) {
+        this.attendees = attendees;
+    }
+
+    public void setCampCommittee(ArrayList<Student> campCommitteeMembers) {
+        this.campCommitteeMembers = campCommitteeMembers;
+    }
+
     public CampInfo getCampInfo() {
         return this.campInfo;
     }
@@ -64,11 +72,10 @@ public class Camp {
         this.visibility = visibility;
     }
 
-    public boolean registerAttendees(Student student){
+    public boolean registerAttendees(Student student) {
 
         DateRangeValidator checker = new DateRangeValidator(this.campInfo.getStartDate(), this.campInfo.getEndDate());
-
-        if(isAttendee(student)){
+        if (isAttendee(student)) {
             PrettyPage.printError("Error: You have already registered.");
             return false;
         }
@@ -91,25 +98,26 @@ public class Camp {
         }
 
         this.attendees.add(student);
-        this.campInfo.updateCurrentSlot(attendees,campCommitteeMembers);
+        this.campInfo.updateCurrentSlot(attendees, campCommitteeMembers);
         student.addRegisteredCamps(this);
-        PrettyPage.printLine(new Option("Success","You Have Registered Successfully for " + this.getCampInfo().getName()));
+        PrettyPage.printLine(new Option("Success", "You Have Registered Successfully for " + this.getCampInfo().getName()));
+        App.getUserManager().update();
         return true;
     }
 
-    public boolean registerCommittees(Student committee){
+    public boolean registerCommittees(Student committee) {
 
-        if(isAttendee(committee)){
+        if (isAttendee(committee)) {
             PrettyPage.printError("Error: You are already an Attendee for this camp. ");
             return false;
         }
-        if(committee.getIsCampCommittee() != null && committee.getIsCampCommittee() != this) {
+        if (committee.getIsCampCommittee() != null && committee.getIsCampCommittee() != this) {
             PrettyPage.printError("Error: You are already Camp Committee for another camp.");
             return false;
         }
 
-        for(Student registeredCampCommittee : campCommitteeMembers){
-            if(committee == registeredCampCommittee){
+        for (Student registeredCampCommittee : campCommitteeMembers) {
+            if (committee == registeredCampCommittee) {
                 PrettyPage.printError("Error: You are already Camp Committee for this camp.");
                 return false;
             }
@@ -154,16 +162,16 @@ public class Camp {
 
         } else {
             this.attendees.remove(attendee);
-            this.campInfo.updateCurrentSlot(attendees,campCommitteeMembers);
+            this.campInfo.updateCurrentSlot(attendees, campCommitteeMembers);
             attendee.removeRegisteredCamps(this);
-            PrettyPage.printError("Registered Successfully.");
+            PrettyPage.printError("You have withdrawn from the camp successfully.");
             return true;
         }
     }
 
     public boolean isAttendee(Student x) {
-        for(Student attendee : attendees){
-            if(attendee.equals(x)) {
+        for (Student attendee : attendees) {
+            if (attendee.equals(x)) {
                 return true;
             }
         }
@@ -171,29 +179,29 @@ public class Camp {
     }
 
     public boolean isCommittee(Student x) {
-        for(Student attendee : campCommitteeMembers){
-            if(attendee.equals(x)) {
+        for (Student attendee : campCommitteeMembers) {
+            if (attendee.equals(x)) {
                 return true;
             }
         }
         return false;
     }
 
-    public void addCommittee(Student attendee){
+    public void addCommittee(Student attendee) {
         this.campCommitteeMembers.add(attendee);
     }
 
-    public void addInquiry(Enquiry enquiry){
+    public void addInquiry(Enquiry enquiry) {
         this.enquiryList.add(enquiry);
     }
 
     //check if date is before reg losing date
-    public boolean isAvailable(LocalDate date){
+    public boolean isAvailable(LocalDate date) {
         return !date.isBefore(campInfo.getClosingDate());
     }
 
     //toggle visibility
-    public void toggleVisibility(){
+    public void toggleVisibility() {
         this.visibility = (!this.visibility);
     }
 
@@ -223,7 +231,7 @@ public class Camp {
         return campInfo.getName().equals(c.campInfo.getName());
     }
 
-    public void shallowCopy(Camp camp){
+    public void shallowCopy(Camp camp) {
         this.campInfo = camp.campInfo;
         this.visibility = camp.visibility;
         this.attendees = camp.attendees;

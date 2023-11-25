@@ -7,6 +7,7 @@ import source.Database.DatabaseQuery;
 import source.Entity.Camp;
 import source.Entity.Student;
 import source.Utility.InputHandler;
+import source.Utility.PrettyPage;
 import source.ViewModels.Application.Apps.FilterViewModel;
 import source.ViewModels.BaseViewModel;
 import source.ViewModels.IViewModel;
@@ -31,7 +32,7 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
      *
      * @see StudentCampView
      */
-    public StudentCampViewModel () {
+    public StudentCampViewModel() {
         studentCampView = new StudentCampView();
         campManager = App.getCampManager();
     }
@@ -48,7 +49,6 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
         super.init(viewManager);
         updateApplicableCamps();
         filterManager.showCamps(campManager.getCamps());
-        studentCampView.display();
         handleInputs();
     }
 
@@ -59,17 +59,21 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
     public void handleInputs() {
         int choice;
         do {
+            studentCampView.display();
             choice = InputHandler.tryGetInt(1, 4, "Input choice: ", "Invalid choice!");
             switch (choice) {
                 case 1: {
-                    int index = InputHandler.tryGetInt(1, campManager.getCamps().size(), "Input camp choice : ", "Invalid Camp");
-                    Camp selectedCamp = campManager.getCamps().get(index - 1);
+                    if (campManager.getCamps().isEmpty()) {
+                        PrettyPage.printError("There are no camps to view!");
+                    } else {
+                        int index = InputHandler.tryGetInt(1, campManager.getCamps().size(), "Input camp choice : ", "Invalid Camp");
+                        Camp selectedCamp = campManager.getCamps().get(index - 1);
 
-                    if(selectedCamp.isCommittee(student)) {
-                        viewManager.changeView(new CampCommitteeViewModel(selectedCamp));
-                    }
-                    else {
-                        viewManager.changeView(new StudentOperationsViewModel(selectedCamp));
+                        if (selectedCamp.isCommittee(student)) {
+                            viewManager.changeView(new CampCommitteeViewModel(selectedCamp));
+                        } else {
+                            viewManager.changeView(new StudentOperationsViewModel(selectedCamp));
+                        }
                     }
                     break;
                 }
@@ -105,9 +109,9 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
     private void updateApplicableCamps() {
         ArrayList<Camp> registeredCamps = new ArrayList<>();
         ArrayList<Camp> campList = campManager.getCamps();
-        for(Camp camp : campList){
-            for(Student attendee : camp.getAttendees()) {
-                if(student == attendee) {
+        for (Camp camp : campList) {
+            for (Student attendee : camp.getAttendees()) {
+                if (student == attendee) {
                     registeredCamps.add(camp);
                     break;
                 }

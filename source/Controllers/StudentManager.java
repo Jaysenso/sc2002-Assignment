@@ -31,7 +31,6 @@ public final class StudentManager {
      * A function to read a student given a query and a header
      *
      * @param query the query
-     * @param from  the header to search in
      * @return student object if found, null if not.
      */
     public Student readStudent(DatabaseQuery query) {

@@ -61,18 +61,36 @@ public class StudentSerializer extends BaseSerializer implements TextDataSeriali
             //Add the header line
             serializedData.add(serializedHeader);
         }
+
         //Loop through the objects
         for (int i = 0; i < objects.size(); i++) {
             if (objects.get(i) instanceof Student user) {
+                String[] attendingCamps = new String[user.getRegisteredCamps().size()];
+
+                //Store the name of the camps in the string and then build it
+                for (int j = 0; j < user.getRegisteredCamps().size(); j++) {
+                    attendingCamps[j] = user.getRegisteredCamps().get(j).getCampInfo().getName();
+                }
+                //Build committee string
+                String serializedCamps = SerializeBuilder.buildSerializedString(attendingCamps,
+                        '|'
+                );
+                if (serializedCamps.isEmpty())
+                    serializedCamps = "N/A";
+
+                String campCommiteeOf = (user.getIsCampCommittee() == null) ? "N/A" : user.getIsCampCommittee().getCampInfo().getName();
+
                 //Build our string
                 String studentData = SerializeBuilder.buildSerializedString(
                         new String[]{
                                 user.getName(),
                                 user.getUserID(),
                                 user.getUserID() + "@e.ntu.edu.sg",
-
                                 user.getPassword(),
-                                user.getFacultyInfo().getClass().getSimpleName()
+                                user.getFacultyInfo().getClass().getSimpleName(),
+                                String.valueOf(user.getAccumulatedPoints()),
+                                serializedCamps,
+                                campCommiteeOf
                         },
                         delimiter
                 );

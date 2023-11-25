@@ -98,7 +98,7 @@ public class LoginViewModel extends BaseViewModel implements IViewModel {
         while (true) {
             //Get the email input
             String email = InputHandler.tryGetEmail("Input your Student NTU email: ", "Invalid NTU email entered!");
-            Student student = App.getStudentManager().readStudent(
+            Student student = studentManager.readStudent(
                     new DatabaseQuery(email, "email"));
             //Check if the entry exists
             if (student == null) {
@@ -139,7 +139,7 @@ public class LoginViewModel extends BaseViewModel implements IViewModel {
         while (true) {
             //Get the email input
             String email = InputHandler.tryGetEmail("Input your Staff NTU email: ", "Invalid NTU email entered!");
-            Staff staff = App.getStaffManager().readStaff(new DatabaseQuery(email, "email"));
+            Staff staff = staffManager.readStaff(new DatabaseQuery(email, "email"));
             //Check if the entry exists
             if (staff == null) {
                 PrettyPage.printError("The staff email you entered does not exist in our system.");

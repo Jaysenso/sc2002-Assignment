@@ -35,34 +35,33 @@ public final class CampManager {
         String name;
         LocalDate startDate, endDate, regDate;
 
-        System.out.println("Enter Camp Name: ");
+        System.out.print("Enter Camp Name: ");
         name = InputHandler.getString();
 
-        System.out.println("Enter start date in the format yyyy-MM-dd: ");
+        System.out.print("Enter start date in the format yyyy-MM-dd: ");
         startDate = LocalDate.parse(InputHandler.getString());
-        System.out.println("Enter end date in the format yyyy-MM-dd:");
+        System.out.print("Enter end date in the format yyyy-MM-dd:");
         endDate = LocalDate.parse(InputHandler.getString());
-        System.out.println("Enter registration closing date in the format yyyy-MM-dd:");
+        System.out.print("Enter registration closing date in the format yyyy-MM-dd:");
         regDate = LocalDate.parse(InputHandler.getString());
 
-        System.out.println("Enter Location: ");
+        System.out.print("Enter Location: ");
         String location = InputHandler.getString();
-        System.out.println("Enter number of Attendee slots: ");
+        System.out.print("Enter number of Attendee slots: ");
         int totalSlots = InputHandler.getInt();
 
         int commSlots;
         do {
             int commSlots_userInput = InputHandler.tryGetInt(0, 10, "Enter number of Committee Member slots: ", "invalid");
-            if(commSlots_userInput > totalSlots) {
+            if (commSlots_userInput > totalSlots) {
                 PrettyPage.printError("The number of Committee Members cannot be greater than the total Attendee slots");
-            }
-            else {
+            } else {
                 commSlots = commSlots_userInput;
                 break;
             }
-        }while(true);
+        } while (true);
 
-        System.out.println("Enter a brief description: ");
+        System.out.print("Enter a brief description: ");
         String description = InputHandler.getString();
 
         Faculty faculty = null;
@@ -75,24 +74,23 @@ public final class CampManager {
                      InvocationTargetException | NoSuchMethodException e) {
                 PrettyPage.printError("Faculty Group not found in our System");
             }
-        }while(faculty == null);
+        } while (faculty == null);
 
         System.out.print("Set Visibility :");
         boolean visibility;
         String input = "";
-        do{
+        do {
             System.out.println("VISIBILITY : (1) Hidden | (2) Visible");
-            try{
+            try {
                 input = InputHandler.getString();
-            }catch (Exception e) {
+            } catch (Exception e) {
                 PrettyPage.printError("Invalid Confirmation");
             }
-        }while(!input.equals("1") && !input.equals("2"));
-        if(input.equals("2")){
+        } while (!input.equals("1") && !input.equals("2"));
+        if (input.equals("2")) {
             System.out.println("Camp is now Visible");
             visibility = true;
-        }
-        else{
+        } else {
             System.out.println("Camp is now Not Visible");
             visibility = false;
         }
@@ -116,24 +114,23 @@ public final class CampManager {
 
     public boolean deleteCamp(Camp camp) {
         String input = "";
-        do{
+        do {
             System.out.println("Confirm? y/n");
-            try{
+            try {
                 input = InputHandler.getString();
-            }catch (Exception e) {
+            } catch (Exception e) {
                 PrettyPage.printError("Invalid Confirmation");
             }
-        }while(!input.equals("y") && !input.equals("n"));
+        } while (!input.equals("y") && !input.equals("n"));
 
-        if(input.equals("y")){
+        if (input.equals("y")) {
             return campDao.deleteCamp(camp);
-        }
-        else {
+        } else {
             return false;
         }
     }
 
-    public Camp readCamp(DatabaseQuery query){
+    public Camp readCamp(DatabaseQuery query) {
         return campDao.readCamp(query);
     }
 
@@ -169,7 +166,7 @@ public final class CampManager {
         this.filtertype = filtertype;
     }
 
-    public ArrayList<Camp> readCamps(DatabaseQuery query){
+    public ArrayList<Camp> readCamps(DatabaseQuery query) {
         return campDao.readCamps(query);
     }
 }

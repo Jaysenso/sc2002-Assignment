@@ -285,22 +285,17 @@ public class EnquiryDaoImpl extends BaseDaoImpl implements EnquiryDao {
     @Override
     public boolean deleteEnquiry(Enquiry enquiry) {
         int idx = 0;
-        boolean removed = false;
         for (Enquiry e : enquiryList) {
             if (e.equals(enquiry)) {
-                removed = true;
-                break;
+                enquiryList.remove(idx);
+                refresh();
+                return true;
             }
             idx++;
         }
-        //Remove at idx
-        enquiryList.remove(idx);
-        if (removed) {
-            refresh();
-            return true;
-        }
         return false;
     }
+
 
 
     /**

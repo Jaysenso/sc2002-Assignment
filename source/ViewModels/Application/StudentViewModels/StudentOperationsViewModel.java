@@ -97,10 +97,6 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
     @Override
     public void init(ViewManager viewManager) {
         super.init(viewManager);
-        PrettyPage.printCampDetails(selectedCamp);
-        campManager.getCampDao().loadContext();
-        printApplicableEnquiries();
-        studentOperationsView.display();
         handleInputs();
     }
 
@@ -111,6 +107,10 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
     public void handleInputs() {
         int choice;
         do {
+            PrettyPage.printCampDetails(selectedCamp);
+            campManager.getCampDao().loadContext();
+            printApplicableEnquiries();
+            studentOperationsView.display();
             choice = InputHandler.tryGetInt(1, 5, "Input choice: ", "Invalid choice!");
             switch (choice) {
                 //Register Camp

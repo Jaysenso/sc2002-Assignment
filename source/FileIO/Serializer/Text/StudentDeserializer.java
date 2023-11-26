@@ -2,6 +2,7 @@ package source.FileIO.Serializer.Text;
 
 import source.Controllers.EnquiryManager;
 import source.Database.App;
+import source.EnquiryOperations.GetEnquiries;
 import source.Entity.Enquiry;
 import source.Entity.Student;
 import source.Faculty.Faculty;
@@ -48,7 +49,9 @@ public class StudentDeserializer implements TextDataDeserializer {
 
             ArrayList<Enquiry> enquiries = new ArrayList<>();
             //Loop through enquiries and find what's ours
-            for (Enquiry e : enquiryManager.getEnquiries()) {
+            GetEnquiries getEnquiries = new GetEnquiries(enquiryManager);
+            enquiryManager.operate(getEnquiries);
+            for (Enquiry e : getEnquiries.getEnquiries()) {
                 if (e.getCreatedBy().equals(name))
                     enquiries.add(e);
             }

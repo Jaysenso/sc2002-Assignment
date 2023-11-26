@@ -2,6 +2,7 @@ package source.ViewModels.Application.Apps;
 
 import source.Controllers.EnquiryManager;
 import source.Database.App;
+import source.EnquiryOperations.ReplyEnquiry;
 import source.Entity.Camp;
 import source.Entity.Enquiry;
 import source.Utility.InputHandler;
@@ -117,7 +118,7 @@ public class ReplyEnquiryViewModel extends BaseViewModel implements IViewModel {
         int choice = InputHandler.tryGetInt(1, 2, "Input choice: ", "Invalid choice!");
         switch (choice) {
             case 1: {
-                enquiryManager.replyEnquiry(selectedEnquiry, App.getUser());
+                enquiryManager.operate(new ReplyEnquiry(enquiryManager, selectedEnquiry, App.getUser()));
                 App.getUserManager().update();
                 PrettyPage.printLine(new Option("Success", "You have replied to the enquiry."));
                 break;

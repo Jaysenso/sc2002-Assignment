@@ -2,6 +2,7 @@ package source.CampOperations;
 
 import source.Controllers.CampManager;
 import source.Entity.Camp;
+import source.Utility.PrettyPage;
 
 /**
  * The DeleteCamp class holds the logic for deleting a camp
@@ -12,7 +13,7 @@ import source.Entity.Camp;
  */
 public class DeleteCamp implements CampOperations {
     /**
-     * The camp to create
+     * The camp to delete
      */
     private final Camp camp;
     /**
@@ -36,6 +37,11 @@ public class DeleteCamp implements CampOperations {
      */
     @Override
     public boolean execute() {
+        //Check if there are already students
+        if (camp.getCampInfoCurrentSlots() > 0) {
+            PrettyPage.printError("A camp cannot be deleted as students have already registered for it!");
+            return false;
+        }
         return campManager.getCampDao().deleteCamp(camp);
     }
 }

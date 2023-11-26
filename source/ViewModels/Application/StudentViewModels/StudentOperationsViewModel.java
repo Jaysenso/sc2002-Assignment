@@ -9,6 +9,9 @@ import source.Controllers.EnquiryManager;
 import source.Controllers.StudentManager;
 import source.Database.App;
 import source.Database.DatabaseQuery;
+import source.EnquiryOperations.AddEnquiry;
+import source.EnquiryOperations.GetUserQuery;
+import source.EnquiryOperations.QueriesReadEnquiries;
 import source.Entity.Camp;
 import source.Entity.Enquiry;
 import source.Entity.Student;
@@ -122,8 +125,10 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
                 }
                 //Make Enquiries
                 case 2: {
-                    Enquiry enquiry = enquiryManager.getUserQuery(selectedCamp.getCampInfo().getName(), student.getName());
-                    enquiryManager.addEnquiry(enquiry, student);
+                    GetUserQuery getUserQuery = new GetUserQuery(selectedCamp.getCampInfo().getName(), student.getName());
+                    enquiryManager.operate(getUserQuery);
+                    Enquiry enquiry = getUserQuery.getEnquiry();
+                    enquiryManager.operate(new AddEnquiry(student, enquiry, enquiryManager));
                     //Update camp enquiry
                     selectedCamp.addEnquiry(enquiry);
                     PrettyPage.printLine(new Option("Success", "You have successfully sent your enquiry!"));
@@ -180,12 +185,13 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
      * Gets a list of applicable entries to the selected camp based on the user
      */
     public ArrayList<Enquiry> getApplicableEnquiries() {
-        return enquiryManager.readEnquiries(
+        QueriesReadEnquiries queriesReadEnquiries = new QueriesReadEnquiries(enquiryManager,
                 new DatabaseQuery[]{
-                        new DatabaseQuery(student.getName(), "created_by"),
-                        new DatabaseQuery(selectedCamp.getCampInfo().getName(), "camp_name")
-                }
-        );
+                new DatabaseQuery(student.getName(), "created_by"),
+                new DatabaseQuery(selectedCamp.getCampInfo().getName(), "camp_name")
+        });
+        enquiryManager.operate(queriesReadEnquiries);
+        return queriesReadEnquiries.getEnquiries();
     }
 
     /**

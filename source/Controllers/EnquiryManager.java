@@ -27,11 +27,19 @@ public class EnquiryManager {
 
         this.enquiryDao = new EnquiryDaoImpl(DirectoryUtility.ENQUIRY_LIST_PATH);
     }
-
+    /**
+     * A function to use a particular enquiry service
+     *
+     * @param enquiryOperations enquiry operation to use
+     */
     public void operate(EnquiryOperations enquiryOperations){
         enquiryOperations.execute();
     }
-
+    /**
+     * A function to acquire our data access object for enquiry
+     *
+     * @return enquiry dao
+     */
     public EnquiryDao getEnquiryDao() {
         return enquiryDao;
     }

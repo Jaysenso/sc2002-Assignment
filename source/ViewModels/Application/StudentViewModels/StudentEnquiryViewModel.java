@@ -2,7 +2,9 @@ package source.ViewModels.Application.StudentViewModels;
 
 import source.Controllers.EnquiryManager;
 import source.Database.App;
-import source.Entity.Camp;
+import source.EnquiryOperations.DeleteStudentEnquiry;
+import source.EnquiryOperations.GetEnquiries;
+import source.EnquiryOperations.UpdateEnquiry;
 import source.Entity.Enquiry;
 import source.Entity.Student;
 import source.Utility.InputHandler;
@@ -85,19 +87,13 @@ public class StudentEnquiryViewModel extends BaseViewModel implements IViewModel
                 PrettyPage.printEnquiries(enquiries);
             }
             studentEnquiryView.display();
-            int choice = InputHandler.tryGetInt(1, 3, "Input choice: ", "Invalid choice!");
+            int choice = InputHandler.tryGetInt(1, 2, "Input choice: ", "Invalid choice!");
             switch (choice) {
                 case 1: {
                     viewEnquiry();
                     break;
                 }
                 case 2: {
-                    //delete
-                    int index = InputHandler.tryGetInt(1, enquiries.size(), "Enter Enquiry No: ", "Invalid Enquiry");
-                    enquiryManager.deleteStudentEnquiry(student, enquiries.get(index - 1));
-                    break;
-                }
-                case 3: {
                     viewManager.returnToPreviousView();
                     break;
                 }
@@ -146,7 +142,9 @@ public class StudentEnquiryViewModel extends BaseViewModel implements IViewModel
                     String newContent = InputHandler.tryGetString();
                     //Brute force the enquiry to make sure it saves
                     //Forcefully handle ID changes so that the match is found in the db
-                    for (Enquiry e : enquiryManager.getEnquiries()) {
+                    GetEnquiries getEnquiries = new GetEnquiries(enquiryManager);
+                    enquiryManager.operate(getEnquiries);
+                    for (Enquiry e : getEnquiries.getEnquiries()) {
                         if (e.getTitle().equals(enquiry.getTitle()) && e.getContent().equals(enquiry.getContent())) {
                             e.setTitle(newTitle);
                             e.setContent(newContent);
@@ -156,7 +154,7 @@ public class StudentEnquiryViewModel extends BaseViewModel implements IViewModel
                     enquiry.setTitle(newTitle);
                     enquiry.setContent(newContent);
                     //Then update the
-                    enquiryManager.updateEnquiry(enquiry);
+                    enquiryManager.operate(new UpdateEnquiry(enquiry, enquiryManager));
                     break;
                 }
                 case 2: {
@@ -164,7 +162,7 @@ public class StudentEnquiryViewModel extends BaseViewModel implements IViewModel
                         PrettyPage.printError("You cannot delete the enquiry anymore after it was processed");
                         break;
                     }
-                    enquiryManager.deleteStudentEnquiry(student, enquiry);
+                    enquiryManager.operate(new DeleteStudentEnquiry(enquiry, student, enquiryManager));
                     return;
                 }
                 case 3: {

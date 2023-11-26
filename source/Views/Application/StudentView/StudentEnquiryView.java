@@ -20,8 +20,7 @@ public class StudentEnquiryView implements IView {
     public void display() {
         Option[] options = {
                 new Option("1", "View Enquiry"),
-                new Option("2", "Delete Enquiry"),
-                new Option("3", "Back"),
+                new Option("2", "Back")
         };
         PrettyPage.printLinesWithHeader(options, "Choose your option");
     }

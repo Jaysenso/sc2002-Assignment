@@ -100,6 +100,7 @@ public class StaffInChargeOperationsViewModel extends BaseViewModel implements I
                 String line = InputHandler.tryGetString(new String[]{"y", "n"});
                 if (line.equals("y")) {
                     if (campManager.operate(new DeleteCamp(selectedCamp, campManager))) {
+                        staff.removeCreatedCamp(selectedCamp);
                         PrettyPage.printLine(new Option("Success", "Camp successfully deleted"));
                     }
                 }

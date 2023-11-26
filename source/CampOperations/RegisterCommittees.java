@@ -88,7 +88,6 @@ public class RegisterCommittees implements CampOperations {
         student.addRegisteredCamps(selectedCamp);
         student.setIsCampCommittee(selectedCamp);
         selectedCamp.addCommittee(student);
-        selectedCamp.addAttendee(student);
         PrettyPage.printLine(new Option("Success", "You Have Registered Successfully for " + selectedCamp.getCampInfo().getName()));
         return true;
     }

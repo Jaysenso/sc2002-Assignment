@@ -95,7 +95,6 @@ public class Student extends User {
      * @param enquiry the enquiry to remove
      */
     public void removeEnquiry(Enquiry enquiry) {
-
         this.enquiries.remove(enquiry);
     }
 

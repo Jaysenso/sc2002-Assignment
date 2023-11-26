@@ -54,4 +54,13 @@ public class Staff extends User {
         }
         this.createdCamps.add(camp);
     }
+
+    /**
+     * Removes a camp from the created list
+     *
+     * @param camp the camp to add
+     */
+    public void removeCreatedCamp(Camp camp) {
+        createdCamps.remove(camp);
+    }
 }

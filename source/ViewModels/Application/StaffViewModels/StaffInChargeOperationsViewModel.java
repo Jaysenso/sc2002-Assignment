@@ -3,6 +3,7 @@ package source.ViewModels.Application.StaffViewModels;
 import source.Controllers.CampManager;
 import source.Database.App;
 import source.Entity.Camp;
+import source.Entity.Staff;
 import source.Utility.InputHandler;
 import source.Utility.Option;
 import source.Utility.PrettyPage;
@@ -38,6 +39,8 @@ public class StaffInChargeOperationsViewModel extends BaseViewModel implements I
      */
     private final Camp selectedCamp;
 
+    private final Staff staff = (Staff) App.getUser();
+
     /**
      * An overloaded constructor that initializes a selected camp and a manager
      * NOTE: This view model should only be accessed by the StaffCampViewModel
@@ -71,7 +74,7 @@ public class StaffInChargeOperationsViewModel extends BaseViewModel implements I
      */
     @Override
     public void handleInputs() {
-        int choice = InputHandler.tryGetInt(1, 5, "Input choice: ", "Invalid choice!");
+        int choice = InputHandler.tryGetInt(1, 6, "Input choice: ", "Invalid choice!");
         switch (choice) {
             case 1: { //REPLY TO AN ENQUIRY
                 viewManager.changeView(new ReplyEnquiryViewModel(selectedCamp));
@@ -85,18 +88,23 @@ public class StaffInChargeOperationsViewModel extends BaseViewModel implements I
                 viewManager.changeView(new EditCampDetailsViewModel(selectedCamp));
                 break;
             }
-            case 4: { //
+            case 4: { //GENERATE REPORT
+                generateReport();
+                break;
+            }
+            case 5: { //DELETE CAMP
                 System.out.print("Confirm deletion? (y/n): ");
                 String line = InputHandler.tryGetString(new String[]{"y", "n"});
                 if (line.equals("y")) {
                     if (campManager.deleteCamp(selectedCamp)) {
+                        staff.removeCreatedCamp(selectedCamp);
                         PrettyPage.printLine(new Option("Success", "Camp successfully deleted"));
                     }
                 }
                 viewManager.returnToPreviousView();
                 break;
             }
-            case 5: {
+            case 6: {
                 viewManager.returnToPreviousView();
                 break;
             }
@@ -112,4 +120,38 @@ public class StaffInChargeOperationsViewModel extends BaseViewModel implements I
         System.out.flush(); //NOTE: Does not work in IntelliJ IDEA as it is not a real terminal.
     }
 
+    public void generateReport() {
+        boolean isLooping = true;
+        PrettyPage.printTitle("Generate Camp Report for:", 3);
+        while (isLooping) {
+            Option[] options = {
+                    new Option("1", "Attendees"),
+                    new Option("2", "Camp Committee"),
+                    new Option("3", "Both"),
+                    new Option("4", "Back"),
+            };
+
+            PrettyPage.printLinesWithHeader(options, "Choose your option.");
+            int choice = InputHandler.tryGetInt(1, 4, "", "");
+            switch (choice) {
+                case 1: { //ATTENDEE REPORT
+
+                    break;
+                }
+                case 2: { //COMMITTEE REPORT
+
+                    break;
+                }
+                case 3: { //BOTH REPORT
+
+                    break;
+                }
+                case 4: { //BACK
+
+                    isLooping = false;
+                    break;
+                }
+            }
+        }
+    }
 }

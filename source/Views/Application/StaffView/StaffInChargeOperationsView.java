@@ -21,8 +21,9 @@ public class StaffInChargeOperationsView implements IView {
                 new Option("1", "View Enquiries"),
                 new Option("2", "View Suggestions"),
                 new Option("3", "Edit Camp"),
-                new Option("4", "Delete Camp"),
-                new Option("5", "Back"),
+                new Option("4", "Generate Camp Report"),
+                new Option("5", "Delete Camp"),
+                new Option("6", "Back"),
         };
         PrettyPage.printLinesWithHeader(options, "Choose your option");
     }

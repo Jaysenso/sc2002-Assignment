@@ -34,19 +34,29 @@ public final class SuggestionManager {
         this.suggestionDao = new SuggestionDaoImpl(DirectoryUtility.SUGGESTIONS_DATA_PATH);
     }
 
-    public ArrayList<Suggestion> getCampCommitteeSuggestions(String name){
+    public ArrayList<Suggestion> getCampCommitteeSuggestions(String name) {
         ArrayList<Suggestion> filtered = new ArrayList<>();
         ArrayList<Suggestion> suggestions = suggestionDao.getSuggestions();
-        for(Suggestion s : suggestions)
-        {
-            if(s.getCreatedBy().equals(name))
+        for (Suggestion s : suggestions) {
+            if (s.getCreatedBy().equals(name))
                 filtered.add(s);
         }
         return filtered;
     }
 
-    public ArrayList<Suggestion> getCampSuggestions(Camp camp){
-        return suggestionDao.readSuggestions(new DatabaseQuery(camp.getCampInfo().getName(), "camp_name"));
+    /**
+     * Acquires all the suggestions in a camp
+     *
+     * @return an array list of suggestions
+     */
+    public ArrayList<Suggestion> getCampSuggestions(Camp camp) {
+        ArrayList<Suggestion> filtered = new ArrayList<Suggestion>();
+        ArrayList<Suggestion> suggestions = suggestionDao.getSuggestions();
+        for (Suggestion s : suggestions) {
+            if (s.getCampName().equals(camp.getCampInfo().getName()))
+                filtered.add(s);
+        }
+        return filtered;
     }
 
     public void createSuggestion(String campName, String createdBy) {
@@ -57,11 +67,11 @@ public final class SuggestionManager {
         suggestionDao.createSuggestion(newSuggestion);
     }
 
-    public void deleteSuggestion(Suggestion suggestion){
+    public void deleteSuggestion(Suggestion suggestion) {
         suggestionDao.deleteSuggestion(suggestion);
     }
 
-    public void editSuggestion(Suggestion suggestion){
+    public void editSuggestion(Suggestion suggestion) {
         suggestionDao.updateSuggestion(suggestion);
     }
 }

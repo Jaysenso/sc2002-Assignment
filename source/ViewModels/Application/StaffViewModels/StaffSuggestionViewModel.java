@@ -77,18 +77,21 @@ public class StaffSuggestionViewModel extends BaseViewModel implements IViewMode
             if (suggestions.isEmpty()) {
                 PrettyPage.printTitle("No Suggestions", 1);
             }
+            //Print the suggestions if applicable
             PrettyPage.printSuggestions(suggestions);
             staffSuggestionView.display();
+            //Get the input
             int choice = InputHandler.tryGetInt(1, 2, "Input choice: ", "Invalid choice!");
             switch (choice) {
                 case 1: {
-                    //view suggestion
+                    //View suggestion
                     if (suggestions.isEmpty()) {
-                        System.out.println("No suggestions");
+                        PrettyPage.printTitle("There are no suggestions!", 1);
                         break;
                     }
-                    int index = InputHandler.tryGetInt(1, suggestions.size(), "Select Suggestion", "Invalid Suggestion");
+                    int index = InputHandler.tryGetInt(1, suggestions.size(), "Select Suggestion: ", "Invalid choice!");
                     Suggestion selectedSuggestion = suggestions.get(index - 1);
+                    //Handle the selected suggestion
                     showSuggestionDetails(selectedSuggestion);
                     break;
                 }
@@ -112,43 +115,44 @@ public class StaffSuggestionViewModel extends BaseViewModel implements IViewMode
         System.out.flush(); //NOTE: Does not work in IntelliJ IDEA as it is not a real terminal.
     }
 
+    /**
+     * Handles the sub logic of dealing with a suggestion
+     *
+     * @param suggestion the suggestion
+     */
     public void showSuggestionDetails(Suggestion suggestion) {
-        boolean isLooping = true;
-        while (isLooping) {
-
+        while (true) {
             //print details here
-            System.out.println(suggestion.getCreatedDate());
-            System.out.println(suggestion.getContent());
-            System.out.println(suggestion.getApproved());
-            System.out.println(suggestion.getProcessed());
+            PrettyPage.printSuggestion(suggestion);
+
+            //do it easy way
+            if (suggestion.getProcessed()) {
+                PrettyPage.printLineWithHeader(new Option("1", "Back"), "Choose your option");
+                InputHandler.tryGetInt(1, 1, "Choose option: ", "Invalid choice!");
+                return;
+            }
 
             Option[] options = {
-                    new Option("1", "Approve suggestion"),
+                    new Option("1", "Approve Suggestion"),
                     new Option("2", "Back"),
             };
             PrettyPage.printLinesWithHeader(options, "Choose your option");
 
-            int choice = InputHandler.tryGetInt(1, 2, "Choose option: ", "Invalid Option");
+            int choice = InputHandler.tryGetInt(1, 2, "Choose option: ", "Invalid choice!");
             switch (choice) {
                 case 1: {
-                    String input = "";
-                    do {
-                        System.out.print("Approve? y/n:");
-                        try {
-                            input = InputHandler.getString();
-                        } catch (Exception e) {
-                            PrettyPage.printError("Invalid Input");
-                        }
-                    } while (!input.equals("y") && !input.equals("n"));
-
+                    //Get the user input
+                    System.out.print("Approve this suggestion? (y/n): ");
+                    String input = InputHandler.tryGetString(new String[]{
+                            "y", "n"
+                    });
                     suggestion.setApproved(input.equals("y"));
                     suggestion.setProcessed(true);
                     suggestionManager.editSuggestion(suggestion);
                     break;
                 }
                 case 2: {
-                    isLooping = false;
-                    break;
+                    return;
                 }
             }
         }

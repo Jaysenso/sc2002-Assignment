@@ -546,7 +546,7 @@ public class PrettyPage {
         }
         printLineDivided(new Option("N", "test"),
                 new SubOptions[]{
-                        new SubOptions("Camp Name", 0.3f),
+                        new SubOptions("Content", 0.3f),
                         new SubOptions("Suggested by", 0.2f),
                         new SubOptions("Created on", 0.175f),
                         new SubOptions("Processed", 0.175f),
@@ -564,7 +564,7 @@ public class PrettyPage {
             printLineDivided(
                     new Option(String.valueOf(i + 1), ""),
                     new SubOptions[]{
-                            new SubOptions(s.getCampName(), 0.3f),
+                            new SubOptions(s.getContent(), 0.3f),
                             new SubOptions(s.getCreatedBy(), 0.2f),
                             new SubOptions(s.getCreatedDate().toString(), 0.175f),
                             new SubOptions(String.valueOf(s.getProcessed()), 0.175f),

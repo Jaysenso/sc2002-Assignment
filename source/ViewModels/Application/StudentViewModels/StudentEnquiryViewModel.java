@@ -161,7 +161,7 @@ public class StudentEnquiryViewModel extends BaseViewModel implements IViewModel
                 }
                 case 2: {
                     if (enquiry.getProcessed()) {
-                        PrettyPage.printError("You cannot edit the enquiry anymore after it was processed");
+                        PrettyPage.printError("You cannot delete the enquiry anymore after it was processed");
                         break;
                     }
                     enquiryManager.deleteStudentEnquiry(student, enquiry);

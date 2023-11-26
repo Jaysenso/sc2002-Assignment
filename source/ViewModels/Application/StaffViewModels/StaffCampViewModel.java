@@ -1,5 +1,7 @@
 package source.ViewModels.Application.StaffViewModels;
 
+import source.Camp.CreateCamp;
+import source.Camp.GetCamps;
 import source.Controllers.CampManager;
 import source.Controllers.EnquiryManager;
 import source.Controllers.StaffManager;
@@ -86,7 +88,9 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
     public void handleInputs() {
         int choice;
         do {
-            ArrayList<Camp> camps = campManager.getCamps();
+            GetCamps getCamp = new GetCamps(campManager);
+            campManager.useCampService(getCamp);
+            ArrayList<Camp> camps = getCamp.getCamps();
             PrettyPage.printCamps(camps);
             staffCampView.display();
             choice = InputHandler.tryGetInt(1, 5, "Input choice: ", "Invalid choice!");
@@ -105,7 +109,7 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
                     //Handle the creation of new camps by staff
                     Camp camp = createNewCamp();
                     //Create the camp in our manager
-                    campManager.createCamp(camp);
+                    campManager.useCampService(new CreateCamp(camp, campManager));
                     //Add it to our user
                     Staff s = (App.getUser() instanceof Staff) ? (Staff) App.getUser() : null;
                     if (s != null) {
@@ -114,7 +118,9 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
                     }
                     PrettyPage.printLine(new Option("Success", "You have created the camp."));
                     //Then print out all the camps after creating that new camp
-                    PrettyPage.printCamps(campManager.getCamps());
+                    campManager.useCampService(getCamp);
+                    camps = getCamp.getCamps();
+                    PrettyPage.printCamps(camps);
                     break;
                 }
                 case 3: {
@@ -122,7 +128,9 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
                     break;
                 }
                 case 4: {
-                    viewManager.changeView(new SortViewModel(campManager.getCamps()));
+                    campManager.useCampService(getCamp);
+                    camps = getCamp.getCamps();
+                    viewManager.changeView(new SortViewModel(camps));
                     break;
                 }
                 case 5: {

@@ -129,6 +129,11 @@ public class CampCommitteeSuggestionViewModel extends BaseViewModel implements I
             int choice = InputHandler.tryGetInt(1, 3, "Choose option: ", "Invalid Option");
             switch (choice) {
                 case 1: {
+                    if (suggestion.getProcessed()) {
+                        PrettyPage.printError("You cannot edit the suggestion anymore after it was processed");
+                        break;
+                    }
+
                     System.out.print("Enter new content: ");
                     String newContent = InputHandler.getString();
                     suggestion.setContent(newContent);
@@ -136,6 +141,11 @@ public class CampCommitteeSuggestionViewModel extends BaseViewModel implements I
                     break;
                 }
                 case 2: {
+                    if (suggestion.getProcessed()) {
+                        PrettyPage.printError("You cannot delete the suggestion anymore after it was processed");
+                        break;
+                    }
+
                     suggestionManager.deleteSuggestion(suggestion);
                     return;
                 }

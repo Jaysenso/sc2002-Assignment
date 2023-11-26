@@ -1,5 +1,6 @@
 package source.ViewModels.Application.StudentViewModels;
 
+import source.Camp.GetCamps;
 import source.Controllers.CampManager;
 import source.Controllers.Filters.CampFilterByStudent;
 import source.Controllers.Filters.FilterManager;
@@ -54,7 +55,9 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
     public StudentCampViewModel() {
         studentCampView = new StudentCampView();
         //Initially, the filtered camps are all the normal camps
-        sortedCamps = App.getCampManager().getCamps();
+        GetCamps getCamp = new GetCamps(App.getCampManager());
+        App.getCampManager().useCampService(getCamp);
+        sortedCamps = getCamp.getCamps();
         filterManager = new FilterManager();
     }
 

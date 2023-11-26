@@ -23,6 +23,7 @@ import java.util.ArrayList;
  * @since 11/20/2023
  */
 public class EnquiryManager {
+
     /**
      * The enquiry data access object that contains direct implementations to our database..
      */
@@ -127,6 +128,10 @@ public class EnquiryManager {
         enquiry.setProcessed(true);
 
         enquiryDao.updateEnquiry(enquiry);
+    }
+
+    public EnquiryDao getEnquiryDao() {
+        return enquiryDao;
     }
 
     public void deleteEnquiry(Enquiry enquiry, ArrayList<Enquiry> enquiryList) {

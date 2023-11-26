@@ -129,7 +129,7 @@ public class LoginViewModel extends BaseViewModel implements IViewModel {
                 continue;
             }
             System.out.print("Enter password: ");
-            String password = InputHandler.getString();
+            String password = InputHandler.tryGetString();
 
             //Find actual student stuff
             Student student = studentManager.getStudentByID(result.getUserID());
@@ -179,7 +179,7 @@ public class LoginViewModel extends BaseViewModel implements IViewModel {
                 continue;
             }
             System.out.print("Enter password: ");
-            String password = InputHandler.getString();
+            String password = InputHandler.tryGetString();
             //Then attempt to authenticate the user
             Staff staff = staffManager.getStaff(result.getUserID());
             if (staff == null) {

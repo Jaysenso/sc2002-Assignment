@@ -11,7 +11,6 @@ import source.Database.App;
 import source.Database.DatabaseQuery;
 import source.EnquiryOperations.AddEnquiry;
 import source.EnquiryOperations.GetUserQuery;
-import source.EnquiryOperations.QueriesReadEnquiries;
 import source.Entity.Camp;
 import source.Entity.Enquiry;
 import source.Entity.Student;
@@ -116,7 +115,7 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
                 //Register Camp
                 case 1: {
                     boolean registerResult = campManager.operate(new RegisterAttendees(student, selectedCamp));
-                    if(registerResult) {
+                    if (registerResult) {
                         campManager.operate(new UpdateCamp(selectedCamp, campManager));
                         studentManager.updateStudent(student);
                     }
@@ -130,14 +129,15 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
                     enquiryManager.operate(new AddEnquiry(student, enquiry, enquiryManager));
                     //Update camp enquiry
                     selectedCamp.addEnquiry(enquiry);
+                    campManager.operate(new UpdateCamp(selectedCamp,campManager));
                     PrettyPage.printLine(new Option("Success", "You have successfully sent your enquiry!"));
                     break;
                 }
                 //Apply Camp Committee
                 case 3: {
-                    boolean registerResult = campManager.operate(new RegisterCommittees(student,selectedCamp));
+                    boolean registerResult = campManager.operate(new RegisterCommittees(student, selectedCamp));
 
-                    if(registerResult) {
+                    if (registerResult) {
                         campManager.operate(new UpdateCamp(selectedCamp, campManager));
                         studentManager.updateStudent(student);
                         viewManager.returnToPreviousView();
@@ -177,13 +177,12 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
      * Gets a list of applicable entries to the selected camp based on the user
      */
     public ArrayList<Enquiry> getApplicableEnquiries() {
-        QueriesReadEnquiries queriesReadEnquiries = new QueriesReadEnquiries(enquiryManager,
-                new DatabaseQuery[]{
-                new DatabaseQuery(student.getName(), "created_by"),
-                new DatabaseQuery(selectedCamp.getCampInfo().getName(), "camp_name")
-        });
-        enquiryManager.operate(queriesReadEnquiries);
-        return queriesReadEnquiries.getEnquiries();
+        ArrayList<Enquiry> enquiries = new ArrayList<Enquiry>();
+        for (Enquiry e : enquiryManager.getEnquiryDao().getEnquiries()) {
+            if (e.getCreatedBy().equals(student.getName()) && e.getCampName().equals(selectedCamp.getCampInfo().getName()))
+                enquiries.add(e);
+        }
+        return enquiries;
     }
 
     /**

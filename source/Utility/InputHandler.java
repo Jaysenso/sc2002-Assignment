@@ -176,7 +176,11 @@ public class InputHandler {
             Pattern pattern = Pattern.compile(EMAIL_REGEX);
             while (true) {
                 System.out.print(choiceText);
-                String email = scanner.next();
+                String email = scanner.nextLine();
+                if(email.isEmpty()){
+                    PrettyPage.printError("Email cannot be blank!");
+                    continue;
+                }
                 //Trim any unnecessary white spaces
                 email = email.trim();
                 Matcher matcher = pattern.matcher(email);

@@ -284,19 +284,24 @@ public class EnquiryDaoImpl extends BaseDaoImpl implements EnquiryDao {
      */
     @Override
     public boolean deleteEnquiry(Enquiry enquiry) {
+        if (enquiryList.isEmpty())
+            return false;
+
         int idx = 0;
         for (Enquiry e : enquiryList) {
             if (e.equals(enquiry)) {
-                enquiryList.remove(idx);
-                refresh();
-                return true;
+                break;
             }
             idx++;
         }
+        if (idx != enquiryList.size()) {
+            //Remove at idx
+            enquiryList.remove(idx);
+            refresh();
+            return true;
+        }
         return false;
     }
-
-
 
     /**
      * Acquires the entire list of Enquiry objects in the database.

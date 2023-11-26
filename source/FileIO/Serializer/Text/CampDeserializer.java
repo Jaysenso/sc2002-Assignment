@@ -5,7 +5,6 @@ import source.Controllers.StaffManager;
 import source.Controllers.StudentManager;
 import source.Database.App;
 import source.Database.DatabaseQuery;
-import source.EnquiryOperations.QueryReadEnquiries;
 import source.Entity.*;
 import source.Faculty.Faculty;
 
@@ -140,9 +139,12 @@ public class CampDeserializer implements TextDataDeserializer {
             }
 
             //Initialize enquiries into the camps
-            QueryReadEnquiries queryReadEnquiries = new QueryReadEnquiries(new DatabaseQuery(campName, "camp_name"), enquiryManager);
-            enquiryManager.operate(queryReadEnquiries);
-            ArrayList<Enquiry> enquiries = queryReadEnquiries.getEnquiries();
+            ArrayList<Enquiry> enquiries = new ArrayList<>();
+            for (Enquiry e : enquiryManager.getEnquiryDao().getEnquiries()) {
+                if (e.getCampName().equals(campName)) {
+                    enquiries.add(e);
+                }
+            }
             //Initialize all final lists
             camp.getCampInfo().setCurrentSlots(attendeeList.size());
             camp.getCampInfo().setCampCommitteeSlots(committeeList.size());

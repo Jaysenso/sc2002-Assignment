@@ -75,7 +75,7 @@ public class ReplyEnquiryViewModel extends BaseViewModel implements IViewModel {
                 PrettyPage.printTitle("No enquiries to reply!", 1);
                 PrettyPage.printLineWithHeader(new Option("1", "Back"), "Choose your option");
                 InputHandler.tryGetInt(1, 1, "Input choice: ", "Invalid choice!");
-                return;
+                viewManager.returnToPreviousView();
             } else {
                 PrettyPage.printEnquiries(enquiries);
             }

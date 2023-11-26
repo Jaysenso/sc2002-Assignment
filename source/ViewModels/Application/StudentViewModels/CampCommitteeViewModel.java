@@ -63,8 +63,6 @@ public class CampCommitteeViewModel extends BaseViewModel implements IViewModel 
     @Override
     public void init(ViewManager viewManager) {
         super.init(viewManager);
-        PrettyPage.printCampDetails(selectedCamp);
-        campCommitteeView.display();
         handleInputs();
     }
 
@@ -75,6 +73,8 @@ public class CampCommitteeViewModel extends BaseViewModel implements IViewModel 
     public void handleInputs() {
         int choice;
         do {
+            PrettyPage.printCampDetails(selectedCamp);
+            campCommitteeView.display();
             choice = InputHandler.tryGetInt(1, 4, "Input choice: ", "Invalid choice!");
             switch (choice) {
                 //View Enquiries

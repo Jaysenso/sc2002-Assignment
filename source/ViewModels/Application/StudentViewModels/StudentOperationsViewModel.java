@@ -120,8 +120,6 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
                         campManager.operate(new UpdateCamp(selectedCamp, campManager));
                         studentManager.updateStudent(student);
                     }
-                    PrettyPage.printCampDetails(selectedCamp);
-                    studentOperationsView.display();
                     break;
                 }
                 //Make Enquiries
@@ -133,10 +131,6 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
                     //Update camp enquiry
                     selectedCamp.addEnquiry(enquiry);
                     PrettyPage.printLine(new Option("Success", "You have successfully sent your enquiry!"));
-                    //reprint the camp and display the operations
-                    PrettyPage.printCampDetails(selectedCamp);
-                    printApplicableEnquiries();
-                    studentOperationsView.display();
                     break;
                 }
                 //Apply Camp Committee
@@ -149,10 +143,10 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
                         viewManager.returnToPreviousView();
                     }
 
-                    PrettyPage.printCampDetails(selectedCamp);
-                    printApplicableEnquiries();
-                    studentOperationsView.display();
-                    handleInputs();
+//                    PrettyPage.printCampDetails(selectedCamp);
+//                    printApplicableEnquiries();
+//                    studentOperationsView.display();
+//                    handleInputs();
                     break;
                 }
                 //Withdraw from Camp
@@ -160,9 +154,6 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
                     boolean withdrawResult = campManager.operate(new WithdrawAttendees(student, selectedCamp, campManager));
                     campManager.operate(new UpdateCamp(selectedCamp, campManager));
                     studentManager.updateStudent(student);
-                    PrettyPage.printCampDetails(selectedCamp);
-                    studentOperationsView.display();
-
                     break;
                 }
                 //Back

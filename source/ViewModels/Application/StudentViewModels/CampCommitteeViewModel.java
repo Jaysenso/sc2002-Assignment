@@ -1,9 +1,12 @@
 package source.ViewModels.Application.StudentViewModels;
 
+import source.Controllers.ReportGenerator;
 import source.Database.App;
 import source.Entity.Camp;
 import source.Entity.Student;
+import source.Utility.DirectoryUtility;
 import source.Utility.InputHandler;
+import source.Utility.Option;
 import source.Utility.PrettyPage;
 import source.ViewModels.Application.Apps.ReplyEnquiryViewModel;
 import source.ViewModels.BaseViewModel;
@@ -86,7 +89,11 @@ public class CampCommitteeViewModel extends BaseViewModel implements IViewModel 
                 }
                 //Generate Camp Report
                 case 3: {
-
+                    String filePath = DirectoryUtility.REPORT_DATA_PATH + selectedCamp.getCampInfo().getName() + "_attendanceReport.txt";
+                    ReportGenerator generator = new ReportGenerator(filePath
+                    );
+                    generator.generateAttendanceReport(selectedCamp, student.getName() + "(Camp Committee Member)");
+                    PrettyPage.printLine(new Option("Success", "Attendance report was generated at " + filePath));
                     break;
                 }
                 //Back

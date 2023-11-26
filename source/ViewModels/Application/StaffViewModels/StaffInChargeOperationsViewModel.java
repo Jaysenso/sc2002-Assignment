@@ -2,9 +2,11 @@ package source.ViewModels.Application.StaffViewModels;
 
 import source.CampOperations.DeleteCamp;
 import source.Controllers.CampManager;
+import source.Controllers.ReportGenerator;
 import source.Database.App;
 import source.Entity.Camp;
 import source.Entity.Staff;
+import source.Utility.DirectoryUtility;
 import source.Utility.InputHandler;
 import source.Utility.Option;
 import source.Utility.PrettyPage;
@@ -27,7 +29,7 @@ public class StaffInChargeOperationsViewModel extends BaseViewModel implements I
      *
      * @see StaffInChargeOperationsView
      */
-    StaffInChargeOperationsView staffOperationsView;
+    private final StaffInChargeOperationsView staffOperationsView;
 
     /**
      * The Camp Manager object serves as a DB and abstracts the relevant methods to read/write camp list
@@ -121,35 +123,43 @@ public class StaffInChargeOperationsViewModel extends BaseViewModel implements I
     }
 
     public void generateReport() {
-        boolean isLooping = true;
-        PrettyPage.printTitle("Generate Camp Report for:", 3);
-        while (isLooping) {
+        while (true) {
+            PrettyPage.printTitle("Generate Camp Report", 1);
             Option[] options = {
-                    new Option("1", "Attendees"),
-                    new Option("2", "Camp Committee"),
+                    new Option("1", "Attendance Report"),
+                    new Option("2", "Performance Report"),
                     new Option("3", "Both"),
                     new Option("4", "Back"),
             };
-
-            PrettyPage.printLinesWithHeader(options, "Choose your option.");
-            int choice = InputHandler.tryGetInt(1, 4, "", "");
+            PrettyPage.printLinesWithHeader(options, "Choose your option");
+            int choice = InputHandler.tryGetInt(1, 6, "Enter your choice: ", "Invalid choice!");
             switch (choice) {
-                case 1: { //ATTENDEE REPORT
-
+                case 1: { //Attendance Report
+                    String filePath = DirectoryUtility.REPORT_DATA_PATH + selectedCamp.getCampInfo().getName() + "_attendanceReport.txt";
+                    ReportGenerator generator = new ReportGenerator(filePath
+                    );
+                    generator.generateAttendanceReport(selectedCamp, staff.getName() + " (Staff) ");
+                    PrettyPage.printLine(new Option("Success", "Attendance report was generated at " + filePath));
                     break;
                 }
-                case 2: { //COMMITTEE REPORT
-
+                case 2: { //Performance Report
+                    String filePath = DirectoryUtility.REPORT_DATA_PATH + selectedCamp.getCampInfo().getName() + "_performanceReport.txt";
+                    ReportGenerator generator = new ReportGenerator(filePath
+                    );
+                    generator.generatePerformanceReport(selectedCamp, staff.getName() + " (Staff) ");
+                    PrettyPage.printLine(new Option("Success", "Performance report was generated at " + filePath));
                     break;
                 }
-                case 3: { //BOTH REPORT
-
+                case 3: { //Both
+                    String filePath = DirectoryUtility.REPORT_DATA_PATH + selectedCamp.getCampInfo().getName() + "_fullReport.txt";
+                    ReportGenerator generator = new ReportGenerator(filePath
+                    );
+                    generator.generateFullReport(selectedCamp, staff.getName() + " (Staff) ");
+                    PrettyPage.printLine(new Option("Success", "Full report was generated at " + filePath));
                     break;
                 }
-                case 4: { //BACK
-
-                    isLooping = false;
-                    break;
+                case 4: { //Bye
+                    return;
                 }
             }
         }

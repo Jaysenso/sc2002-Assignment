@@ -1,9 +1,6 @@
 package source.Utility;
 
-import source.Entity.Camp;
-import source.Entity.CampInfo;
-import source.Entity.Enquiry;
-import source.Entity.Suggestion;
+import source.Entity.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -137,6 +134,12 @@ public class PrettyPage {
         System.out.println(line + middle + last);
     }
 
+    /**
+     * A method to print a line with multiple boxes
+     *
+     * @param option       option object
+     * @param descriptions sub descriptions
+     */
     public static void printLineDivided(Option option, SubOptions[] descriptions) {
         String optionMessage = option.getOption();
         String description = option.getDescription();
@@ -773,5 +776,230 @@ public class PrettyPage {
             middle += "\n";
         }
         return middle;
+    }
+
+    /**
+     * Returns the formatted string for a camp report
+     *
+     * @param camp the camp
+     * @return formatted camp report
+     */
+    public static String getCampReport(Camp camp) {
+        String formatted = "";
+        CampInfo campInfo = camp.getCampInfo();
+        String attendees = "";
+        String committeeMembers = "";
+        //Populate strings into nice format
+        for (int i = 0; i < camp.getAttendees().size(); i++) {
+            attendees += camp.getAttendees().get(i).getUserID();
+            if (i != camp.getAttendees().size() - 1)
+                attendees += ", ";
+        }
+        for (int i = 0; i < camp.getCampCommitteeMembers().size(); i++) {
+            committeeMembers += camp.getCampCommitteeMembers().get(i).getUserID();
+            if (i != camp.getCampCommitteeMembers().size() - 1)
+                committeeMembers += ", ";
+        }
+
+        if (attendees.isEmpty())
+            attendees = "N/A";
+        if (committeeMembers.isEmpty())
+            committeeMembers = "N/A";
+
+        formatted += getFormattedTitle("Attendance Report for " + campInfo.getName(), 3) + "\n";
+        Option[] options = {
+                new Option("Name", campInfo.getName()),
+                new Option("Start Date", DTFormatter.formatDateTimeToLocal(campInfo.getStartDate())),
+                new Option("End Date", DTFormatter.formatDateTimeToLocal(campInfo.getEndDate())),
+                new Option("Registration Close Date", DTFormatter.formatDateTimeToLocal(campInfo.getClosingDate())),
+                new Option("User Group", campInfo.getFaculty().getClass().getSimpleName()),
+                new Option("Attendees ", attendees),
+                new Option("Camp Committee Members ", committeeMembers),
+                new Option("Current Total Slots", camp.getCampInfoCurrentSlots() + "/" + campInfo.getMaxSlots()),
+                new Option("Current Camp Committee Slots", campInfo.getCampCommitteeSlots() + "/" + campInfo.getMaxCampCommitteeSlots()),
+                new Option("Description", campInfo.getDescription()),
+                new Option("Staff in Charge", campInfo.getStaffInCharge())
+        };
+        formatted += getFormattedLines(options);
+        return formatted;
+    }
+
+    /**
+     * Returns the formatted string for a performance report
+     *
+     * @param camp the camp
+     * @return formatted performance report
+     */
+    public static String getPerformanceReport(Camp camp) {
+        String formatted = "";
+        CampInfo campInfo = camp.getCampInfo();
+        formatted += getFormattedTitle("Performance Report for " + campInfo.getName(), 3) + "\n";
+        formatted += getFormattedDivided(new Option("N", "test"),
+                new SubOptions[]{
+                        new SubOptions("Student Name", 0.2f),
+                        new SubOptions("Student Email", 0.2f),
+                        new SubOptions("Points", 0.2f),
+                        new SubOptions("Student Role", 0.2f),
+                        new SubOptions("Faculty", 0.2f),
+                }) + "\n";
+        for (int i = 0; i < camp.getCampCommitteeMembers().size(); i++) {
+            Student s = camp.getCampCommitteeMembers().get(i);
+            formatted += getFormattedDivided(
+                    new Option(String.valueOf(i + 1), ""),
+                    new SubOptions[]{
+                            new SubOptions(s.getName(), 0.2f),
+                            new SubOptions(s.getUserID() + "@e.ntu.edu.sg", 0.2f),
+                            new SubOptions(String.valueOf(s.getAccumulatedPoints()), 0.2f),
+                            new SubOptions("Camp Committee", 0.2f),
+                            new SubOptions(s.getFacultyInfo().getClass().getSimpleName(), 0.2f)
+                    }
+            ) + "\n";
+        }
+        return formatted;
+    }
+
+    /**
+     * Returns the formatted string for formatted title
+     *
+     * @param text      the text
+     * @param maxHeight max height;
+     * @return formatted title string
+     */
+    public static String getFormattedTitle(String text, int maxHeight) {
+        //Add bias
+        int effectiveSize = EFFECTIVE_SIZE - 2;
+        //Should be odd number for the best effect
+        String line = TOP_LEFT + HORIZONTAL_LINE.repeat(effectiveSize) + TOP_RIGHT + "\n";
+        int divisor = maxHeight / 2;
+        String middle = "";
+        for (int i = 0; i < maxHeight; i++) {
+            if (i == divisor) {
+                //Have to calculate the center
+                int bias = (int) Math.ceil((double) (effectiveSize - text.length()) / 2);
+                if ((effectiveSize - text.length()) % 2 == 0) {
+                    //If it's divisible by 2, we have to account bias
+                    middle += VERTICAL + SPACE.repeat(bias) + text + SPACE.repeat(bias) + VERTICAL + "\n";
+                } else {
+                    //If it's divisible by 2, we have to account bias
+                    middle += VERTICAL + SPACE.repeat(bias) + text + SPACE.repeat(bias - 1) + VERTICAL + "\n";
+                }
+
+            } else {
+                middle += VERTICAL + SPACE.repeat(effectiveSize) + VERTICAL + "\n";
+            }
+        }
+        String last = BOTTOM_LEFT + HORIZONTAL_LINE.repeat(effectiveSize) + BOTTOM_RIGHT;
+        return line + middle + last;
+    }
+
+    /**
+     * Returns the formatted lines of some options
+     *
+     * @param options options array
+     * @return formatted lines of some options
+     */
+    private static String getFormattedLines(Option[] options) {
+        //Find the max length of the options
+        int maxLength = 0;
+        for (Option s : options) {
+            //Assign the max to the length
+            maxLength = Integer.max(maxLength, s.getOption().length());
+        }
+        /*
+         * OPTION BOX WIDTH AND DETAILS
+         */
+        int optionBoxLength = padText(SPACE.repeat(maxLength), ROW_PADDING).length();
+        int optionBoxWidth = optionBoxLength + 2;
+        /*
+         * DESCRIPTION BOX WIDTH AND DETAILS
+         */
+        int descriptionBoxLength = EFFECTIVE_SIZE - optionBoxWidth;
+        int descriptionBoxWidth = descriptionBoxLength - 1;
+        //┌────────────────────────────────────────────────────────────────────────────────┐
+        String line = TOP_LEFT + HORIZONTAL_LINE.repeat(optionBoxLength) + TOP_VERTICAL // FIRST INITIAL BOX
+                + HORIZONTAL_LINE.repeat(descriptionBoxWidth) + TOP_RIGHT + "\n";
+
+        //Loop through the descriptions and print our result
+        String middle = "";
+        for (Option option : options) {
+            middle += wrapText(optionBoxWidth, descriptionBoxWidth, option.getOption(), option.getDescription());
+        }
+
+        String last = BOTTOM_LEFT + HORIZONTAL_LINE.repeat(optionBoxLength) + BOTTOM_VERTICAL //FIRST INITIAL BOX
+                + HORIZONTAL_LINE.repeat(descriptionBoxWidth) + BOTTOM_RIGHT;
+        return line + middle + last;
+    }
+
+    /**
+     * Returns the formatted divided lines for report generation
+     *
+     * @param option       option
+     * @param descriptions descriptions for subheaders
+     * @return formatted lines of some options
+     */
+    private static String getFormattedDivided(Option option, SubOptions[] descriptions) {
+        String optionMessage = option.getOption();
+        String description = option.getDescription();
+        /*
+         * OPTION BOX WIDTH AND DETAILS
+         */
+        int optionBoxLength = padText(optionMessage, ROW_PADDING).length();
+        int optionBoxWidth = optionBoxLength + 2;
+        /*
+         * DESCRIPTION BOX WIDTH AND DETAILS
+         */
+        int descriptionBoxLength = EFFECTIVE_SIZE - optionBoxWidth;
+        int descriptionBoxWidth = descriptionBoxLength - 1;
+
+        /*
+         *       SPACE and calculations
+         */
+        //Partition array for each description
+        Integer[] partitions = new Integer[descriptions.length];
+        Integer[] space = new Integer[descriptions.length];
+
+        //Loop through all the descriptions and initialize partition and spaces array
+        int runningSpace = 0;
+        for (int i = 0; i < descriptions.length; i++) {
+            //Total text space
+            space[i] = (int) Math.floor(descriptions[i].getProportion() * descriptionBoxWidth) - (2 * ROW_PADDING) - 1;
+            partitions[i] = (int) Math.ceil((double) descriptions[i].getDescription().length() / space[i]);
+            runningSpace += space[i];
+        }
+        //Total available text space
+        int availableTextSpace = descriptionBoxWidth - (descriptions.length * (2 * ROW_PADDING)) - descriptions.length;
+        //Prioritize last element
+        if (runningSpace < availableTextSpace) {
+            space[space.length - 1] += (availableTextSpace - runningSpace);
+        }
+        //Calculate our partitions after updating space
+        for (int i = 0; i < descriptions.length; i++) {
+            partitions[i] = (int) Math.ceil((double) descriptions[i].getDescription().length() / space[i]);
+        }
+        String line = TOP_LEFT + HORIZONTAL_LINE.repeat(optionBoxLength) + TOP_VERTICAL; // FIRST INITIAL BOX
+        for (int i = 0; i < descriptions.length; i++) {
+
+            line += HORIZONTAL_LINE.repeat(space[i] + (2 * ROW_PADDING));
+            if (i != descriptions.length - 1) {
+                line += TOP_VERTICAL;
+            } else {
+                line += HORIZONTAL_LINE + TOP_RIGHT;
+            }
+        }
+        line += "\n";
+
+
+        String middle = wrapTexts(optionBoxWidth, optionMessage, descriptions, partitions, space);
+
+        String last = BOTTOM_LEFT + HORIZONTAL_LINE.repeat(optionBoxLength) + BOTTOM_VERTICAL; //FIRST INITIAL BOX
+        for (int i = 0; i < descriptions.length; i++) {
+            last += HORIZONTAL_LINE.repeat(space[i] + (2 * ROW_PADDING));
+            if (i != descriptions.length - 1) {
+                last += BOTTOM_VERTICAL;
+            } else {
+                last += HORIZONTAL_LINE + BOTTOM_RIGHT;
+            }
+        }
+        return line + middle + last;
     }
 }

@@ -42,7 +42,7 @@ public class CampFilterByStudent implements CampFilterOperation {
                 continue;
             //Else check the faculty of this camp
             if (campFaculty.getClass() == ntu.getClass() || campFaculty.getClass() == f.getClass()) {
-                //If its either ntu or equals to the student, add it to the lsit
+                //If its either ntu or equals to the student, add it to the list
                 filteredCamps.add(c);
             }
         }

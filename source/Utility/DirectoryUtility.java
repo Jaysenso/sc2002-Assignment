@@ -29,4 +29,8 @@ public final class DirectoryUtility {
      * The path to our suggestions data file
      */
     public final static String SUGGESTIONS_DATA_PATH = "data/suggestions.csv";
+    /**
+     * The path to our report folders
+     */
+    public final static String REPORT_DATA_PATH = "data/reports/";
 }

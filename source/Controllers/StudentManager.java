@@ -16,7 +16,7 @@ import source.Utility.DirectoryUtility;
  */
 public final class StudentManager {
     /**
-     * The staff data access object that contains direct implementations to our database..
+     * The student data access object that contains direct implementations to our database..
      */
     private final StudentDao studentDao;
 

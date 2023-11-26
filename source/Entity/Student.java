@@ -76,6 +76,30 @@ public class Student extends User {
     }
 
     /**
+     * Adds an enquiry to the student enquiry list
+     *
+     * @param enquiry the enquiry of the student
+     */
+    public void addEnquiry(Enquiry enquiry) {
+        //Prevent duplicates
+        for (Enquiry e : enquiries) {
+            if (e.equals(enquiry))
+                return;
+        }
+        this.enquiries.add(enquiry);
+    }
+
+    /**
+     * Removes an enquiry from his registered camps
+     *
+     * @param enquiry the enquiry to remove
+     */
+    public void removeEnquiry(Enquiry enquiry) {
+
+        this.enquiries.remove(enquiry);
+    }
+
+    /**
      * Removes a camp from his registered camps
      *
      * @param camp the camp to remove

@@ -246,4 +246,31 @@ public class Enquiry {
     public void setReply(String reply) {
         this.reply = reply;
     }
+
+    /**
+     * Overloaded equals to treat two enquiries as equal if the name, camp name and content matches
+     * Triple level protection, should have just did some hashing id
+     */
+    @Override
+    public boolean equals(Object obj) {
+        // If the object is compared with itself then return true
+        if (obj == this) {
+            return true;
+        }
+
+        /* Check if o is an instance of Enquiry or not
+          "null instanceof [type]" also returns false */
+        if (!(obj instanceof Enquiry)) {
+            return false;
+        }
+
+        // typecast o to Enquiry so that we can compare data members
+        Enquiry c = (Enquiry) obj;
+
+        // Compare the data members and return accordingly
+        return campName.equals(c.getCampName())
+                && createdBy.equals(c.getCreatedBy())
+                && content.equals(c.getContent())
+                && title.equals(c.getTitle());
+    }
 }

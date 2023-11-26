@@ -109,7 +109,6 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
                 //Register Camp
                 case 1: {
                     boolean registerResult = campManager.registerAttendees(student,selectedCamp);
-
                     if(registerResult) {
                         campManager.updateCamp(selectedCamp);
                         studentManager.updateStudent(student);

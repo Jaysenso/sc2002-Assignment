@@ -231,7 +231,7 @@ public class Suggestion {
         if (obj == this) {
             return true;
         }
-        /* Check if o is an instance of Student or not
+        /* Check if o is an instance of Suggestion or not
           "null instanceof [type]" also returns false */
         if (!(obj instanceof Suggestion)) {
             return false;

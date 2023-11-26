@@ -49,9 +49,9 @@ public abstract class App {
      */
     public static void initialize() {
         userManager = new UserManager(user);
+        enquiryManager = new EnquiryManager();
         studentManager = new StudentManager();
         staffManager = new StaffManager();
-        enquiryManager = new EnquiryManager();
         suggestionManager = new SuggestionManager();
         campManager = new CampManager();
     }

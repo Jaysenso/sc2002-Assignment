@@ -1,5 +1,8 @@
 package source.FileIO.Serializer.Text;
 
+import source.Controllers.EnquiryManager;
+import source.Database.App;
+import source.Entity.Enquiry;
 import source.Entity.Student;
 import source.Faculty.Faculty;
 
@@ -25,6 +28,7 @@ public class StudentDeserializer implements TextDataDeserializer {
      */
     @Override
     public ArrayList deserialize(HashMap<String, ArrayList<String>> parsedData) {
+        EnquiryManager enquiryManager = App.getEnquiryManager();
         ArrayList studentList = new ArrayList();
         int len = parsedData.get("name").size();
         if (len == 0)
@@ -41,9 +45,18 @@ public class StudentDeserializer implements TextDataDeserializer {
             } catch (InvocationTargetException | NoSuchMethodException e) {
                 throw new RuntimeException(e);
             }
+
+            ArrayList<Enquiry> enquiries = new ArrayList<>();
+            //Loop through enquiries and find what's ours
+            for (Enquiry e : enquiryManager.getEnquiries()) {
+                if (e.getCreatedBy().equals(name))
+                    enquiries.add(e);
+            }
             String password = parsedData.get("password").get(i);
             int accumulatedPoints = Integer.valueOf(parsedData.get("points").get(i));
             Student student = new Student(name, userid, password, f, accumulatedPoints);
+            student.setEnquiries(enquiries);
+
             studentList.add(student);
         }
         return studentList;

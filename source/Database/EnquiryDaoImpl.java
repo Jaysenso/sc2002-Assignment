@@ -1,6 +1,7 @@
 package source.Database;
 
 import source.Database.Dao.EnquiryDao;
+import source.Entity.Camp;
 import source.Entity.Enquiry;
 import source.FileIO.Serializer.Text.EnquiryDeserializer;
 import source.FileIO.Serializer.Text.EnquirySerializer;
@@ -246,11 +247,14 @@ public class EnquiryDaoImpl extends BaseDaoImpl implements EnquiryDao {
      */
     @Override
     public boolean updateEnquiry(Enquiry enquiry) {
-        int pos = enquiryList.indexOf(enquiry);
-        //if the Enquiry list contains this Enquiry
-        if (pos != -1) {
-            //Then just copy it in for saving
-            enquiryList.set(pos, enquiry);
+        int i = 0;
+        for (; i < enquiryList.size(); i++) {
+            if (enquiryList.get(i).equals(enquiry)) {
+                break;
+            }
+        }
+        if (i != enquiryList.size()) {
+            enquiryList.set(i, enquiry);
             refresh();
             return true;
         }
@@ -280,7 +284,17 @@ public class EnquiryDaoImpl extends BaseDaoImpl implements EnquiryDao {
      */
     @Override
     public boolean deleteEnquiry(Enquiry enquiry) {
-        boolean removed = enquiryList.remove(enquiry);
+        int idx = 0;
+        boolean removed = false;
+        for (Enquiry e : enquiryList) {
+            if (e.equals(enquiry)) {
+                removed = true;
+                break;
+            }
+            idx++;
+        }
+        //Remove at idx
+        enquiryList.remove(idx);
         if (removed) {
             refresh();
             return true;

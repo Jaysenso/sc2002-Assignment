@@ -38,10 +38,6 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
      */
     Student student = (Student) App.getUser();
     /**
-     * The camp manager reference
-     */
-    private final CampManager campManager;
-    /**
      * The sorted camps that are displayed in this view model
      */
     private final ArrayList<Camp> sortedCamps;
@@ -57,9 +53,8 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
      */
     public StudentCampViewModel() {
         studentCampView = new StudentCampView();
-        campManager = App.getCampManager();
         //Initially, the filtered camps are all the normal camps
-        sortedCamps = campManager.getCamps();
+        sortedCamps = App.getCampManager().getCamps();
         filterManager = new FilterManager();
     }
 

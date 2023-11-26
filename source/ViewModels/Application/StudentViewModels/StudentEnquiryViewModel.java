@@ -2,6 +2,7 @@ package source.ViewModels.Application.StudentViewModels;
 
 import source.Controllers.EnquiryManager;
 import source.Database.App;
+import source.Entity.Camp;
 import source.Entity.Enquiry;
 import source.Entity.Student;
 import source.Utility.InputHandler;
@@ -54,7 +55,7 @@ public class StudentEnquiryViewModel extends BaseViewModel implements IViewModel
     public StudentEnquiryViewModel() {
         super();
         studentEnquiryView = new StudentEnquiryView();
-        enquiryManager = new EnquiryManager();
+        enquiryManager = App.getEnquiryManager();
     }
 
     /**
@@ -76,20 +77,24 @@ public class StudentEnquiryViewModel extends BaseViewModel implements IViewModel
     @Override
     public void handleInputs() {
         while (true) {
-            enquiries = enquiryManager.getStudentEnquiries(student.getName());
-            PrettyPage.printEnquiries(enquiries);
+            enquiries = student.getEnquiries();
+            //Handle the null text check
+            if (enquiries.isEmpty()) {
+                PrettyPage.printTitle("You do not have any enquiries!", 1);
+            } else {
+                PrettyPage.printEnquiries(enquiries);
+            }
             studentEnquiryView.display();
             int choice = InputHandler.tryGetInt(1, 3, "Input choice: ", "Invalid choice!");
             switch (choice) {
                 case 1: {
-                    //view
                     viewEnquiry();
                     break;
                 }
                 case 2: {
                     //delete
-                    int index = InputHandler.tryGetInt(1, enquiries.size(), "Enter Enquiry No.", "Invalid Enquiry");
-                    enquiryManager.deleteStudentEnquiry(enquiries.get(index - 1));
+                    int index = InputHandler.tryGetInt(1, enquiries.size(), "Enter Enquiry No: ", "Invalid Enquiry");
+                    enquiryManager.deleteStudentEnquiry(student, enquiries.get(index - 1));
                     break;
                 }
                 case 3: {
@@ -116,9 +121,10 @@ public class StudentEnquiryViewModel extends BaseViewModel implements IViewModel
      * A function to view enquiry
      */
     public void viewEnquiry() {
-        int index = InputHandler.tryGetInt(1, enquiries.size(), "Select Enquiry: ", "Enquiry not found");
-        boolean isLooping = true;
-        while (isLooping) {
+        //Get the input
+        int index = InputHandler.tryGetInt(1, enquiries.size(), "Select Enquiry: ", "Enquiry not found!");
+        Enquiry enquiry = enquiries.get(index - 1);
+        while (true) {
             Option[] options = {
                     new Option("1", "Edit Enquiry"),
                     new Option("2", "Delete Enquiry"),
@@ -126,27 +132,43 @@ public class StudentEnquiryViewModel extends BaseViewModel implements IViewModel
             };
             PrettyPage.printEnquiry(enquiries.get(index - 1));
             PrettyPage.printLinesWithHeader(options, "Choose your option");
-            int option = InputHandler.tryGetInt(1, 3, "Select Enquiry: ", "Enquiry not found");
+            int option = InputHandler.tryGetInt(1, 3, "Input choice: ", "Enquiry not found!");
+
             switch (option) {
                 case 1: {
-                    System.out.println("Enter new Title");
-                    String newTitle = InputHandler.getString();
-                    System.out.println("Enter new Content");
-                    String newContent = InputHandler.getString();
-                    enquiries.get(index - 1).setTitle(newTitle);
-                    enquiries.get(index - 1).setContent(newContent);
-                    enquiryManager.editStudentEnquiry(enquiries.get(index - 1));
+                    if (enquiry.getProcessed()) {
+                        PrettyPage.printError("You cannot edit the enquiry anymore after it was processed");
+                        break;
+                    }
+                    System.out.print("Enter new title: ");
+                    String newTitle = InputHandler.tryGetString();
+                    System.out.print("Enter new content: ");
+                    String newContent = InputHandler.tryGetString();
+                    //Brute force the enquiry to make sure it saves
+                    //Forcefully handle ID changes so that the match is found in the db
+                    for (Enquiry e : enquiryManager.getEnquiries()) {
+                        if (e.getTitle().equals(enquiry.getTitle()) && e.getContent().equals(enquiry.getContent())) {
+                            e.setTitle(newTitle);
+                            e.setContent(newContent);
+                            break;
+                        }
+                    }
+                    enquiry.setTitle(newTitle);
+                    enquiry.setContent(newContent);
+                    //Then update the
+                    enquiryManager.updateEnquiry(enquiry);
                     break;
                 }
                 case 2: {
-                    enquiryManager.deleteStudentEnquiry(enquiries.get(index - 1));
-                    isLooping = false;
-                    break;
+                    if (enquiry.getProcessed()) {
+                        PrettyPage.printError("You cannot edit the enquiry anymore after it was processed");
+                        break;
+                    }
+                    enquiryManager.deleteStudentEnquiry(student, enquiry);
+                    return;
                 }
                 case 3: {
-                    viewManager.returnToPreviousView();
-                    isLooping = false;
-                    break;
+                    return;
                 }
             }
         }

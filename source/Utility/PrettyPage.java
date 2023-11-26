@@ -449,6 +449,8 @@ public class PrettyPage {
      * @param enquiries the list of camps
      */
     public static void printEnquiries(ArrayList<Enquiry> enquiries) {
+        if (enquiries.isEmpty())
+            return;
         printLineDivided(new Option("N", "test"),
                 new SubOptions[]{
                         new SubOptions("Name", 0.325f),
@@ -464,7 +466,7 @@ public class PrettyPage {
                 repliedBy = "N/A";
 
             LocalDate date = e.getRepliedDate();
-            String repliedDate = (date == null) ? "N/A" :DTFormatter.formatLocal(date);
+            String repliedDate = (date == null) ? "N/A" : DTFormatter.formatLocal(date);
 
             printLineDivided(
                     new Option(String.valueOf(i + 1), ""),

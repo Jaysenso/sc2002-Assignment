@@ -1,5 +1,5 @@
-camp_name,location,current_slot,max_slots,committee_slots,max_committee_slots,description,staff_in_charge,start_date,end_date,closing_date,faculty,visibility,attendees,camp_committee
-funfun,call me location changer,0,50,0,5,wow this shit so cool i can edit description,Madhukumar,2023-12-11,2023-12-11,2024-12-12,SCSE,false,N/A,N/A
-NTU WIDE STUFF,AIA CANOPY,0,50,0,9,for fonzos,Madhukumar,2023-12-12,2023-12-30,2023-11-30,NTU,true,N/A,N/A
-SCSE TOp,N4,0,100,0,10,scse top stuff,Madhukumar,2023-12-20,2023-12-22,2023-12-10,SCSE,true,N/A,N/A
-ourin gay castle,ntu,0,5,0,4,ourin gay castle is so fun,Alexei,2023-12-11,2023-12-12,2023-12-10,ADM,true,N/A,N/A
+camp_name,location,current_slot,max_slots,committee_slots,max_committee_slots,description,staff_in_charge,start_date,end_date,closing_date,faculty,visibility,attendees,camp_committee,blacklisted
+funfun,call me location changer,0,10,0,5,wow this shit so cool i can edit description,Madhukumar,2023-12-11,2023-12-11,2023-12-10,SCSE,true,N/A,N/A,CHERN
+NTU WIDE STUFF,AIA CANOPY,0,50,0,9,for fonzos,Madhukumar,2023-12-12,2023-12-30,2023-11-30,NTU,true,N/A,N/A,N/A
+SCSE TOp,N4,0,100,0,10,scse top stuff,Madhukumar,2023-12-20,2023-12-22,2023-12-10,SCSE,true,N/A,N/A,N/A
+ourin gay castle,ntu,0,5,0,4,ourin gay castle is so fun,Alexei,2023-12-11,2023-12-12,2023-12-10,ADM,true,N/A,N/A,N/A

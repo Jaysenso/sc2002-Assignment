@@ -279,7 +279,7 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
                 regDate,
                 faculty
         );
-        Camp newCamp = new Camp(info, visibility, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        Camp newCamp = new Camp(info, visibility, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
         return newCamp;
     }
 }

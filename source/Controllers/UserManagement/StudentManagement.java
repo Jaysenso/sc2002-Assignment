@@ -2,8 +2,13 @@ package source.Controllers.UserManagement;
 
 import source.Controllers.StudentManager;
 import source.Database.App;
+import source.Entity.Camp;
 import source.Entity.Student;
 import source.Entity.User;
+import source.Utility.Option;
+import source.Utility.PrettyPage;
+
+import java.util.ArrayList;
 
 /**
  * The IManagement context provides an abstraction layer for user management.
@@ -45,6 +50,32 @@ public class StudentManagement implements IManagement {
     @Override
     public void update() {
         studentManager.updateStudent(student);
-
     }
+
+    /**
+     * Print the profile details
+     */
+    @Override
+    public void getProfile() {
+        String registeredCamps = "";
+        ArrayList<Camp> rc = student.getRegisteredCamps();
+        for (int i = 0; i < rc.size(); i++) {
+            registeredCamps += rc.get(i).getCampInfo().getName();
+            if (i != rc.size() - 1)
+                registeredCamps += ", ";
+        }
+        Option[] options = new Option[]{
+                new Option("Name", student.getName()),
+                new Option("Faculty", student.getFacultyInfo().getClass().getSimpleName()),
+                new Option("UserID", student.getUserID()),
+                new Option("Email", student.getUserID() + "@e.ntu.edu.sg"),
+                new Option("Camp Committee of",
+                        (student.getIsCampCommittee() != null)
+                                ? student.getIsCampCommittee().getCampInfo().getName()
+                                : "N/A"),
+                new Option("Registered Camps", registeredCamps)
+        };
+        PrettyPage.printLines(options);
+    }
+
 }

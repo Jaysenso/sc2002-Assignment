@@ -37,7 +37,8 @@ public class CampSerializer extends BaseSerializer implements TextDataSerializer
             "faculty",
             "visibility",
             "attendees",
-            "camp_committee"
+            "camp_committee",
+            "blacklisted"
 
     };
 
@@ -83,9 +84,11 @@ public class CampSerializer extends BaseSerializer implements TextDataSerializer
                 //Get the lists
                 ArrayList<Student> attendees = camp.getAttendees();
                 ArrayList<Student> committeeMembers = camp.getCampCommitteeMembers();
+                ArrayList<Student> blacklistedMembers = camp.getBlacklisted();
 
                 String[] attendeeNames = new String[attendees.size()];
                 String[] committeeNames = new String[committeeMembers.size()];
+                String[] blacklistedNames = new String[blacklistedMembers.size()];
 
                 //Convert them into string[]
                 for (int j = 0; j < attendees.size(); j++) {
@@ -93,6 +96,9 @@ public class CampSerializer extends BaseSerializer implements TextDataSerializer
                 }
                 for (int j = 0; j < committeeMembers.size(); j++) {
                     committeeNames[j] = committeeMembers.get(j).getName();
+                }
+                for (int j = 0; j < blacklistedMembers.size(); j++) {
+                    blacklistedNames[j] = blacklistedMembers.get(j).getName();
                 }
                 //Build attendee string
                 String serializedAttendees = SerializeBuilder.buildSerializedString(attendeeNames,
@@ -102,12 +108,18 @@ public class CampSerializer extends BaseSerializer implements TextDataSerializer
                 String serializedCommittee = SerializeBuilder.buildSerializedString(committeeNames,
                         '|'
                 );
-
+                //Build blacklist string
+                String serializedBlacklist = SerializeBuilder.buildSerializedString(blacklistedNames,
+                        '|'
+                );
                 if (serializedAttendees.isEmpty()) {
                     serializedAttendees = "N/A";
                 }
                 if (serializedCommittee.isEmpty()) {
                     serializedCommittee = "N/A";
+                }
+                if (serializedBlacklist.isEmpty()) {
+                    serializedBlacklist = "N/A";
                 }
 
                 //Parse the description data
@@ -130,7 +142,8 @@ public class CampSerializer extends BaseSerializer implements TextDataSerializer
                                 campInfo.getFaculty().getClass().getSimpleName(),
                                 String.valueOf(camp.getVisibility()),
                                 serializedAttendees,
-                                serializedCommittee
+                                serializedCommittee,
+                                serializedBlacklist
                         },
                         delimiter
                 );

@@ -12,4 +12,6 @@ public interface IManagement {
      * Update the user in the associated databases
      */
     void update();
+
+    void getProfile();
 }

@@ -464,14 +464,14 @@ public class PrettyPage {
                 repliedBy = "N/A";
 
             LocalDate date = e.getRepliedDate();
-            String repliedDate = (date == null) ? "N/A" : date.toString();
+            String repliedDate = (date == null) ? "N/A" :DTFormatter.formatLocal(date);
 
             printLineDivided(
                     new Option(String.valueOf(i + 1), ""),
                     new SubOptions[]{
                             new SubOptions(e.getTitle(), 0.325f),
                             new SubOptions(e.getCreatedBy(), 0.15f),
-                            new SubOptions(e.getCreatedDate().toString(), 0.175f),
+                            new SubOptions(DTFormatter.formatLocal(e.getCreatedDate()), 0.175f),
                             new SubOptions(repliedBy, 0.15f),
                             new SubOptions(repliedDate, 0.175f)
                     }
@@ -501,8 +501,8 @@ public class PrettyPage {
                     new Option(String.valueOf(i + 1), description),
                     new SubOptions[]{
                             new SubOptions(description, 0.3f),
-                            new SubOptions(campInfo.getStartDate().toString(), 0.175f),
-                            new SubOptions(campInfo.getEndDate().toString(), 0.175f),
+                            new SubOptions(DTFormatter.formatLocal(campInfo.getStartDate()), 0.175f),
+                            new SubOptions(DTFormatter.formatLocal(campInfo.getEndDate()), 0.175f),
                             new SubOptions(campInfo.getFaculty().getClass().getSimpleName(), 0.2f),
                             new SubOptions(campInfo.getCurrentSlots() + "/" + campInfo.getMaxSlots(), 0.1f)
                     }

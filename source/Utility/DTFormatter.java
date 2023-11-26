@@ -19,4 +19,9 @@ public class DTFormatter {
     public static String formatDateTimeToLocal(LocalDate date) {
         return date.format(java.time.format.DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL));
     }
+
+    public static String formatLocal(LocalDate date) {
+        String d = date.getDayOfMonth() + "/" + date.getMonthValue() + "/" + date.getYear();
+        return d;
+    }
 }

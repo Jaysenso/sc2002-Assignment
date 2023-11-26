@@ -96,7 +96,7 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
                     } else {
                         int index = InputHandler.tryGetInt(1, filteredCamps.size(), "Input camp choice: ", "Invalid Camp Selected");
                         Camp selectedCamp = filteredCamps.get(index - 1);
-
+                        //Go to a different model if the student is a camp committee of...
                         if (student.getIsCampCommittee() != null && student.getIsCampCommittee().equals(selectedCamp)) {
                             viewManager.changeView(new CampCommitteeViewModel(selectedCamp));
                         } else {
@@ -139,6 +139,14 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
      */
     public void viewRegisteredCamps() {
         ArrayList<Camp> registeredCamps = student.getRegisteredCamps();
+        //Handle different options lazily
+        if (registeredCamps.isEmpty()) {
+            PrettyPage.printTitle("You have not registered for any camps!", 1);
+            PrettyPage.printLineWithHeader(new Option("1", "Back"), "Choose your option");
+            InputHandler.tryGetInt(1, 1, "Input choice: ", "Invalid choice!");
+            return;
+        }
+
         PrettyPage.printCamps(registeredCamps);
         Option[] options = {
                 new Option("1", "Select Camp"),
@@ -149,7 +157,7 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
         switch (choice) {
             case 1: {
                 if (student.getRegisteredCamps().isEmpty()) {
-                    PrettyPage.printTitle("There are no camps to view!",1);
+                    PrettyPage.printTitle("There are no camps to view!", 1);
                 } else {
                     int index = InputHandler.tryGetInt(1, registeredCamps.size(), "Input camp choice: ", "Invalid Camp Selected");
                     Camp selectedCamp = registeredCamps.get(index - 1);

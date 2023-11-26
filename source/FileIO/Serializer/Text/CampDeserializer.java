@@ -80,6 +80,7 @@ public class CampDeserializer implements TextDataDeserializer {
                     visibility,
                     new ArrayList<>(),
                     new ArrayList<>(),
+                    new ArrayList<>(),
                     new ArrayList<>());
 
             //Handle the staff camp list
@@ -92,14 +93,27 @@ public class CampDeserializer implements TextDataDeserializer {
             //Handle the mapping of attendees and committee members
             String attendee = parsedData.get("attendees").get(i);
             String committee = parsedData.get("camp_committee").get(i);
+            String blacklisted = parsedData.get("blacklisted").get(i);
             //Split by our specified delimiter
             String[] attendees = attendee.split("\\|");
             String[] committeeMembers = committee.split("\\|");
+            String[] blacklistedMembers = blacklisted.split("\\|");
 
             //Then make our array list
             ArrayList<Student> attendeeList = new ArrayList<Student>();
             ArrayList<Student> committeeList = new ArrayList<Student>();
+            ArrayList<Student> blackListedList = new ArrayList<>();
 
+            //Update blacklisted
+            if (!blacklisted.equals("N/A")) {
+                for (String s : blacklistedMembers) {
+                    //Use dao to get our student object
+                    Student student = manager.readStudent(new DatabaseQuery(s, "name"));
+                    if (student != null) {
+                        camp.addBlacklisted(student);
+                    }
+                }
+            }
             if (!attendee.equals("N/A")) {
                 //Handle attendees
                 for (String s : attendees) {

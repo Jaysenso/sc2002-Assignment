@@ -1,6 +1,8 @@
 package source.ViewModels.Application;
 
 import source.Database.App;
+import source.Entity.Camp;
+import source.Entity.Student;
 import source.Entity.User;
 import source.Utility.*;
 import source.ViewModels.Application.Apps.LoginViewModel;
@@ -9,6 +11,8 @@ import source.ViewModels.IViewModel;
 import source.ViewModels.ViewManager;
 import source.Views.Application.ChangePasswordView;
 import source.Views.Application.ProfileView;
+
+import java.util.ArrayList;
 
 /**
  * The ProfileViewModel holds all the logic and necessary UI for displaying the profile
@@ -90,14 +94,7 @@ public class ProfileViewModel extends BaseViewModel implements IViewModel {
      */
     public void printProfile() {
         PrettyPage.printTitle("Your Profile", 1);
-        User user = App.getUser();
-        Option[] options = {
-                new Option("Name", user.getName()),
-                new Option("Faculty", user.getFacultyInfo().getClass().getSimpleName()),
-                new Option("UserID", user.getUserID()),
-                new Option("Email", user.getUserID() + "@e.ntu.edu.sg")
-        };
-        PrettyPage.printLines(options);
+        App.getUserManager().getProfile();
     }
 
     /**

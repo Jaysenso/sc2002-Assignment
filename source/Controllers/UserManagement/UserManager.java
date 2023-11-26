@@ -55,5 +55,10 @@ public class UserManager {
             management.update();
     }
 
+    public void getProfile() {
+        if (management != null)
+            management.getProfile();
+    }
+
 
 }

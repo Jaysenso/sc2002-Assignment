@@ -61,7 +61,6 @@ public class StaffInChargeOperationsViewModel extends BaseViewModel implements I
     @Override
     public void init(ViewManager viewManager) {
         super.init(viewManager);
-        campManager.loadContext();
         PrettyPage.printCampDetails(selectedCamp);
         staffOperationsView.display();
         handleInputs();

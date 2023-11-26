@@ -2,10 +2,7 @@ package source.ViewModels.Application.StaffViewModels;
 
 import source.Controllers.SuggestionManager;
 import source.Database.App;
-import source.Entity.Camp;
-import source.Entity.Staff;
-import source.Entity.Suggestion;
-import source.Entity.User;
+import source.Entity.*;
 import source.Utility.InputHandler;
 import source.Utility.Option;
 import source.Utility.PrettyPage;
@@ -15,6 +12,7 @@ import source.ViewModels.ViewManager;
 import source.Views.Application.StaffView.StaffSuggestionView;
 import source.Views.Application.StudentView.CampCommitteeSuggestionView;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -37,7 +35,6 @@ public class StaffSuggestionViewModel extends BaseViewModel implements IViewMode
      * @see Suggestion
      */
     private final SuggestionManager suggestionManager;
-    private final User campCommittee = (Staff) App.getUser();
     /**
      * The selected camp to be stored in this view model
      */
@@ -147,8 +144,20 @@ public class StaffSuggestionViewModel extends BaseViewModel implements IViewMode
                             "y", "n"
                     });
                     suggestion.setApproved(input.equals("y"));
+                    suggestion.setRepliedBy(App.getUser().getUserID());
+                    suggestion.setRepliedDate(LocalDate.now());
                     suggestion.setProcessed(true);
-                    suggestionManager.editSuggestion(suggestion);
+
+                    //If suggestion approved then update the students
+                    if (suggestion.getApproved()) {
+                        //increment points here
+                        Student s = App.getStudentManager().getStudent(suggestion.getCreatedBy());
+                        if (s != null) {
+                            s.setAccumulatedPoints(s.getAccumulatedPoints() + 1);
+                            App.getStudentManager().updateStudent(s);
+                        }
+                    }
+                    suggestionManager.update(suggestion);
                     break;
                 }
                 case 2: {

@@ -118,6 +118,7 @@ public class ReplyEnquiryViewModel extends BaseViewModel implements IViewModel {
         switch (choice) {
             case 1: {
                 enquiryManager.replyEnquiry(selectedEnquiry, App.getUser());
+                App.getUserManager().update();
                 PrettyPage.printLine(new Option("Success", "You have replied to the enquiry."));
                 break;
             }

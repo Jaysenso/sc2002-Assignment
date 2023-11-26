@@ -3,8 +3,8 @@ package source.ViewModels.Application.StudentViewModels;
 import source.Controllers.SuggestionManager;
 import source.Database.App;
 import source.Entity.Camp;
+import source.Entity.Student;
 import source.Entity.Suggestion;
-import source.Entity.User;
 import source.Utility.InputHandler;
 import source.Utility.Option;
 import source.Utility.PrettyPage;
@@ -36,7 +36,7 @@ public class CampCommitteeSuggestionViewModel extends BaseViewModel implements I
     /**
      * The user from the app's contexts
      */
-    private final User campCommittee = App.getUser();
+    private final Student campCommittee;
     /**
      * The selected camp in this view model
      */
@@ -50,6 +50,7 @@ public class CampCommitteeSuggestionViewModel extends BaseViewModel implements I
     public CampCommitteeSuggestionViewModel(Camp selectedCamp) {
         this.selectedCamp = selectedCamp;
         suggestionManager = App.getSuggestionManager();
+        campCommittee = (Student) App.getUser();
         campCommitteeSuggestionView = new CampCommitteeSuggestionView();
     }
 
@@ -85,6 +86,7 @@ public class CampCommitteeSuggestionViewModel extends BaseViewModel implements I
                 case 1: {
                     //View suggestion
                     if (suggestions.isEmpty()) {
+                        //PrettyPage.printTitle("There are no suggestions to display!", 1);
                         break;
                     }
                     int index = InputHandler.tryGetInt(1, suggestions.size(), "Select Suggestion: ", "Invalid Suggestion");
@@ -95,6 +97,10 @@ public class CampCommitteeSuggestionViewModel extends BaseViewModel implements I
                 case 2: {
                     //create
                     suggestionManager.createSuggestion(selectedCamp.getCampInfo().getName(), campCommittee.getUserID());
+                    //Increment one point
+                    campCommittee.setAccumulatedPoints(campCommittee.getAccumulatedPoints() + 1);
+                    //Save the points
+                    App.getUserManager().update();
                     break;
                 }
                 case 3: {
@@ -129,13 +135,28 @@ public class CampCommitteeSuggestionViewModel extends BaseViewModel implements I
             int choice = InputHandler.tryGetInt(1, 3, "Choose option: ", "Invalid Option");
             switch (choice) {
                 case 1: {
+                    if (suggestion.getProcessed()) {
+                        PrettyPage.printError("You cannot edit the suggestion anymore after it was processed");
+                        break;
+                    }
                     System.out.print("Enter new content: ");
                     String newContent = InputHandler.getString();
+                    //Forcefully handle ID changes so that the match is found in the db
+                    for (Suggestion s : suggestionManager.getSuggestions()) {
+                        if (s.getContent().equals(suggestion.getContent())) {
+                            s.setContent(newContent);
+                            break;
+                        }
+                    }
                     suggestion.setContent(newContent);
-                    suggestionManager.editSuggestion(suggestion);
+                    suggestionManager.update(suggestion);
                     break;
                 }
                 case 2: {
+                    if (suggestion.getProcessed()) {
+                        PrettyPage.printError("You cannot edit the suggestion anymore after it was processed");
+                        break;
+                    }
                     suggestionManager.deleteSuggestion(suggestion);
                     return;
                 }

@@ -46,4 +46,17 @@ public final class StudentManager {
         studentDao.updateStudent(student);
     }
 
+    /**
+     * A function to get a student from the database given their userID
+     *
+     * @param userID the user id of the student
+     * @return student object
+     */
+    public Student getStudent(String userID) {
+        for (Student s : studentDao.getStudents()) {
+            if (s.getUserID().equals(userID))
+                return s;
+        }
+        return null;
+    }
 }

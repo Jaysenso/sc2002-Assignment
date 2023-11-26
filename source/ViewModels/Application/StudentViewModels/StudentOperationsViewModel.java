@@ -108,8 +108,8 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
             switch (choice) {
                 //Register Camp
                 case 1: {
-                    boolean registerResult = campManager.registerAttendees(student,selectedCamp);
-                    if(registerResult) {
+                    boolean registerResult = campManager.registerAttendees(student, selectedCamp);
+                    if (registerResult) {
                         campManager.updateCamp(selectedCamp);
                         studentManager.updateStudent(student);
                     }
@@ -121,6 +121,8 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
                 case 2: {
                     Enquiry enquiry = enquiryManager.getUserQuery(selectedCamp.getCampInfo().getName(), student.getName());
                     enquiryManager.addEnquiry(enquiry, student);
+                    //Update camp enquiry
+                    selectedCamp.addEnquiry(enquiry);
                     PrettyPage.printLine(new Option("Success", "You have successfully sent your enquiry!"));
                     //reprint the camp and display the operations
                     PrettyPage.printCampDetails(selectedCamp);
@@ -130,9 +132,9 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
                 }
                 //Apply Camp Committee
                 case 3: {
-                    boolean registerResult = campManager.registerCommittees(student,selectedCamp);
+                    boolean registerResult = campManager.registerCommittees(student, selectedCamp);
 
-                    if(registerResult) {
+                    if (registerResult) {
                         campManager.updateCamp(selectedCamp);
                         studentManager.updateStudent(student);
                         viewManager.returnToPreviousView();

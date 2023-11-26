@@ -403,7 +403,7 @@ public class PrettyPage {
                 new Option("User Group", campInfo.getFaculty().getClass().getSimpleName()),
                 new Option("Attendees ", attendees),
                 new Option("Camp Committee Members ", committeeMembers),
-                new Option("Current Total Slots", campInfo.getCurrentSlots() + "/" + campInfo.getMaxSlots()),
+                new Option("Current Total Slots", camp.getCampInfoCurrentSlots() + "/" + campInfo.getMaxSlots()),
                 new Option("Current Camp Committee Slots", campInfo.getCampCommitteeSlots() + "/" + campInfo.getMaxCampCommitteeSlots()),
                 new Option("Description", campInfo.getDescription()),
                 new Option("Staff in Charge", campInfo.getStaffInCharge())

@@ -3,10 +3,7 @@ package source.Controllers;
 import source.Database.Dao.EnquiryDao;
 import source.Database.DatabaseQuery;
 import source.Database.EnquiryDaoImpl;
-import source.Entity.Enquiry;
-import source.Entity.Staff;
-import source.Entity.Student;
-import source.Entity.User;
+import source.Entity.*;
 import source.Utility.DirectoryUtility;
 import source.Utility.InputHandler;
 import source.Utility.PrettyPage;
@@ -113,15 +110,29 @@ public class EnquiryManager {
      * Handles the logic of replying to an enquiry
      *
      * @param enquiry the enquiry
-     * @param user    the logged in user reference
+     * @param user    the logged-in user reference
      */
     public void replyEnquiry(Enquiry enquiry, User user) {
         LocalDate createdDate = LocalDate.now();
         System.out.print("Enter reply message: ");
         String replyMessage = InputHandler.tryGetString();
+        //Loop through and find the relevant entries
+        for (Enquiry e : enquiryDao.getEnquiries()) {
+            if (e.equals(enquiry)) {
+                e.setReply(replyMessage);
+                break;
+            }
+        }
         enquiry.setReply(replyMessage);
         //Then assign the user types and
         String userType = (user instanceof Staff) ? "Staff in Charge" : "Camp Committee Member";
+
+        //Check if it student or staff
+        if (user instanceof Student) {
+            Student s = (Student) user;
+            //Increment the points of the student
+            s.setAccumulatedPoints(s.getAccumulatedPoints() + 1);
+        }
         enquiry.setRepliedDate(createdDate);
         enquiry.setRepliedBy(user.getUserID() + " (" + userType + ")");
         enquiry.setProcessed(true);

@@ -129,7 +129,7 @@ public class Camp {
      *
      * @param enquiry enquiry to add
      */
-    public void addInquiry(Enquiry enquiry) {
+    public void addEnquiry(Enquiry enquiry) {
         this.enquiryList.add(enquiry);
     }
 
@@ -187,6 +187,13 @@ public class Camp {
     public void updateCampInfoCurrentSlots() {
         int currentSlots = attendees.size() + campCommitteeMembers.size();
         this.campInfo.setCurrentSlots(currentSlots);
+    }
+
+    /**
+     * Acquires the total effective slots of the camp
+     */
+    public int getCampInfoCurrentSlots() {
+        return attendees.size() + campCommitteeMembers.size();
     }
 
     /**

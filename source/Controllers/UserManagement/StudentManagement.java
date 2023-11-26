@@ -64,6 +64,10 @@ public class StudentManagement implements IManagement {
             if (i != rc.size() - 1)
                 registeredCamps += ", ";
         }
+        if(registeredCamps.isEmpty()){
+            registeredCamps = "N/A";
+        }
+
         Option[] options = new Option[]{
                 new Option("Name", student.getName()),
                 new Option("Faculty", student.getFacultyInfo().getClass().getSimpleName()),
@@ -73,7 +77,8 @@ public class StudentManagement implements IManagement {
                         (student.getIsCampCommittee() != null)
                                 ? student.getIsCampCommittee().getCampInfo().getName()
                                 : "N/A"),
-                new Option("Registered Camps", registeredCamps)
+                new Option("Registered Camps", registeredCamps),
+                new Option("Points", String.valueOf(student.getAccumulatedPoints()))
         };
         PrettyPage.printLines(options);
     }

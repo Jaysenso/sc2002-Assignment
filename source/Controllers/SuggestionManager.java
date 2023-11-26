@@ -2,10 +2,8 @@ package source.Controllers;
 
 
 import source.Database.Dao.SuggestionDao;
-import source.Database.DatabaseQuery;
 import source.Database.SuggestionDaoImpl;
 import source.Entity.Camp;
-import source.Entity.Enquiry;
 import source.Entity.Suggestion;
 import source.Utility.DirectoryUtility;
 import source.Utility.InputHandler;
@@ -34,6 +32,11 @@ public final class SuggestionManager {
         this.suggestionDao = new SuggestionDaoImpl(DirectoryUtility.SUGGESTIONS_DATA_PATH);
     }
 
+    /**
+     * Acquires all the suggestions belonging to a camp committee
+     *
+     * @return an array list of suggestions
+     */
     public ArrayList<Suggestion> getCampCommitteeSuggestions(String name) {
         ArrayList<Suggestion> filtered = new ArrayList<>();
         ArrayList<Suggestion> suggestions = suggestionDao.getSuggestions();
@@ -67,11 +70,31 @@ public final class SuggestionManager {
         suggestionDao.createSuggestion(newSuggestion);
     }
 
+    /**
+     * Deletes a suggestion from the database
+     *
+     * @param suggestion suggestions
+     */
     public void deleteSuggestion(Suggestion suggestion) {
         suggestionDao.deleteSuggestion(suggestion);
     }
 
-    public void editSuggestion(Suggestion suggestion) {
+    /**
+     * Updates a suggestion in our database
+     *
+     * @param suggestion suggestions
+     */
+    public void update(Suggestion suggestion) {
         suggestionDao.updateSuggestion(suggestion);
     }
+
+    /**
+     * Acquires the list of suggestions
+     *
+     * @return array list of suggestions
+     */
+    public ArrayList<Suggestion> getSuggestions() {
+        return suggestionDao.getSuggestions();
+    }
+
 }

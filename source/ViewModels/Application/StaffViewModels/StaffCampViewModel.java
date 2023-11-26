@@ -86,13 +86,14 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
     public void handleInputs() {
         int choice;
         do {
-            PrettyPage.printCamps(campManager.getCamps());
+            ArrayList<Camp> camps = campManager.getCamps();
+            PrettyPage.printCamps(camps);
             staffCampView.display();
             choice = InputHandler.tryGetInt(1, 5, "Input choice: ", "Invalid choice!");
             switch (choice) {
                 case 1: {
-                    int index = InputHandler.tryGetInt(1, campManager.getCamps().size(), "Input camp choice : ", "Invalid Camp");
-                    Camp selectedCamp = campManager.getCamps().get(index - 1);
+                    int index = InputHandler.tryGetInt(1, camps.size(), "Input camp choice: ", "Invalid choice!");
+                    Camp selectedCamp = camps.get(index - 1);
                     if (App.getUser().getName().equals(selectedCamp.getCampInfo().getStaffInCharge())) {
                         viewManager.changeView(new StaffInChargeOperationsViewModel(selectedCamp));
                     } else {
@@ -111,6 +112,7 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
                         s.addCreatedCamp(camp);
                         staffManager.updateStaff(s);
                     }
+                    PrettyPage.printLine(new Option("Success", "You have created the camp."));
                     //Then print out all the camps after creating that new camp
                     PrettyPage.printCamps(campManager.getCamps());
                     break;
@@ -147,17 +149,18 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
         EnquiryManager enquiryManager = App.getEnquiryManager();
         boolean isLooping = true;
         while (isLooping) {
+            //Print the camp details first
             PrettyPage.printCampDetails(selectedCamp);
             staffOperationsView.display();
-            int choice = InputHandler.tryGetInt(1, 2, "Choose option: ", "Invalid Key");
+            int choice = InputHandler.tryGetInt(1, 2, "Choose option: ", "Invalid choice!");
             switch (choice) {
                 case 1: {
-                    PrettyPage.printEnquiries(enquiryManager.getCampEnquiries(selectedCamp.getCampInfo().getName()));
+                    PrettyPage.printEnquiries(selectedCamp.getEnquiryList());
                     Option[] options = {
                             new Option("1", "Back"),
                     };
                     PrettyPage.printLinesWithHeader(options, "Go Back");
-                    int back = InputHandler.tryGetInt(1, 1, "Go Back? : ", "Invalid Key");
+                    int back = InputHandler.tryGetInt(1, 1, "Go Back?: ", "Invalid choice!");
                     if (back == 1) isLooping = false;
                     break;
                 }

@@ -3,6 +3,7 @@ package source.Views.Application.StaffView;
 import source.Utility.Option;
 import source.Utility.PrettyPage;
 import source.Views.IView;
+
 /**
  * The StaffSuggestionView class contains the necessary UI elements to display suggestions for staff
  *
@@ -15,7 +16,7 @@ public class StaffSuggestionView implements IView {
     public void display() {
         Option[] options = {
                 new Option("1", "View Suggestion"),
-                new Option("3", "Back"),
+                new Option("2", "Back"),
         };
         PrettyPage.printLinesWithHeader(options, "Choose your option.");
     }

@@ -4,7 +4,6 @@ import source.Controllers.EnquiryManager;
 import source.Database.App;
 import source.Entity.Camp;
 import source.Entity.Enquiry;
-import source.Entity.User;
 import source.Utility.InputHandler;
 import source.Utility.Option;
 import source.Utility.PrettyPage;
@@ -30,11 +29,14 @@ public class ReplyEnquiryViewModel extends BaseViewModel implements IViewModel {
      * @see ReplyEnquiryView
      */
     private final ReplyEnquiryView replyEnquiryView;
-
+    /**
+     * The enquiry manager reference
+     */
     private final EnquiryManager enquiryManager;
-
+    /**
+     * The selected camp to be passed into this view model
+     */
     private final Camp selectedCamp;
-    private final User user = App.getUser();
 
     /**
      * A default constructor.
@@ -67,7 +69,7 @@ public class ReplyEnquiryViewModel extends BaseViewModel implements IViewModel {
     public void handleInputs() {
         int choice;
         while (true) {
-            ArrayList<Enquiry> enquiries = enquiryManager.getCampEnquiries(selectedCamp.getCampInfo().getName());
+            ArrayList<Enquiry> enquiries = selectedCamp.getEnquiryList();
             PrettyPage.printEnquiries(enquiries);
             replyEnquiryView.display();
             choice = InputHandler.tryGetInt(1, 2, "Input choice: ", "Invalid choice!");
@@ -95,21 +97,28 @@ public class ReplyEnquiryViewModel extends BaseViewModel implements IViewModel {
         System.out.flush(); //NOTE: Does not work in IntelliJ IDEA as it is not a real terminal.
     }
 
+    /**
+     * Handles the logic of replying to the enquiry
+     */
     public void replyToEnquiry(Enquiry selectedEnquiry) {
-
+        //Print this enquiry
+        PrettyPage.printEnquiry(selectedEnquiry);
+        //Just do it easily
+        if (selectedEnquiry.getProcessed()) {
+            PrettyPage.printLineWithHeader(new Option("1", "Back"), "Select Option: ");
+            InputHandler.tryGetInt(1, 1, "Input choice: ", "Invalid choice");
+            return;
+        }
         Option[] options = {
                 new Option("1", "Reply to enquiry"),
                 new Option("2", "Back"),
         };
-
-        PrettyPage.printEnquiry(selectedEnquiry);
         PrettyPage.printLinesWithHeader(options, "Select Option: ");
-
-        int choice = InputHandler.tryGetInt(1, 2, "Input Choice: ", "Invalid Option");
+        int choice = InputHandler.tryGetInt(1, 2, "Input choice: ", "Invalid choice!");
         switch (choice) {
             case 1: {
-                enquiryManager.replyEnquiry(selectedEnquiry, user);
-                System.out.println("Enquiry Replied");
+                enquiryManager.replyEnquiry(selectedEnquiry, App.getUser());
+                PrettyPage.printLine(new Option("Success", "You have replied to the enquiry."));
                 break;
             }
             case 2: {

@@ -1,13 +1,11 @@
 package source.FileIO.Serializer.Text;
 
+import source.Controllers.EnquiryManager;
 import source.Controllers.StaffManager;
 import source.Controllers.StudentManager;
 import source.Database.App;
 import source.Database.DatabaseQuery;
-import source.Entity.Camp;
-import source.Entity.CampInfo;
-import source.Entity.Staff;
-import source.Entity.Student;
+import source.Entity.*;
 import source.Faculty.Faculty;
 
 import java.lang.reflect.InvocationTargetException;
@@ -35,6 +33,7 @@ public class CampDeserializer implements TextDataDeserializer {
     public ArrayList deserialize(HashMap<String, ArrayList<String>> parsedData) {
         StudentManager manager = App.getStudentManager();
         StaffManager staffManager = App.getStaffManager();
+        EnquiryManager enquiryManager = App.getEnquiryManager();
         ArrayList campList = new ArrayList();
         int len = parsedData.get("camp_name").size();
         if (len == 0)
@@ -125,11 +124,15 @@ public class CampDeserializer implements TextDataDeserializer {
                     }
                 }
             }
+
+            //Initialize enquiries into the camps
+            ArrayList<Enquiry> enquiries = enquiryManager.readEnquiries(new DatabaseQuery(campName, "camp_name"));
             //Initialize all final lists
             camp.getCampInfo().setCurrentSlots(attendeeList.size());
             camp.getCampInfo().setCampCommitteeSlots(committeeList.size());
             camp.setAttendees(attendeeList);
             camp.setCampCommittee(committeeList);
+            camp.setEnquiryList(enquiries);
             campList.add(camp);
         }
         return campList;

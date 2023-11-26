@@ -74,7 +74,6 @@ public class StaffInChargeOperationsViewModel extends BaseViewModel implements I
     public void handleInputs() {
         int choice = InputHandler.tryGetInt(1, 6, "Input choice: ", "Invalid choice!");
         switch (choice) {
-
             case 1: {
                 viewManager.changeView(new ReplyEnquiryViewModel(selectedCamp));
                 break;

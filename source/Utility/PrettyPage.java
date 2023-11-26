@@ -449,11 +449,6 @@ public class PrettyPage {
      * @param enquiries the list of camps
      */
     public static void printEnquiries(ArrayList<Enquiry> enquiries) {
-        printTitle("Your Enquiries", 1);
-        if (enquiries.isEmpty()) {
-            printTitle("You have not sent any enquiries before!", 1);
-            return;
-        }
         printLineDivided(new Option("N", "test"),
                 new SubOptions[]{
                         new SubOptions("Name", 0.325f),

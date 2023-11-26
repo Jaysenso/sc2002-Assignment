@@ -51,9 +51,9 @@ public abstract class App {
         userManager = new UserManager(user);
         studentManager = new StudentManager();
         staffManager = new StaffManager();
-        campManager = new CampManager();
         enquiryManager = new EnquiryManager();
         suggestionManager = new SuggestionManager();
+        campManager = new CampManager();
     }
 
     /**

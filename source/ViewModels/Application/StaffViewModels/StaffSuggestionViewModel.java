@@ -2,7 +2,10 @@ package source.ViewModels.Application.StaffViewModels;
 
 import source.Controllers.SuggestionManager;
 import source.Database.App;
-import source.Entity.*;
+import source.Entity.Camp;
+import source.Entity.Staff;
+import source.Entity.Suggestion;
+import source.Entity.User;
 import source.Utility.InputHandler;
 import source.Utility.Option;
 import source.Utility.PrettyPage;
@@ -14,15 +17,30 @@ import source.Views.Application.StudentView.CampCommitteeSuggestionView;
 
 import java.util.ArrayList;
 
+/**
+ * The StaffSuggestionViewModel class handles the suggestions operations a staff can do in this viewmodel
+ *
+ * @author J'sen Ong
+ * @version 1.0
+ * @since 11/17/2023
+ */
 public class StaffSuggestionViewModel extends BaseViewModel implements IViewModel {
     /**
-     * The suggestion view object that contains the UI for suggestions.
+     * The suggestion view object that contains the UI for suggestions for staff
      *
      * @see StaffSuggestionView
      */
     private final StaffSuggestionView staffSuggestionView;
+    /**
+     * The suggestion manager reference
+     *
+     * @see Suggestion
+     */
     private final SuggestionManager suggestionManager;
     private final User campCommittee = (Staff) App.getUser();
+    /**
+     * The selected camp to be stored in this view model
+     */
     private final Camp selectedCamp;
 
     /**
@@ -54,22 +72,14 @@ public class StaffSuggestionViewModel extends BaseViewModel implements IViewMode
      */
     @Override
     public void handleInputs() {
-
         while (true) {
             ArrayList<Suggestion> suggestions = suggestionManager.getCampSuggestions(selectedCamp);
             if (suggestions.isEmpty()) {
                 PrettyPage.printTitle("No Suggestions", 1);
             }
-            //print suggestions
-            for (int i = 0; i < suggestions.size(); i++) {
-                System.out.print(i + ": ");
-                System.out.println(suggestions.get(i).getCreatedBy());
-            }
-
+            PrettyPage.printSuggestions(suggestions);
             staffSuggestionView.display();
-
             int choice = InputHandler.tryGetInt(1, 2, "Input choice: ", "Invalid choice!");
-
             switch (choice) {
                 case 1: {
                     //view suggestion

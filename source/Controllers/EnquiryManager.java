@@ -37,10 +37,9 @@ public class EnquiryManager {
     }
 
     public void deleteStudentEnquiry(Enquiry enquiry) {
-        if(!enquiry.getProcessed()){
+        if (!enquiry.getProcessed()) {
             enquiryDao.deleteEnquiry(enquiry);
-        }
-        else{
+        } else {
             PrettyPage.printError("Your Enquiry has already been processed!");
         }
     }
@@ -53,24 +52,17 @@ public class EnquiryManager {
         return enquiryDao.readEnquiries(new DatabaseQuery(name, "created_by"));
     }
 
-    public ArrayList<Enquiry> getCampEnquiries(String name) {
-        return enquiryDao.readEnquiries(new DatabaseQuery(name, "camp_name"));
-    }
-
     public void replyEnquiry(Enquiry enquiry, User user) {
         LocalDate createdDate = LocalDate.now();
-        String userType;
-        if (user instanceof Staff) {
-            userType = "Staff In charge";
-        } else {
-            userType = "Camp Committee Member";
-        }
+        System.out.print("Enter reply message: ");
+        String replyMessage = InputHandler.tryGetString();
+        enquiry.setReply(replyMessage);
+        //Then assign the user types and
+        String userType = (user instanceof Staff) ? "Staff in Charge" : "Camp Committee Member";
         enquiry.setRepliedDate(createdDate);
         enquiry.setRepliedBy(user.getUserID() + " (" + userType + ")");
         enquiry.setProcessed(true);
-        System.out.println("Enter Reply Message: ");
-        String replyMessage = InputHandler.getString();
-        enquiry.setReply(replyMessage);
+
         enquiryDao.updateEnquiry(enquiry);
     }
 

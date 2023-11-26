@@ -139,6 +139,7 @@ public class CampCommitteeSuggestionViewModel extends BaseViewModel implements I
                         PrettyPage.printError("You cannot edit the suggestion anymore after it was processed");
                         break;
                     }
+
                     System.out.print("Enter new content: ");
                     String newContent = InputHandler.getString();
                     //Forcefully handle ID changes so that the match is found in the db
@@ -154,9 +155,10 @@ public class CampCommitteeSuggestionViewModel extends BaseViewModel implements I
                 }
                 case 2: {
                     if (suggestion.getProcessed()) {
-                        PrettyPage.printError("You cannot edit the suggestion anymore after it was processed");
+                        PrettyPage.printError("You cannot delete the suggestion anymore after it was processed");
                         break;
                     }
+
                     suggestionManager.deleteSuggestion(suggestion);
                     return;
                 }

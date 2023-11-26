@@ -1,5 +1,6 @@
 package source.ViewModels.Application.StaffViewModels;
 
+import source.Camp.DeleteCamp;
 import source.Controllers.CampManager;
 import source.Database.App;
 import source.Entity.Camp;
@@ -96,8 +97,7 @@ public class StaffInChargeOperationsViewModel extends BaseViewModel implements I
                 System.out.print("Confirm deletion? (y/n): ");
                 String line = InputHandler.tryGetString(new String[]{"y", "n"});
                 if (line.equals("y")) {
-                    if (campManager.deleteCamp(selectedCamp)) {
-                        staff.removeCreatedCamp(selectedCamp);
+                    if (campManager.useCampService(new DeleteCamp(selectedCamp, campManager))) {
                         PrettyPage.printLine(new Option("Success", "Camp successfully deleted"));
                     }
                 }

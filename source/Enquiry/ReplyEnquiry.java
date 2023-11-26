@@ -2,10 +2,10 @@ package source.Enquiry;
 
 import source.Controllers.EnquiryManager;
 
-public class SelectStudentEnquiry implements StudentEnquiryOperations {
+public class ReplyEnquiry implements StudentEnquiryOperations {
     private final EnquiryManager enquiryManager;
 
-    public SelectStudentEnquiry(EnquiryManager enquiryManager) {
+    public ReplyEnquiry(EnquiryManager enquiryManager) {
         this.enquiryManager = enquiryManager;
     }
 

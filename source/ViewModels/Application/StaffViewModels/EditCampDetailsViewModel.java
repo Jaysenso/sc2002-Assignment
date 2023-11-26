@@ -1,5 +1,7 @@
 package source.ViewModels.Application.StaffViewModels;
 
+import source.Camp.GetCamps;
+import source.Camp.UpdateCamp;
 import source.Controllers.CampManager;
 import source.Database.App;
 import source.Entity.Camp;
@@ -15,6 +17,7 @@ import source.ViewModels.ViewManager;
 import source.Views.Application.StaffView.EditCampDetailsView;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 /**
  * The EditCampDetailsViewModel class handles the EditCampDetailsView 's logics and present the relevant operations for Staff to edit the camp details.
@@ -84,7 +87,10 @@ public class EditCampDetailsViewModel extends BaseViewModel implements IViewMode
                     System.out.print("Enter camp name: ");
                     String newCampName = InputHandler.tryGetString();
                     //Forcefully handle ID changes so that the match is found in the db
-                    for (Camp c : campManager.getCamps()) {
+                    GetCamps getCamp = new GetCamps(campManager);
+                    campManager.useCampService(getCamp);
+                    ArrayList<Camp> camps = getCamp.getCamps();
+                    for (Camp c : camps) {
                         if (c.getCampInfo().getName().equals(selectedCamp.getCampInfo().getName())) {
                             c.getCampInfo().setName(newCampName);
                             break;
@@ -168,7 +174,7 @@ public class EditCampDetailsViewModel extends BaseViewModel implements IViewMode
                     break;
             }
             //Update once at the end
-            campManager.updateCamp(selectedCamp);
+            campManager.useCampService(new UpdateCamp(selectedCamp, campManager));
             //Work around to get the camp
             PrettyPage.printCampDetails(selectedCamp);
             editCampDetailsView.display();

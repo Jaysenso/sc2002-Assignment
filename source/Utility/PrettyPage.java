@@ -1,5 +1,7 @@
 package source.Utility;
 
+import source.Database.App;
+import source.Database.DatabaseQuery;
 import source.Entity.*;
 
 import java.time.LocalDate;
@@ -845,7 +847,9 @@ public class PrettyPage {
                         new SubOptions("Faculty", 0.2f),
                 }) + "\n";
         for (int i = 0; i < camp.getCampCommitteeMembers().size(); i++) {
-            Student s = camp.getCampCommitteeMembers().get(i);
+            Student temp = camp.getCampCommitteeMembers().get(i);
+            Student s = App.getStudentManager().readStudent(new DatabaseQuery(temp.getName(), "name"));
+            if(s != null) {
             formatted += getFormattedDivided(
                     new Option(String.valueOf(i + 1), ""),
                     new SubOptions[]{
@@ -855,7 +859,7 @@ public class PrettyPage {
                             new SubOptions("Camp Committee", 0.2f),
                             new SubOptions(s.getFacultyInfo().getClass().getSimpleName(), 0.2f)
                     }
-            ) + "\n";
+            ) + "\n";}
         }
         return formatted;
     }

@@ -96,6 +96,7 @@ public class LoginViewModel extends BaseViewModel implements IViewModel {
                 break;
             }
             case 3: {
+                App.getUserManager().update();
                 viewManager.returnToPreviousView();
                 break;
             }

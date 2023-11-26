@@ -140,6 +140,13 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
      * A function to handle the sub logic of viewing registered camps
      */
     public void viewRegisteredCamps() {
+        for (Camp c : App.getCampManager().getCampDao().getCamps()){
+            for(Student s : c.getAttendees()) {
+                if(s.getName().equals(student.getName())){
+                    student.addRegisteredCamps(c);
+                }
+            }
+        }
         ArrayList<Camp> registeredCamps = student.getRegisteredCamps();
         //Handle different options lazily
         if (registeredCamps.isEmpty()) {

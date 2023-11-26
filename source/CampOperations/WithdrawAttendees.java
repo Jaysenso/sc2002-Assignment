@@ -42,7 +42,14 @@ public class WithdrawAttendees implements CampOperations {
      */
     @Override
     public boolean execute() {
-        if (!attendee.isAttendee(selectedCamp)) {
+        boolean isAttendee = false;
+        for(Student s: selectedCamp.getAttendees()){
+            if(s.getName().equals(attendee.getName())) {
+                isAttendee = true;
+                break;
+            }
+        }
+        if (!isAttendee) {
             PrettyPage.printError("You are not part of the camp!");
             return false;
 

@@ -1,4 +1,4 @@
 camp_name,location,current_slot,max_slots,committee_slots,max_committee_slots,description,staff_in_charge,start_date,end_date,closing_date,faculty,visibility,attendees,camp_committee,blacklisted
-SCSE TOP 24,North Spine,0,10,0,5,Cool Camp for cool kids!,Madhukumar,2023-12-11,2023-12-11,2023-12-10,SCSE,true,N/A,N/A,N/A
+SCSE TOP 24,North Spine,1,10,0,5,Cool Camp for cool kids!,Madhukumar,2023-12-11,2023-12-11,2023-12-10,SCSE,true,N/A,CHERN,N/A
 UOC24,AIA CANOPY,0,50,0,9,for cool people only,Arvind,2023-12-12,2023-12-30,2023-11-30,NTU,true,N/A,N/A,N/A
 Outward Bounds Singapore,Panshan Grove,0,100,0,10,Panshan Grove is a 99 years leasehold HDB development located at Bukit Panjang Ring Road in District 23,Alexei,2023-12-20,2023-12-22,2023-12-10,ADM,true,N/A,N/A,N/A

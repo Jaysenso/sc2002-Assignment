@@ -1,7 +1,7 @@
 package source.ViewModels.Application.StaffViewModels;
 
-import source.Camp.GetCamps;
-import source.Camp.UpdateCamp;
+import source.CampOperations.GetCamps;
+import source.CampOperations.UpdateCamp;
 import source.Controllers.CampManager;
 import source.Database.App;
 import source.Entity.Camp;
@@ -88,7 +88,7 @@ public class EditCampDetailsViewModel extends BaseViewModel implements IViewMode
                     String newCampName = InputHandler.tryGetString();
                     //Forcefully handle ID changes so that the match is found in the db
                     GetCamps getCamp = new GetCamps(campManager);
-                    campManager.useCampService(getCamp);
+                    campManager.operate(getCamp);
                     ArrayList<Camp> camps = getCamp.getCamps();
                     for (Camp c : camps) {
                         if (c.getCampInfo().getName().equals(selectedCamp.getCampInfo().getName())) {
@@ -174,7 +174,7 @@ public class EditCampDetailsViewModel extends BaseViewModel implements IViewMode
                     break;
             }
             //Update once at the end
-            campManager.useCampService(new UpdateCamp(selectedCamp, campManager));
+            campManager.operate(new UpdateCamp(selectedCamp, campManager));
             //Work around to get the camp
             PrettyPage.printCampDetails(selectedCamp);
             editCampDetailsView.display();

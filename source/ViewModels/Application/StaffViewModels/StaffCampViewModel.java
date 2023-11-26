@@ -1,7 +1,7 @@
 package source.ViewModels.Application.StaffViewModels;
 
-import source.Camp.CreateCamp;
-import source.Camp.GetCamps;
+import source.CampOperations.CreateCamp;
+import source.CampOperations.GetCamps;
 import source.Controllers.CampManager;
 import source.Controllers.EnquiryManager;
 import source.Controllers.StaffManager;
@@ -89,7 +89,7 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
         int choice;
         do {
             GetCamps getCamp = new GetCamps(campManager);
-            campManager.useCampService(getCamp);
+            campManager.operate(getCamp);
             ArrayList<Camp> camps = getCamp.getCamps();
             PrettyPage.printCamps(camps);
             staffCampView.display();
@@ -109,7 +109,7 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
                     //Handle the creation of new camps by staff
                     Camp camp = createNewCamp();
                     //Create the camp in our manager
-                    campManager.useCampService(new CreateCamp(camp, campManager));
+                    campManager.operate(new CreateCamp(camp, campManager));
                     //Add it to our user
                     Staff s = (App.getUser() instanceof Staff) ? (Staff) App.getUser() : null;
                     if (s != null) {
@@ -118,7 +118,7 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
                     }
                     PrettyPage.printLine(new Option("Success", "You have created the camp."));
                     //Then print out all the camps after creating that new camp
-                    campManager.useCampService(getCamp);
+                    campManager.operate(getCamp);
                     camps = getCamp.getCamps();
                     PrettyPage.printCamps(camps);
                     break;
@@ -128,7 +128,7 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
                     break;
                 }
                 case 4: {
-                    campManager.useCampService(getCamp);
+                    campManager.operate(getCamp);
                     camps = getCamp.getCamps();
                     viewManager.changeView(new SortViewModel(camps));
                     break;

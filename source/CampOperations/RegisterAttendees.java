@@ -1,4 +1,4 @@
-package source.Camp;
+package source.CampOperations;
 
 import source.Entity.Camp;
 import source.Entity.Student;
@@ -8,18 +8,40 @@ import source.Utility.PrettyPage;
 
 import java.time.LocalDate;
 
-public class RegisterAttendees implements CampService {
+/**
+ * The RegisterAttendees class holds the logic to add an attendee to the camp
+ *
+ * @author Edwin Lim
+ * @version 1.4
+ * @since 11/23/2023
+ */
+public class RegisterAttendees implements CampOperations {
+    /**
+     * The student reference
+     */
+    private final Student student;
+    /**
+     * The selected camp reference
+     */
+    private final Camp selectedCamp;
 
-    private Student student;
-    private Camp selectedCamp;
-
-    public RegisterAttendees(Student student, Camp selectedCamp){
+    /**
+     * Overloaded constructor to initialize a camp and manager
+     *
+     * @param student      the student
+     * @param selectedCamp the selected canp
+     */
+    public RegisterAttendees(Student student, Camp selectedCamp) {
         this.student = student;
         this.selectedCamp = selectedCamp;
     }
+
+    /**
+     * The execution function
+     */
     @Override
     public boolean execute() {
-//Create a date range validator that ranges from the start and end date
+        //Create a date range validator that ranges from the start and end date
         DateRangeValidator checker = new DateRangeValidator(selectedCamp.getCampInfo().getStartDate(), selectedCamp.getCampInfo().getEndDate());
         //Check if camp has blacklisted this student
         for (Student s : selectedCamp.getBlacklisted()) {
@@ -55,21 +77,5 @@ public class RegisterAttendees implements CampService {
         selectedCamp.addAttendee(student);
         PrettyPage.printLine(new Option("Success", "You Have Registered Successfully for " + selectedCamp.getCampInfo().getName()));
         return true;
-    }
-
-    public Student getStudent() {
-        return student;
-    }
-
-    public void setStudent(Student student) {
-        this.student = student;
-    }
-
-    public Camp getSelectedCamp() {
-        return selectedCamp;
-    }
-
-    public void setSelectedCamp(Camp selectedCamp) {
-        this.selectedCamp = selectedCamp;
     }
 }

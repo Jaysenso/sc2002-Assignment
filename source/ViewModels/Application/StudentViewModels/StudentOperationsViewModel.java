@@ -1,9 +1,9 @@
 package source.ViewModels.Application.StudentViewModels;
 
-import source.Camp.RegisterAttendees;
-import source.Camp.RegisterCommittees;
-import source.Camp.UpdateCamp;
-import source.Camp.WithdrawAttendees;
+import source.CampOperations.RegisterAttendees;
+import source.CampOperations.RegisterCommittees;
+import source.CampOperations.UpdateCamp;
+import source.CampOperations.WithdrawAttendees;
 import source.Controllers.CampManager;
 import source.Controllers.EnquiryManager;
 import source.Controllers.StudentManager;
@@ -18,7 +18,6 @@ import source.Utility.PrettyPage;
 import source.ViewModels.BaseViewModel;
 import source.ViewModels.IViewModel;
 import source.ViewModels.ViewManager;
-import source.Views.Application.StudentView.CampCommitteeView;
 import source.Views.Application.StudentView.StudentOperationsView;
 
 import java.util.ArrayList;
@@ -112,9 +111,9 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
             switch (choice) {
                 //Register Camp
                 case 1: {
-                    boolean registerResult = campManager.useCampService(new RegisterAttendees(student, selectedCamp));
+                    boolean registerResult = campManager.operate(new RegisterAttendees(student, selectedCamp));
                     if(registerResult) {
-                        campManager.useCampService(new UpdateCamp(selectedCamp, campManager));
+                        campManager.operate(new UpdateCamp(selectedCamp, campManager));
                         studentManager.updateStudent(student);
                     }
                     PrettyPage.printCampDetails(selectedCamp);
@@ -136,10 +135,10 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
                 }
                 //Apply Camp Committee
                 case 3: {
-                    boolean registerResult = campManager.useCampService(new RegisterCommittees(student,selectedCamp));
+                    boolean registerResult = campManager.operate(new RegisterCommittees(student,selectedCamp));
 
                     if(registerResult) {
-                        campManager.useCampService(new UpdateCamp(selectedCamp, campManager));
+                        campManager.operate(new UpdateCamp(selectedCamp, campManager));
                         studentManager.updateStudent(student);
                         viewManager.returnToPreviousView();
                     }
@@ -152,8 +151,8 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
                 }
                 //Withdraw from Camp
                 case 4: {
-                    boolean withdrawResult = campManager.useCampService(new WithdrawAttendees(student, selectedCamp, campManager));
-                    campManager.useCampService(new UpdateCamp(selectedCamp, campManager));
+                    boolean withdrawResult = campManager.operate(new WithdrawAttendees(student, selectedCamp, campManager));
+                    campManager.operate(new UpdateCamp(selectedCamp, campManager));
                     studentManager.updateStudent(student);
                     PrettyPage.printCampDetails(selectedCamp);
                     studentOperationsView.display();

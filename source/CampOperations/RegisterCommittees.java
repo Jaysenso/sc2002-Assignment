@@ -1,4 +1,4 @@
-package source.Camp;
+package source.CampOperations;
 
 import source.Entity.Camp;
 import source.Entity.Student;
@@ -8,15 +8,37 @@ import source.Utility.PrettyPage;
 
 import java.time.LocalDate;
 
-public class RegisterCommittees implements CampService {
-    private Student student;
-    private Camp selectedCamp;
+/**
+ * The RegisterComnittees class holds the logic to add a committee member to the camp
+ *
+ * @author Edwin Lim
+ * @version 1.4
+ * @since 11/23/2023
+ */
+public class RegisterCommittees implements CampOperations {
+    /**
+     * The student reference
+     */
+    private final Student student;
+    /**
+     * The selected camp reference
+     */
+    private final Camp selectedCamp;
 
+    /**
+     * Overloaded constructor to initialize a camp and manager
+     *
+     * @param student      the student
+     * @param selectedCamp the selected canp
+     */
     public RegisterCommittees(Student student, Camp selectedCamp) {
         this.student = student;
         this.selectedCamp = selectedCamp;
     }
 
+    /**
+     * The execution function
+     */
     @Override
     public boolean execute() {
         DateRangeValidator checker = new DateRangeValidator(selectedCamp.getCampInfo().getStartDate(), selectedCamp.getCampInfo().getEndDate());

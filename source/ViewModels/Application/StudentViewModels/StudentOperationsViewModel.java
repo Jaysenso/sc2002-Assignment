@@ -107,7 +107,6 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
         int choice;
         do {
             PrettyPage.printCampDetails(selectedCamp);
-            campManager.getCampDao().loadContext();
             printApplicableEnquiries();
             studentOperationsView.display();
             choice = InputHandler.tryGetInt(1, 5, "Input choice: ", "Invalid choice!");
@@ -123,13 +122,21 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
                 }
                 //Make Enquiries
                 case 2: {
+
+                    /**
+                     *
+                     */
+                    //USER INPUT ONE
                     GetUserQuery getUserQuery = new GetUserQuery(selectedCamp.getCampInfo().getName(), student.getName());
                     enquiryManager.operate(getUserQuery);
                     Enquiry enquiry = getUserQuery.getEnquiry();
+                    //Add a new enquiry into the manager
                     enquiryManager.operate(new AddEnquiry(student, enquiry, enquiryManager));
+                    /**
+                     *
+                     */
                     //Update camp enquiry
                     selectedCamp.addEnquiry(enquiry);
-                    campManager.operate(new UpdateCamp(selectedCamp,campManager));
                     PrettyPage.printLine(new Option("Success", "You have successfully sent your enquiry!"));
                     break;
                 }

@@ -1,6 +1,9 @@
 package source.EnquiryOperations;
 
+import source.Controllers.CampManager;
 import source.Controllers.EnquiryManager;
+import source.Database.App;
+import source.Entity.Camp;
 import source.Entity.Enquiry;
 import source.Entity.Student;
 import source.Utility.PrettyPage;
@@ -46,6 +49,14 @@ public class DeleteStudentEnquiry implements EnquiryOperations {
         if (!enquiry.getProcessed()) {
             student.removeEnquiry(enquiry);
             enquiryManager.getEnquiryDao().deleteEnquiry(enquiry);
+
+            CampManager manager = App.getCampManager();
+            for(Camp c : manager.getCampDao().getCamps()){
+                if(c.getCampInfo().getName().equals(enquiry.getCampName())){
+                    c.removeEnquiry(enquiry);
+                    break;
+                }
+            }
         } else {
             PrettyPage.printError("Your Enquiry has already been processed!");
         }

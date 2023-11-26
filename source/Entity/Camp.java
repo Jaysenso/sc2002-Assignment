@@ -134,6 +134,15 @@ public class Camp {
     }
 
     /**
+     * Removes an enquiry of this camp
+     *
+     * @param enquiry enquiry to add
+     */
+    public void removeEnquiry(Enquiry enquiry) {
+        this.enquiryList.remove(enquiry);
+    }
+
+    /**
      * Acquires the list of enquiries of this camp
      *
      * @return enquiry list

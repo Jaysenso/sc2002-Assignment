@@ -8,6 +8,7 @@ import source.Entity.User;
 import source.Utility.InputHandler;
 
 import java.time.LocalDate;
+
 /**
  * The ReplyEnquiry class holds the logic for replying to a given enquiry
  *
@@ -32,8 +33,8 @@ public class ReplyEnquiry implements EnquiryOperations {
     /**
      * The constructor to initialise an enquiry manager, enquiry and user
      *
-     * @param enquiry a enquiry
-     * @param user    a logged-in user reference
+     * @param enquiry        a enquiry
+     * @param user           a logged-in user reference
      * @param enquiryManager an enquiry manager reference
      */
     public ReplyEnquiry(EnquiryManager enquiryManager, Enquiry enquiry, User user) {
@@ -51,7 +52,9 @@ public class ReplyEnquiry implements EnquiryOperations {
         String replyMessage = InputHandler.tryGetString();
         //Loop through and find the relevant entries
         for (Enquiry e : enquiryManager.getEnquiryDao().getEnquiries()) {
-            if (e.equals(enquiry)) {
+            //ASsume same if created by is same, and the content is same
+            if (e.getCreatedBy().equals(e.getCreatedBy())
+                    && e.getContent().equals(e.getContent())) {
                 e.setReply(replyMessage);
                 break;
             }

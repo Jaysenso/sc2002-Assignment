@@ -142,6 +142,10 @@ public class CampDeserializer implements TextDataDeserializer {
             ArrayList<Enquiry> enquiries = new ArrayList<>();
             for (Enquiry e : enquiryManager.getEnquiryDao().getEnquiries()) {
                 if (e.getCampName().equals(campName)) {
+                    Student student = manager.getStudentByName(e.getCreatedBy());
+                    if (student != null) {
+                        student.addEnquiry(e);
+                    }
                     enquiries.add(e);
                 }
             }

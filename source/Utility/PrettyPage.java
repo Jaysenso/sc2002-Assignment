@@ -506,7 +506,7 @@ public class PrettyPage {
                             new SubOptions(DTFormatter.formatLocal(campInfo.getStartDate()), 0.175f),
                             new SubOptions(DTFormatter.formatLocal(campInfo.getEndDate()), 0.175f),
                             new SubOptions(campInfo.getFaculty().getClass().getSimpleName(), 0.2f),
-                            new SubOptions(campInfo.getCurrentSlots() + "/" + campInfo.getMaxSlots(), 0.1f)
+                            new SubOptions(camps.get(i).getCampInfoCurrentSlots() + "/" + campInfo.getMaxSlots(), 0.1f)
                     }
             );
         }

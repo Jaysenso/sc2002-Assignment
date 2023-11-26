@@ -147,6 +147,10 @@ public class EditCampDetailsViewModel extends BaseViewModel implements IViewMode
                     break;
                 }
                 case 9: {
+                    if (selectedCamp.getCampInfoCurrentSlots() > 0) {
+                        PrettyPage.printError("Cannot edit visibility after students have already registered!");
+                        break;
+                    }
                     System.out.print("Set Visibility (true,false): ");
                     boolean visibility = Boolean.valueOf(InputHandler.tryGetString(new String[]{
                             "true",

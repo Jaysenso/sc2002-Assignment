@@ -55,6 +55,11 @@ public final class CampManager {
      * @return true if delete was successful, false if not.
      */
     public boolean deleteCamp(Camp camp) {
+        //Check if there are already students
+        if (camp.getCampInfoCurrentSlots() > 0) {
+            PrettyPage.printError("A camp cannot be deleted as students have already registered for it!");
+            return false;
+        }
         return campDao.deleteCamp(camp);
     }
 
@@ -66,6 +71,7 @@ public final class CampManager {
     public boolean registerAttendees(Student student, Camp selectedCamp) {
         //Create a date range validator that ranges from the start and end date
         DateRangeValidator checker = new DateRangeValidator(selectedCamp.getCampInfo().getStartDate(), selectedCamp.getCampInfo().getEndDate());
+
         //Check if camp has blacklisted this student
         for (Student s : selectedCamp.getBlacklisted()) {
             if (s.getName().equals(student.getName())) {
@@ -181,6 +187,7 @@ public final class CampManager {
             return true;
         }
     }
+
     public boolean updateCamp(Camp camp) {
         return campDao.updateCamp(camp);
     }

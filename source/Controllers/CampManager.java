@@ -40,6 +40,11 @@ public final class CampManager {
         campDao.createCamp(camp);
     }
 
+    /**
+     * Acquires the camps stored in this manager
+     *
+     * @return list of camps
+     */
     public ArrayList<Camp> getCamps() {
         return campDao.getCamps();
     }
@@ -154,7 +159,6 @@ public final class CampManager {
             return true;
         }
     }
-
 
     public Camp readCamp(DatabaseQuery query) {
         return campDao.readCamp(query);

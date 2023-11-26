@@ -223,9 +223,23 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
 
         //Get our dates using our input handler
         LocalDate startDate = InputHandler.tryGetDate("Enter start date in the format " + StringsUtility.DATE_FORMAT + ": ", StringsUtility.DATE_ERROR);
-        LocalDate endDate = InputHandler.tryGetDate("Enter end date in the format " + StringsUtility.DATE_FORMAT + ": ", StringsUtility.DATE_ERROR);
-        LocalDate regDate = InputHandler.tryGetDate("Enter closing registration date in the format " + StringsUtility.DATE_FORMAT + ": ", StringsUtility.DATE_ERROR);
-
+        LocalDate endDate, regDate;
+        while (true) {
+            endDate = InputHandler.tryGetDate("Enter end date in the format " + StringsUtility.DATE_FORMAT + ": ", StringsUtility.DATE_ERROR);
+            if (endDate.isEqual(startDate) || endDate.isAfter(startDate)) {
+                break;
+            } else {
+                PrettyPage.printError("End date must be after start date!");
+            }
+        }
+        while (true) {
+            regDate = InputHandler.tryGetDate("Enter closing registration date in the format " + StringsUtility.DATE_FORMAT + ": ", StringsUtility.DATE_ERROR);
+            if (regDate.isBefore(startDate)) {
+                break;
+            } else {
+                PrettyPage.printError("Registration date must be before start date!");
+            }
+        }
         System.out.print("Enter location: ");
         String location = InputHandler.getString();
         int totalSlots = InputHandler.tryGetInt(1, 9999, "Enter number of attendee slots: ", StringsUtility.ATTENDEE_SLOTS_ERROR);

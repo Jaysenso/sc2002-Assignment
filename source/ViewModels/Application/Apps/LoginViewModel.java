@@ -121,15 +121,22 @@ public class LoginViewModel extends BaseViewModel implements IViewModel {
         while (true) {
             //Get the email input
             String email = InputHandler.tryGetEmail("Input your Student NTU email: ", "Invalid NTU email entered!");
-            Student student = studentManager.readStudent(
+            Student result = studentManager.readStudent(
                     new DatabaseQuery(email, "email"));
             //Check if the entry exists
-            if (student == null) {
+            if (result == null) {
                 PrettyPage.printError("The student email you entered does not exist in our system.");
                 continue;
             }
             System.out.print("Enter password: ");
             String password = InputHandler.getString();
+
+            //Find actual student stuff
+            Student student = studentManager.getStudentByID(result.getUserID());
+            if (student == null) {
+                PrettyPage.printError("CRITICAL ERROR");
+                return;
+            }
             //Then attempt to authenticate the user
             boolean success = authenticationController.authenticate(student, password);
             if (!success) {
@@ -165,15 +172,20 @@ public class LoginViewModel extends BaseViewModel implements IViewModel {
         while (true) {
             //Get the email input
             String email = InputHandler.tryGetEmail("Input your Staff NTU email: ", "Invalid NTU email entered!");
-            Staff staff = staffManager.readStaff(new DatabaseQuery(email, "email"));
+            Staff result = staffManager.readStaff(new DatabaseQuery(email, "email"));
             //Check if the entry exists
-            if (staff == null) {
+            if (result == null) {
                 PrettyPage.printError("The staff email you entered does not exist in our system.");
                 continue;
             }
             System.out.print("Enter password: ");
             String password = InputHandler.getString();
             //Then attempt to authenticate the user
+            Staff staff = staffManager.getStaff(result.getUserID());
+            if (staff == null) {
+                PrettyPage.printError("CRITICAL ERROR");
+                return;
+            }
             boolean success = authenticationController.authenticate(staff, password);
             if (!success) {
                 if (authenticationController.getTriesLeft() != 0) {

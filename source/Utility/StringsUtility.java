@@ -24,7 +24,9 @@ public abstract class StringsUtility {
     /**
      * The string to indicate error in camp committee input
      */
-    public final static String CAMP_COMMITTEE_OVERFLOW = "The number of committee members cannot be lesser than 0 or greater than the total slots!";
-
+    public final static String CAMP_COMMITTEE_OVERFLOW = "The number of committee members cannot be lesser than 1 or greater than the total slots!";
+    /**
+     * The string to indicate ATTENDEE_SLOT ERROR
+     */
     public final static String ATTENDEE_SLOTS_ERROR = "The number of attendee slots cannot less than or equals to 0!";
 }

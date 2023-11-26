@@ -92,7 +92,7 @@ public class CampCommitteeViewModel extends BaseViewModel implements IViewModel 
                     String filePath = DirectoryUtility.REPORT_DATA_PATH + selectedCamp.getCampInfo().getName() + "_attendanceReport.txt";
                     ReportGenerator generator = new ReportGenerator(filePath
                     );
-                    generator.generateAttendanceReport(selectedCamp, student.getName() + "(Camp Committee Member)");
+                    generator.generateAttendanceReport(selectedCamp, student.getName() + " (Camp Committee Member)");
                     PrettyPage.printLine(new Option("Success", "Attendance report was generated at " + filePath));
                     break;
                 }

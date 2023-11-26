@@ -151,7 +151,7 @@ public class StaffSuggestionViewModel extends BaseViewModel implements IViewMode
                     //If suggestion approved then update the students
                     if (suggestion.getApproved()) {
                         //increment points here
-                        Student s = App.getStudentManager().getStudent(suggestion.getCreatedBy());
+                        Student s = App.getStudentManager().getStudentByID(suggestion.getCreatedBy());
                         if (s != null) {
                             s.setAccumulatedPoints(s.getAccumulatedPoints() + 1);
                             App.getStudentManager().updateStudent(s);

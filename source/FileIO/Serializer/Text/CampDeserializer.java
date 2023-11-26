@@ -109,7 +109,7 @@ public class CampDeserializer implements TextDataDeserializer {
             if (!blacklisted.equals("N/A")) {
                 for (String s : blacklistedMembers) {
                     //Use dao to get our student object
-                    Student student = manager.readStudent(new DatabaseQuery(s, "name"));
+                    Student student = manager.getStudentByName(s);
                     if (student != null) {
                         camp.addBlacklisted(student);
                     }
@@ -119,8 +119,7 @@ public class CampDeserializer implements TextDataDeserializer {
                 //Handle attendees
                 for (String s : attendees) {
                     //Use the dao to get our student object
-                    Student student = manager.readStudent(
-                            new DatabaseQuery(s, "name"));
+                    Student student = manager.getStudentByName(s);
                     if (student != null) {
                         student.addRegisteredCamps(camp);
                         attendeeList.add(student);
@@ -131,9 +130,9 @@ public class CampDeserializer implements TextDataDeserializer {
                 //Handle committee members
                 for (String s : committeeMembers) {
                     //Use the dao to get our student object
-                    Student student = manager.readStudent(
-                            new DatabaseQuery(s, "name"));
+                    Student student = manager.getStudentByName(s);
                     if (student != null) {
+                        student.addRegisteredCamps(camp);
                         student.setIsCampCommittee(camp);
                         committeeList.add(student);
                     }

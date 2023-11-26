@@ -123,6 +123,9 @@ public class StaffInChargeOperationsViewModel extends BaseViewModel implements I
         System.out.flush(); //NOTE: Does not work in IntelliJ IDEA as it is not a real terminal.
     }
 
+    /**
+     * Holds the sub logic of generating a report
+     */
     public void generateReport() {
         while (true) {
             PrettyPage.printTitle("Generate Camp Report", 1);

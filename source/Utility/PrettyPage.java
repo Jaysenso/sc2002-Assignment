@@ -409,7 +409,8 @@ public class PrettyPage {
                 new Option("Current Total Slots", camp.getCampInfoCurrentSlots() + "/" + campInfo.getMaxSlots()),
                 new Option("Current Camp Committee Slots", campInfo.getCampCommitteeSlots() + "/" + campInfo.getMaxCampCommitteeSlots()),
                 new Option("Description", campInfo.getDescription()),
-                new Option("Staff in Charge", campInfo.getStaffInCharge())
+                new Option("Staff in Charge", campInfo.getStaffInCharge()),
+                new Option("Visibility", String.valueOf(camp.getVisibility()))
         };
         printLines(options);
     }
@@ -818,7 +819,8 @@ public class PrettyPage {
                 new Option("Current Total Slots", camp.getCampInfoCurrentSlots() + "/" + campInfo.getMaxSlots()),
                 new Option("Current Camp Committee Slots", campInfo.getCampCommitteeSlots() + "/" + campInfo.getMaxCampCommitteeSlots()),
                 new Option("Description", campInfo.getDescription()),
-                new Option("Staff in Charge", campInfo.getStaffInCharge())
+                new Option("Staff in Charge", campInfo.getStaffInCharge()),
+                new Option("Visibility", String.valueOf(camp.getVisibility()))
         };
         formatted += getFormattedLines(options);
         return formatted;

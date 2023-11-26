@@ -83,6 +83,9 @@ public class StudentEnquiryViewModel extends BaseViewModel implements IViewModel
             //Handle the null text check
             if (enquiries.isEmpty()) {
                 PrettyPage.printTitle("You do not have any enquiries!", 1);
+                PrettyPage.printLineWithHeader(new Option("1", "Back"), "Choose your option");
+                InputHandler.tryGetInt(1, 1, "Input choice: ", "Invalid choice!");
+                return;
             } else {
                 PrettyPage.printEnquiries(enquiries);
             }

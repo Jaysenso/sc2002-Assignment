@@ -4,6 +4,7 @@ import source.Database.Dao.StaffDao;
 import source.Database.DatabaseQuery;
 import source.Database.StaffDaoImpl;
 import source.Entity.Staff;
+import source.Entity.Student;
 import source.Utility.DirectoryUtility;
 
 /**
@@ -44,5 +45,19 @@ public class StaffManager {
      */
     public void updateStaff(Staff staff) {
         staffDao.updateStaff(staff);
+    }
+
+    /**
+     * A function to get a staff from the database given their userID
+     *
+     * @param userID the user id of the staff
+     * @return staff object
+     */
+    public Staff getStaff(String userID) {
+        for (Staff s : staffDao.getStaffs()) {
+            if (s.getUserID().equals(userID))
+                return s;
+        }
+        return null;
     }
 }

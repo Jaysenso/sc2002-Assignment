@@ -98,6 +98,7 @@ public class StudentOperationsViewModel extends BaseViewModel implements IViewMo
     public void init(ViewManager viewManager) {
         super.init(viewManager);
         PrettyPage.printCampDetails(selectedCamp);
+        campManager.getCampDao().loadContext();
         printApplicableEnquiries();
         studentOperationsView.display();
         handleInputs();

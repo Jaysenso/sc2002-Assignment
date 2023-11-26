@@ -52,9 +52,23 @@ public final class StudentManager {
      * @param userID the user id of the student
      * @return student object
      */
-    public Student getStudent(String userID) {
+    public Student getStudentByID(String userID) {
         for (Student s : studentDao.getStudents()) {
             if (s.getUserID().equals(userID))
+                return s;
+        }
+        return null;
+    }
+
+    /**
+     * A function to get a student from the database given their name
+     *
+     * @param name the name of the student
+     * @return student object
+     */
+    public Student getStudentByName(String name) {
+        for (Student s : studentDao.getStudents()) {
+            if (s.getName().equals(name))
                 return s;
         }
         return null;

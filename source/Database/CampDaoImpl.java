@@ -243,11 +243,14 @@ public class CampDaoImpl extends BaseDaoImpl implements CampDao {
      */
     @Override
     public boolean updateCamp(Camp camp) {
-        int pos = campList.indexOf(camp);
-        //if the Camp list contains this Camp
-        if (pos != -1) {
-            //Then just copy it in for saving
-            campList.set(pos, camp);
+        int i = 0;
+        for (; i < campList.size(); i++) {
+            if (campList.get(i).equals(camp)) {
+                break;
+            }
+        }
+        if (i != campList.size()) {
+            campList.set(i, camp);
             refresh();
             return true;
         }

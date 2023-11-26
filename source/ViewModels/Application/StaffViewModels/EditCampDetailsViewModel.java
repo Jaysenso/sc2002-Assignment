@@ -2,18 +2,18 @@ package source.ViewModels.Application.StaffViewModels;
 
 import source.Controllers.CampManager;
 import source.Database.App;
-import source.Database.DatabaseQuery;
 import source.Entity.Camp;
 import source.Faculty.Faculty;
+import source.Faculty.NTU;
 import source.Utility.InputHandler;
+import source.Utility.Option;
 import source.Utility.PrettyPage;
+import source.Utility.StringsUtility;
 import source.ViewModels.BaseViewModel;
 import source.ViewModels.IViewModel;
 import source.ViewModels.ViewManager;
 import source.Views.Application.StaffView.EditCampDetailsView;
-import source.Views.Application.StaffView.StaffCampView;
 
-import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
 
 /**
@@ -29,7 +29,7 @@ public class EditCampDetailsViewModel extends BaseViewModel implements IViewMode
      *
      * @see EditCampDetailsView
      */
-    EditCampDetailsView editCampDetailsView;
+    private final EditCampDetailsView editCampDetailsView;
     /**
      * The Camp Manager object serves as a DB and abstracts the relevant methods to read/write camp list
      *
@@ -73,11 +73,6 @@ public class EditCampDetailsViewModel extends BaseViewModel implements IViewMode
     @Override
     public void handleInputs() {
         int choice;
-        //Use the camp reference
-        //Find the camp with the same name
-        Camp camp = campManager.readCamp(
-                new DatabaseQuery(selectedCamp.getCampInfo().getName(),
-                        "camp_name"));
         do {
             choice = InputHandler.tryGetInt(1, 10, "Input choice: ", "Invalid choice!");
             switch (choice) {
@@ -86,83 +81,92 @@ public class EditCampDetailsViewModel extends BaseViewModel implements IViewMode
                     break;
                 }
                 case 2: {
-                    System.out.print("Enter Camp Name: ");
-                    String newCampName = InputHandler.getString();
+                    System.out.print("Enter camp name: ");
+                    String newCampName = InputHandler.tryGetString();
+                    //Forcefully handle ID changes so that the match is found in the db
+                    for (Camp c : campManager.getCamps()) {
+                        if (c.getCampInfo().getName().equals(selectedCamp.getCampInfo().getName())) {
+                            c.getCampInfo().setName(newCampName);
+                            break;
+                        }
+                    }
                     selectedCamp.getCampInfo().setName(newCampName);
                     break;
                 }
                 case 3: {
-                    System.out.print("Enter start date in the format yyyy-MM-dd: ");
-                    LocalDate startDate = LocalDate.parse(InputHandler.getString());
+                    LocalDate startDate = InputHandler.tryGetDate("Enter start date in the format " + StringsUtility.DATE_FORMAT + ": ", StringsUtility.DATE_ERROR);
                     selectedCamp.getCampInfo().setStartDate(startDate);
                     break;
                 }
                 case 4: {
-                    System.out.print("Enter end date in the format yyyy-MM-dd: ");
-                    LocalDate endDate = LocalDate.parse(InputHandler.getString());
-                    selectedCamp.getCampInfo().setStartDate(endDate);
+                    LocalDate endDate;
+                    while (true) {
+                        endDate = InputHandler.tryGetDate("Enter end date in the format " + StringsUtility.DATE_FORMAT + ": ", StringsUtility.DATE_ERROR);
+                        if (endDate.isEqual(selectedCamp.getCampInfo().getStartDate()) || endDate.isAfter(selectedCamp.getCampInfo().getStartDate())) {
+                            break;
+                        } else {
+                            PrettyPage.printError("End date must be after start date!");
+                        }
+                    }
+                    selectedCamp.getCampInfo().setEndDate(endDate);
                     break;
                 }
                 case 5: {
-                    System.out.print("Enter registration closing date in the format yyyy-MM-dd: ");
-                    LocalDate regDate = LocalDate.parse(InputHandler.getString());
-                    selectedCamp.getCampInfo().setStartDate(regDate);
+                    LocalDate regDate;
+                    while (true) {
+                        regDate = InputHandler.tryGetDate("Enter closing registration date in the format " + StringsUtility.DATE_FORMAT + ": ", StringsUtility.DATE_ERROR);
+                        if (regDate.isBefore(selectedCamp.getCampInfo().getStartDate())) {
+                            break;
+                        } else {
+                            PrettyPage.printError("Registration date must be before start date!");
+                        }
+                    }
+                    selectedCamp.getCampInfo().setClosingDate(regDate);
                     break;
                 }
                 case 6: {
-                    Faculty f = null;
-                    do {
-                        System.out.print("Enter User Group: ");
-                        try {
-                            String facultyName = "source.Faculty." + InputHandler.getString();
-                            f = (Faculty) Class.forName(facultyName).getDeclaredConstructor().newInstance();
-                        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException |
-                                 InvocationTargetException | NoSuchMethodException e) {
-                            PrettyPage.printError("Faculty Group not found in our System");
-                        }
-                    } while (f == null);
-                    selectedCamp.getCampInfo().setFaculty(f);
+                    PrettyPage.printLine(new Option("Note:", "A camp not created in your faculty is automatically created under NTU, everyone can see it."));
+                    System.out.print("Do you want to create in your own faculty? (y/n): ");
+                    String facultyInput = InputHandler.tryGetString(new String[]{
+                            "y", "n"
+                    });
+                    //Faculty is either the user's own faculty, or ntu
+                    Faculty faculty = (facultyInput.equals("y")) ? App.getUser().getFacultyInfo() : new NTU();
+                    selectedCamp.getCampInfo().setFaculty(faculty);
                     break;
                 }
                 case 7: {
-                    System.out.print("Enter Attendee Slots: ");
-                    int totalSlots = InputHandler.getInt();
+                    int totalSlots = InputHandler.tryGetInt(1, 9999, "Enter max number of attendee slots: ", StringsUtility.ATTENDEE_SLOTS_ERROR);
                     selectedCamp.getCampInfo().setMaxSlots(totalSlots);
                     break;
                 }
                 case 8: {
                     System.out.print("Enter Description: ");
-                    String description = InputHandler.getString();
+                    String description = InputHandler.tryGetString();
                     selectedCamp.getCampInfo().setDescription(description);
                     break;
                 }
                 case 9: {
-                    PrettyPage.printTitle("Visibility: " + selectedCamp.getVisibility(), 2);
-                    System.out.println("Set to " + !selectedCamp.getVisibility() + " ?");
-                    String input = "";
-                    do {
-                        System.out.print("Confirm? y/n:");
-                        try {
-                            input = InputHandler.getString();
-                        } catch (Exception e) {
-                            PrettyPage.printError("Invalid Confirmation");
-                        }
-                    } while (!input.equals("y") && !input.equals("n"));
-
-                    if (input.equals("y")) {
-                        selectedCamp.setVisibility(true);
-                    } else {
-                        selectedCamp.setVisibility(false);
-                    }
+                    System.out.print("Set Visibility (true,false): ");
+                    boolean visibility = Boolean.valueOf(InputHandler.tryGetString(new String[]{
+                            "true",
+                            "false"
+                    }));
+                    selectedCamp.setVisibility(visibility);
                     break;
+                }
+                case 10: {
+                    System.out.print("Enter location: ");
+                    String location = InputHandler.tryGetString();
+                    selectedCamp.getCampInfo().setLocation(location);
                 }
                 default:
                     break;
             }
             //Update once at the end
-            camp.shallowCopy(selectedCamp);
-            campManager.updateCamp(camp);
-            PrettyPage.printCampDetails(camp);
+            campManager.updateCamp(selectedCamp);
+            //Work around to get the camp
+            PrettyPage.printCampDetails(selectedCamp);
             editCampDetailsView.display();
         } while (true);
     }

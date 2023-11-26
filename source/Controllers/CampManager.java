@@ -49,23 +49,8 @@ public final class CampManager {
         return campDao.getCamps();
     }
 
-
     public boolean deleteCamp(Camp camp) {
-        String input = "";
-        do {
-            System.out.println("Confirm? y/n");
-            try {
-                input = InputHandler.getString();
-            } catch (Exception e) {
-                PrettyPage.printError("Invalid Confirmation");
-            }
-        } while (!input.equals("y") && !input.equals("n"));
-
-        if (input.equals("y")) {
-            return campDao.deleteCamp(camp);
-        } else {
-            return false;
-        }
+        return campDao.deleteCamp(camp);
     }
 
     public boolean registerAttendees(Student student, Camp selectedCamp) {
@@ -160,10 +145,6 @@ public final class CampManager {
         }
     }
 
-    public Camp readCamp(DatabaseQuery query) {
-        return campDao.readCamp(query);
-    }
-
     public boolean updateCamp(Camp camp) {
         return campDao.updateCamp(camp);
     }
@@ -176,11 +157,4 @@ public final class CampManager {
         campDao.loadContext();
     }
 
-    public ArrayList<Camp> readCamps(DatabaseQuery query) {
-        return campDao.readCamps(query);
-    }
-
-    public void showCamps() {
-        PrettyPage.printCamps(campDao.getCamps());
-    }
 }

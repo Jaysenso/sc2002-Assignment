@@ -4,6 +4,7 @@ import source.Controllers.CampManager;
 import source.Database.App;
 import source.Entity.Camp;
 import source.Utility.InputHandler;
+import source.Utility.Option;
 import source.Utility.PrettyPage;
 import source.ViewModels.Application.Apps.ReplyEnquiryViewModel;
 import source.ViewModels.BaseViewModel;
@@ -62,7 +63,6 @@ public class StaffInChargeOperationsViewModel extends BaseViewModel implements I
         super.init(viewManager);
         campManager.loadContext();
         PrettyPage.printCampDetails(selectedCamp);
-        //PrettyPage.printCamps(cManager.getCamps());
         staffOperationsView.display();
         handleInputs();
     }
@@ -78,17 +78,22 @@ public class StaffInChargeOperationsViewModel extends BaseViewModel implements I
                 viewManager.changeView(new ReplyEnquiryViewModel(selectedCamp));
                 break;
             }
-            case 2: {
+            case 2: { //VIEW SUGGESTIONS
                 viewManager.changeView(new StaffSuggestionViewModel(selectedCamp));
                 break;
             }
-            case 3: {
+            case 3: { //EDIT CAMP DETAILS
                 viewManager.changeView(new EditCampDetailsViewModel(selectedCamp));
                 break;
             }
-            case 4: {
-                if (campManager.deleteCamp(selectedCamp))
-                    System.out.println("Camp Deleted");
+            case 4: { //
+                System.out.print("Confirm deletion? (y/n): ");
+                String line = InputHandler.tryGetString(new String[]{"y", "n"});
+                if (line.equals("y")) {
+                    if (campManager.deleteCamp(selectedCamp)) {
+                        PrettyPage.printLine(new Option("Success", "Camp successfully deleted"));
+                    }
+                }
                 viewManager.returnToPreviousView();
                 break;
             }

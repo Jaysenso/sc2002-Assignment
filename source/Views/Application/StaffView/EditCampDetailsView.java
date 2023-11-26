@@ -28,6 +28,7 @@ public class EditCampDetailsView implements IView {
                 new Option("7", "Edit Attendee Slots"),
                 new Option("8", "Edit Description"),
                 new Option("9", "Edit Visibility"),
+                new Option("10", "Edit Location"),
 
         };
         //PrettyPage.printTitle("Edit Camp Details", 3);

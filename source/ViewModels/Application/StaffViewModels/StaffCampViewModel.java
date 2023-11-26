@@ -244,7 +244,7 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
             }
         }
         System.out.print("Enter location: ");
-        String location = InputHandler.getString();
+        String location = InputHandler.tryGetString();
         int totalSlots = InputHandler.tryGetInt(1, 9999, "Enter number of attendee slots: ", StringsUtility.ATTENDEE_SLOTS_ERROR);
         int commSlots = InputHandler.tryGetInt(1, totalSlots, "Enter number of Committee Member slots: ", StringsUtility.CAMP_COMMITTEE_OVERFLOW);
 
@@ -260,12 +260,11 @@ public class StaffCampViewModel extends BaseViewModel implements IViewModel {
         //Faculty is either the user's own faculty, or ntu
         Faculty faculty = (facultyInput.equals("y")) ? App.getUser().getFacultyInfo() : new NTU();
 
-        System.out.print("Set Visibility (true,false) : ");
+        System.out.print("Set Visibility (true,false): ");
         boolean visibility = Boolean.valueOf(InputHandler.tryGetString(new String[]{
                 "true",
                 "false"
         }));
-        String input = "";
         CampInfo info = new CampInfo(
                 name,
                 location,

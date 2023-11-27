@@ -93,17 +93,16 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
                     } else {
                         int index = InputHandler.tryGetInt(1, filteredCamps.size(), "Input camp choice: ", "Invalid Camp Selected");
                         Camp selectedCamp = filteredCamps.get(index - 1);
-                        //Go to a different model if the student is a camp committee of...
-                        if (student.getIsCampCommittee() != null) {
-                            for (Camp c : filteredCamps) {
-                                if (c.equals(student.getIsCampCommittee())) {
+                        for (Camp c : filteredCamps) {
+                            for (Student s : c.getCampCommitteeMembers()) {
+                                if (s.getName().equals(student.getName())) {
                                     viewManager.changeView(new CampCommitteeViewModel(selectedCamp));
                                     break;
                                 }
                             }
-                        } else {
-                            viewManager.changeView(new StudentOperationsViewModel(selectedCamp));
                         }
+                        //Else it is jsut normal view
+                        viewManager.changeView(new StudentOperationsViewModel(selectedCamp));
                     }
                     break;
                 }
@@ -140,9 +139,9 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
      * A function to handle the sub logic of viewing registered camps
      */
     public void viewRegisteredCamps() {
-        for (Camp c : App.getCampManager().getCampDao().getCamps()){
-            for(Student s : c.getAttendees()) {
-                if(s.getName().equals(student.getName())){
+        for (Camp c : App.getCampManager().getCampDao().getCamps()) {
+            for (Student s : c.getAttendees()) {
+                if (s.getName().equals(student.getName())) {
                     student.addRegisteredCamps(c);
                 }
             }

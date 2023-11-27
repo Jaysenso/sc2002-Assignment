@@ -59,6 +59,22 @@ public class StudentManagement implements IManagement {
     public void getProfile() {
         String registeredCamps = "";
         ArrayList<Camp> rc = student.getRegisteredCamps();
+        ArrayList<Camp> camps =  App.getCampManager().getCampDao().getCamps();
+        for(Camp c : camps){
+            for(Student s : c.getAttendees()){
+                if(s.getName().equals(student.getName())){
+                    rc.add(c);
+                    break;
+                }
+            }
+            for(Student s: c. getCampCommitteeMembers()){
+                if(s.getName().equals(student.getName())){
+                    student.setIsCampCommittee(c);
+                    break;
+                }
+            }
+        }
+        
         for (int i = 0; i < rc.size(); i++) {
             registeredCamps += rc.get(i).getCampInfo().getName();
             if (i != rc.size() - 1)

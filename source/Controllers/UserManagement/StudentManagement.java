@@ -58,7 +58,7 @@ public class StudentManagement implements IManagement {
     @Override
     public void getProfile() {
         String registeredCamps = "";
-        ArrayList<Camp> rc = student.getRegisteredCamps();
+        ArrayList<Camp> rc = new ArrayList<>();
         ArrayList<Camp> camps =  App.getCampManager().getCampDao().getCamps();
         for(Camp c : camps){
             for(Student s : c.getAttendees()){
@@ -74,7 +74,7 @@ public class StudentManagement implements IManagement {
                 }
             }
         }
-        
+
         for (int i = 0; i < rc.size(); i++) {
             registeredCamps += rc.get(i).getCampInfo().getName();
             if (i != rc.size() - 1)

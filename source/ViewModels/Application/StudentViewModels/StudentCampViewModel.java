@@ -4,6 +4,7 @@ import source.CampOperations.GetCamps;
 import source.Controllers.Filters.CampFilterByStudent;
 import source.Controllers.Filters.FilterManager;
 import source.Database.App;
+import source.Database.DatabaseQuery;
 import source.Entity.Camp;
 import source.Entity.Student;
 import source.Utility.InputHandler;
@@ -93,12 +94,11 @@ public class StudentCampViewModel extends BaseViewModel implements IViewModel {
                     } else {
                         int index = InputHandler.tryGetInt(1, filteredCamps.size(), "Input camp choice: ", "Invalid Camp Selected");
                         Camp selectedCamp = filteredCamps.get(index - 1);
-                        for (Camp c : filteredCamps) {
-                            for (Student s : c.getCampCommitteeMembers()) {
-                                if (s.getName().equals(student.getName())) {
-                                    viewManager.changeView(new CampCommitteeViewModel(selectedCamp));
-                                    break;
-                                }
+                        Camp dbCamp = App.getCampManager().getCampDao().readCamp(new DatabaseQuery(selectedCamp.getCampInfo().getName(),"camp_name"));
+                        for(Student s : dbCamp.getCampCommitteeMembers())
+                        {
+                            if(s.getName().equals(student.getName())){
+                                viewManager.changeView(new CampCommitteeViewModel(selectedCamp));
                             }
                         }
                         //Else it is jsut normal view

@@ -69,6 +69,7 @@ public class StudentManagement implements IManagement {
             }
             for(Student s: c. getCampCommitteeMembers()){
                 if(s.getName().equals(student.getName())){
+                    rc.add(c);
                     student.setIsCampCommittee(c);
                     break;
                 }
